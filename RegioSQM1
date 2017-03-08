@@ -1,0 +1,13 @@
+#!/bin/bash
+# usage ./regiosqm smiles file method
+pyrdkit=/opt/anaconda/envs/_test/bin/python #installation dependent
+$pyrdkit protccrxn2.py "$1".smiles > "$1"+.smiles
+mkdir "$1"_"$2"
+cd "$1"_"$2"
+#cp ../benzene.sdf .
+$pyrdkit ../smiles2sdf.py ../"$1"+.smiles
+for x in *.sdf; do babel -isdf $x -omop ${x%.*}.mop -xf ../"$2".header; done
+rm *.sdf
+sed -i 's/charge=0/charge=+1/g' *+*.mop
+submit_mopac_folder
+~                   
