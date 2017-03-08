@@ -13,3 +13,7 @@ Once all calculations finish:
 ./RegioSQM2 example_pm3_mop
 
 This creates example_pm3_mop.pka which contains the atom number(s) of the most nucleophilic unsubstituted aromatic carbon(s) and the name of the mopac output file for the corresponding isomer.  
+
+One can then open the output file and find the atom number indicated in the .pka file.  
+Alternatively one can use the Jupyter Notebook RegioSQM_highlight_atom.ipnb, which can create 2D GIF images of the molecules  with the atoms highlighted given example.smiles and example_pm3_mop.pka
+
