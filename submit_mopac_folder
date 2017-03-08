@@ -1,0 +1,47 @@
+#!/bin/bash
+
+PWD=`pwd`
+
+JOB=${PWD##*/}
+
+SUBMIT=qsub.tmp
+
+# teach coms sauer
+PARTITION=sauer
+NCPUS=2
+NNODES=1
+
+#SBATCH -w, --nodelist=asusnode103
+
+cat > $SUBMIT <<!EOF
+#!/bin/sh
+#SBATCH --job-name=$JOB
+#SBATCH --nodes=$NNODES
+#SBATCH --cpus-per-task=$NCPUS
+#SBATCH --ntasks=$NNODES
+#SBATCH --error=$PWD/$JOB\_%j.err
+#SBATCH --output=$PWD/$JOB\_%j.out
+#SBATCH --time=10:00:00
+#SBATCH --partition=$PARTITION
+#SBATCH --no-requeue
+
+mkdir /scratch/\$SLURM_JOB_ID
+
+cd $PWD
+
+cp *.mop /scratch/\$SLURM_JOB_ID/
+cd /scratch/\$SLURM_JOB_ID
+
+export MOPAC=/opt/mopac/mopac.sh
+
+ls *.mop | parallel -j$NCPUS "/opt/mopac/mopac.sh {}"
+
+cp * $PWD
+cd $PWD
+
+# Remove scratch folder
+rm /scratch/\$SLURM_JOB_ID
+
+!EOF
+
+sbatch $SUBMIT
