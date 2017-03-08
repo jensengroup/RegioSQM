@@ -1,0 +1,11 @@
+#!/bin/bash
+pyrdkit=/opt/anaconda/envs/_test/bin/python
+cd "$1"
+grep "FINAL HEAT" *+*.out > "$1".energies
+grep "CURRENT VALUE" *+*.out >> "$1".energies
+grep "CURRENT BEST" *+*.out >> "$1".energies
+grep -v "GEOMETRY" "$1".energies > temp && mv temp "$1".energies
+grep -v "GRADIENT" "$1".energies > temp && mv temp "$1".energies
+mv "$1".energies ../.
+cd ..
+$pyrdkit lowpka4.py "$1".energies > "$1".pka
