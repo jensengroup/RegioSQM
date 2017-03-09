@@ -1,7 +1,9 @@
 # RegioSQM
 See (insert DOI here) for more details
 
-RegioSQM consists of two bash scripts, `RegioSQM1` and `RegioSQM2`, and an Jupyter Notebook analysis tool `RegioSQM_highlight_atom.ipynb`. RegioSQM1 and RegioSQM2 call other python scripts and bash scripts and calls OpenBabel. Some of the python scripts use RDKit. The method makes use of the semiempirical quantum chemistry program MOPAC.
+RegioSQM consists of two bash scripts, `RegioSQM1` and `RegioSQM2`, and an Jupyter Notebook analysis tool `RegioSQM_highlight_atom.ipynb`. RegioSQM1 and RegioSQM2 call other python scripts and bash scripts and calls OpenBabel. Some of the python scripts use RDKit. The method makes use of the semiempirical quantum chemistry program MOPAC. 
+
+The very first time you use the scripts type `chmod +x RegioSQM1 RegioSQM2`
 
 Try example:
 
