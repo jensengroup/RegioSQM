@@ -6,8 +6,8 @@ from rdkit.Chem.Draw import IPythonConsole
 
 name2smiles = {}
 
-smiles_file_name = sys.argv[1]
-pka_file_name = sys.argv[2]
+pka_file_name = sys.argv[1]
+smiles_file_name = pka_file_name.split("_")[0]+".smiles"
 svg_file_name = pka_file_name.split(".")[0]+".svg"
 
 smiles_file = open(smiles_file_name, "r")
