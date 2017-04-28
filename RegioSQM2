@@ -24,3 +24,7 @@ python readsdf.py "$1"/start_geom/*.sdf "$1"/end_geom/*.sdf
 # find reactive centers
 #
 $pyrdkit lowpka4.py "$1".energies > "$1".pka
+#
+# Create svg file with highlighted atoms
+#
+$pyrdkit highlight_atoms.py "$1".pka
