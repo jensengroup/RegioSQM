@@ -1,4 +1,5 @@
-import sys,os,numpy
+import sys
+import os
 
 bond_list_start = {}
 bond_list_end = {}
