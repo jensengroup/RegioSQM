@@ -36,6 +36,6 @@ for filename in sys.argv[1:]:
 #print bond_list_end
 
 for name in bond_list_end:
-    if bond_list_end[name] != bond_list_start[name]:
+    if bond_list_end[name] != bond_list_start[name]: 
        command = "grep -v "+name+" "+method+".energies > temp && mv temp "+method+".energies"
        os.system(command)
