@@ -1,4 +1,4 @@
-import sys
+import sys 
 
 for filename in sys.argv[1:]:
     out = open(filename[:-4]+".xyz","w")
