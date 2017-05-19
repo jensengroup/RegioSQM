@@ -31,6 +31,7 @@ def convert_mop_sdf(outfile, sdffile):
     """
 
     obabel = "/home/charnley/bin/obabel"
+    obabel = "/opt/bin/obabel"
 
     shell(obabel+' -imopout '+outfile+' -osdf > '+sdffile, shell=True)
 
@@ -151,6 +152,8 @@ Should be run in a folder with conformations.csv and all the MOPAC out files.
 
         # TODO Read reactive center
         drug_atoms = np.unique(atoms[winners])
+        drug_atoms = list(drug_atoms)
+	print "winner", drug_atoms
 
         # TODO Save SVG photos
         m = Chem.MolFromSmiles(smiles)
