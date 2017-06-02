@@ -13,6 +13,7 @@ from rdkit.Chem.Draw import IPythonConsole # pip install ipython Pillow
 
 # regiosqm modules
 import readsdf as rs
+import moprd2_7 as mop_reader
 
 def shell(cmd, shell=False):
 
@@ -26,16 +27,84 @@ def shell(cmd, shell=False):
     return output
 
 
-def convert_mop_sdf(outfile, sdffile):
+def convert_mop_sdf(outfile, sdffile, alt=False):
     """
     """
 
+    # TODO read obabel from settings
     obabel = "/home/charnley/bin/obabel"
     obabel = "/opt/bin/obabel"
 
-    shell(obabel+' -imopout '+outfile+' -osdf > '+sdffile, shell=True)
+    if not alt:
+
+        shell(obabel+' -imopout '+outfile+' -osdf > '+sdffile, shell=True)
+
+    else:
+
+        xyzfile = outfile.split('.')
+        xyzfile = "".join(xyzfile[:-1]) + ".xyz"
+
+        mop_reader.convert_out_xyz_alt(outfile, xyzfile)
+        shell(obabel+' -ixyz '+xyzfile+' -osdf > '+sdffile, shell=True)
 
     return
+
+
+def save_winner_svg(plot_mols, plot_atoms):
+
+    # img = Draw.MolsToGridImage(plot_mols, molsPerRow=4, subImgSize=(200,200), legends=[x for x in plot_names], useSVG=True, highlightAtomLists=plot_atoms)
+    img = Draw.MolsToGridImage(plot_mols, molsPerRow=1, subImgSize=(400,400), useSVG=True, highlightAtomLists=plot_atoms)
+
+    # svg_file = open(filename, 'w')
+    # svg_file.write(img.data)
+    # svg_file.close()
+    # os.system('sed -i "s/xmlns:svg/xmlns/" '+filename)
+
+    svg = img.data
+    svg = svg.replace("xmlns:svg", "xmlns")
+
+    return svg
+
+
+def change_color(ellipse, name, find="#FF7F7F"):
+
+    red = "#e41a1c"
+    green = "#4daf4a"
+
+    color = green
+
+    if name == "red":
+        color = red
+
+    if find == "green":
+        find = green
+
+    ellipse = ellipse.replace(find, color)
+
+    return ellipse
+
+
+def merge_svg(svg_a, svg_b):
+
+    svg_a = svg_a.split("\n")
+    svg_b = svg_b.split("\n")
+
+    for i, a in enumerate(svg_a):
+        if "ellipse" in a:
+            svg_a[i] = change_color(a, "green")
+
+    for i, b in enumerate(svg_b):
+        if "ellipse" in b:
+            svg_b[i] = change_color(b, "green")
+
+    for i, b in enumerate(svg_b):
+        if b not in svg_a:
+            b = change_color(b, "red", find="green")
+            svg_a = svg_a[:i] + [b] + svg_a[i:]
+
+    svg_a = "\n".join(svg_a)
+
+    return svg_a
 
 
 if __name__ == "__main__":
@@ -57,6 +126,10 @@ Should be run in a folder with conformations.csv and all the MOPAC out files.
 
     smiles_file = args[0]
     csv_file = args[1]
+    use_alternative = False
+
+    if len(args) > 2:
+        use_alternative = True
 
     output_name = smiles_file.split('.')[:-1]
     output_name = ".".join(output_name)
@@ -106,10 +179,12 @@ Should be run in a folder with conformations.csv and all the MOPAC out files.
             fullname = name + "-" + str(x)
 
             # TODO Convert mopac out to SDF
-            convert_mop_sdf(fullname+".out", fullname+".out.sdf")
+            convert_mop_sdf(fullname+".out", fullname+".out.sdf", alt=use_alternative)
 
             # TODO Compare structures, before and after. Check for hydrogen transfer.
             same_structure = rs.compare_sdf_structure(fullname+".sdf", fullname+".out.sdf")
+
+            print same_structure
 
             if not same_structure:
                 continue
@@ -118,6 +193,8 @@ Should be run in a folder with conformations.csv and all the MOPAC out files.
             line = shell('grep --text "HEAT OF FORMATION" '+fullname+'.out', shell=True)
             heat = re.findall("[-\d]+\.\d+", line)[0]
             heat = float(heat)
+
+            print heat
 
             drugs[drug_name]['heat'].append(heat)
             drugs[drug_name]['atom'].append(reaction_center)
@@ -130,8 +207,11 @@ Should be run in a folder with conformations.csv and all the MOPAC out files.
     plot_names = []
     plot_atoms = []
 
+    plot_atoms2 = []
+
     # TODO Move to settings
     e_cut = 1.0
+    e_cut2 = 3.0
 
     for drug in drugs.keys():
 
@@ -143,6 +223,8 @@ Should be run in a folder with conformations.csv and all the MOPAC out files.
         atoms = drugs[drug]['atom']
         atoms = np.array(drugs[drug]['atom'])
 
+        print heats
+
         minimum = np.min(heats)
 
         buffer_heats = heats - minimum
@@ -150,29 +232,36 @@ Should be run in a folder with conformations.csv and all the MOPAC out files.
         winners = np.where( buffer_heats < e_cut )
         winners = winners[0]
 
+        winners2 = np.where( buffer_heats < e_cut2 )
+        winners2 = winners2[0]
+
         # TODO Read reactive center
         drug_atoms = np.unique(atoms[winners])
         drug_atoms = list(drug_atoms)
-	print "winner", drug_atoms
+
+        drug_atoms2 = np.unique(atoms[winners2])
+        drug_atoms2 = list(drug_atoms2)
+
+        print "winner", drug_atoms
 
         # TODO Save SVG photos
         m = Chem.MolFromSmiles(smiles)
         plot_mols.append(m)
         Chem.Kekulize(m)
-        plot_names.append(name)
         Draw.DrawingOptions.includeAtomNumbers=True
+
+        plot_names.append(name)
         plot_atoms.append(drug_atoms)
 
+        plot_atoms2.append(drug_atoms2)
 
-    # img = Draw.MolsToGridImage(plot_mols, molsPerRow=4, subImgSize=(200,200), legends=[x for x in plot_names], useSVG=True, highlightAtomLists=plot_atoms)
-    img = Draw.MolsToGridImage(plot_mols, molsPerRow=1, subImgSize=(200,200), useSVG=True, highlightAtomLists=plot_atoms)
 
-    print output_name
+    svg_1 = save_winner_svg(plot_mols, plot_atoms)
+    svg_2 = save_winner_svg(plot_mols, plot_atoms2)
 
-    svg_file = open(output_name+'.svg', 'w')
-    svg_file.write(img.data)
+    svg = merge_svg(svg_1, svg_2)
+
+    svg_file = open(output_name+".svg", 'w')
+    svg_file.write(svg)
     svg_file.close()
-    os.system('sed -i "s/xmlns:svg/xmlns/" '+output_name+'.svg')
-
-
 

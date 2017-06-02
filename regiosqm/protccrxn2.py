@@ -72,6 +72,7 @@ def read_smiles(filename):
     file = open(filename, "r")
 
     molecules = {}
+    charges = {}
 
     for line in file:
 
@@ -79,11 +80,15 @@ def read_smiles(filename):
         name = words[0]
         smiles = words[1]
 
+        # Get neutral state charge
+        charge = Chem.GetFormalCharge(Chem.MolFromSmiles(smiles))
+
         parent, cnames, csmiles, catoms = generate_charged_smiles(smiles, name)
 
         molecules[name] = parent, [cnames, csmiles, catoms]
+        charges[name] = charge
 
-    return molecules
+    return molecules, charges
 
 
 if __name__ == "__main__":
@@ -108,7 +113,8 @@ generates SMILES conformers.
 
     filename = args[0]
 
-    molecules = read_smiles(filename)
+    molecules, charges = read_smiles(filename)
+    # TODO save charges
     keys = molecules.keys()
     keys.sort()
 
