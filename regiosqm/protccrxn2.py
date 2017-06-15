@@ -3,14 +3,11 @@ import pickle
 from rdkit import Chem
 from rdkit.Chem import AllChem
 
-
 # Reaction formats
 rxn1 = AllChem.ReactionFromSmarts('[C;H1:1]=[C,N;H1:2]>>[CH2:1][*H+:2]')
 rxn2 = AllChem.ReactionFromSmarts('[C;H1:1]=[C,N;H0:2]>>[CH2:1][*+;H0:2]')
 
 def generate_charged_smiles(smiles, name):
-    """
-    """
 
     global rxn1
     global rxn2

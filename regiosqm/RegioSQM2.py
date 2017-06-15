@@ -44,7 +44,7 @@ def convert_mop_sdf(outfile, sdffile, alt=False):
         xyzfile = outfile.split('.')
         xyzfile = "".join(xyzfile[:-1]) + ".xyz"
 
-        mop_reader.convert_out_xyz_alt(outfile, xyzfile)
+        mop_reader.convert_out_xyz(outfile, xyzfile)
         shell(obabel+' -ixyz '+xyzfile+' -osdf > '+sdffile, shell=True)
 
     return
