@@ -1,7 +1,7 @@
 #!/bin/bash
 pyrdkit=/opt/anaconda/envs/_test/bin/python
 #
-# creater energies file
+# create energies file
 #
 cd "$1"
 grep "FINAL HEAT" *+*.out > "$1".energies
@@ -23,8 +23,10 @@ python readsdf.py "$1"/start_geom/*.sdf "$1"/end_geom/*.sdf
 #
 # find reactive centers
 #
-$pyrdkit lowpka4.py "$1".energies > "$1".pka
+$pyrdkit lowpka4.py "$1".energies 1.0 > "$1"_1.pka
+$pyrdkit lowpka4.py "$1".energies 3.0 > "$1"_3.pka
 #
-# Create svg file with highlighted atoms
-#
-$pyrdkit highlight_atoms.py "$1".pka
+pyrdkit2=/home/yensen/anaconda2/envs/my-rdkit-env/bin/python
+$pyrdkit2 highlight_atoms.py "$1"_1.pka
+$pyrdkit2 highlight_atoms.py "$1"_3.pka
+python merge_svg.py "$1"_1.svg "$1"_3.svg
