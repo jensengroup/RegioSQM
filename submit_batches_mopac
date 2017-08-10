@@ -1,0 +1,156 @@
+#!/bin/bash
+
+PARTITION=sauer # teach coms sauer
+NCPUS=8 # cores per job
+NBATCH=500 # input per batch
+EXTENSION=mop # extension to pack
+OUTEXT=out # extension to unpack
+
+# Check ssh key is setup
+ssh_pri=`ssh-keygen -y -f ~/.ssh/id_rsa`
+ssh_pub=`cat ~/.ssh/id_rsa.pub`
+if [[ $ssh_pub != $ssh_pri*  ]]; then
+
+    echo
+    echo "SSH key not setup. Please run 'ssh-keygen' in the terminal,"
+    echo "to setup a key-pair (ssh with no password), before running this"
+    echo "script"
+    echo
+
+    exit 4
+fi
+
+# note
+#   #SBATCH -w, --nodelist=asusnode103
+
+PWD=`pwd`
+JOB=${PWD##*/}
+SUBMIT=qsub.tmp
+host=$HOSTNAME
+
+
+files=`ls -f *$EXTENSION`
+
+# Remove input files which is already done
+out_files=`ls -f *.$OUTEXT 2> /dev/null`
+
+for x in $out_files; do
+    inp=${x%.*}.$EXTENSION
+    files=`echo $files | sed "s/$inp//"`
+done
+
+foo=( $files )
+nfiles=`echo "$files" | wc -w`
+
+echo $files
+echo $nfiles
+
+counter=0
+while [  $counter -lt $nfiles  ]; do
+
+    tarfile=batch_${counter}.tar.gz
+    outfile=batch_${counter}_log.tar.gz
+
+    tar -czf $tarfile ${foo[@]:$counter:$NBATCH}
+
+    cjob=$JOB\_\_$counter
+
+    cat > $SUBMIT <<!EOF
+#!/bin/bash
+#SBATCH --job-name=$cjob
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=$NCPUS
+#SBATCH --ntasks=1
+#SBATCH --error=$PWD/$cjob\_%j.stderr
+#SBATCH --output=$PWD/$cjob\_%j.stdout
+#SBATCH --time=100:00:00
+#SBATCH --partition=$PARTITION
+#SBATCH --no-requeue
+
+
+start=\`date +%s\`
+
+
+nodename=\$HOSTNAME
+echo 0 "Running on \$nodename"
+echo 0 "un-tar input files"
+
+
+mkdir /scratch/\$SLURM_JOB_ID
+cd /scratch/\$SLURM_JOB_ID
+
+
+cp $PWD/$tarfile .
+tar -xzf $tarfile
+
+# MOPAC
+
+cp -r /opt/mopac .
+cp -r /opt/intel/composer_xe_2013.1.117/compiler/lib/intel64 .
+export LD_LIBRARY_PATH=/scratch/\$SLURM_JOB_ID/intel64:$LD_LIBRARY_PATH
+export MKL_NUM_THREADS=1
+
+run_calculation () {
+
+    input=\${1%.*}
+    echo \$input
+    /scratch/\$SLURM_JOB_ID/mopac/MOPAC2016.exe \$input > /dev/null 2> /dev/null
+
+}
+
+export -f run_calculation
+
+# END MOPAC
+
+
+end=\`date +%s\`
+runtime=\$((end-start))
+echo \$runtime "run calculation"
+
+
+ls -f *.$EXTENSION | parallel -j$NCPUS "run_calculation {}"
+
+
+end=\`date +%s\`
+runtime=\$((end-start))
+echo \$runtime "tar output"
+
+
+tar -czf $outfile *.$OUTEXT
+cp $outfile $PWD
+
+
+end=\`date +%s\`
+runtime=\$((end-start))
+echo \$runtime "untar in $PWD"
+
+
+ssh sunray "cd $PWD && tar xzf $outfile"
+
+
+end=\`date +%s\`
+runtime=\$((end-start))
+echo \$runtime "done"
+
+
+convertsecs() {
+    ((h=\${1}/3600))
+    ((m=(\${1}%3600)/60))
+    ((s=\${1}%60))
+    printf "%02d:%02d:%02d\n" \$h \$m \$s
+}
+
+convertsecs \$runtime
+
+!EOF
+
+    # submit batch
+    sbatch $SUBMIT
+
+    # next
+    let counter+=$NBATCH
+
+done
+
+
+
