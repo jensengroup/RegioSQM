@@ -1,23 +1,34 @@
 # RegioSQM
+
+## What?
+
 See (insert DOI here) for more details
 
-RegioSQM consists of two bash scripts, `RegioSQM1` and `RegioSQM2`, and an Jupyter Notebook analysis tool `RegioSQM_highlight_atom.ipynb`. RegioSQM1 and RegioSQM2 call other python scripts and bash scripts and calls OpenBabel. Some of the python scripts use RDKit. The method makes use of the semiempirical quantum chemistry program MOPAC. 
+## Try it
 
-The very first time you use the scripts type `chmod +x RegioSQM1 RegioSQM2`
+go to http://regiosqm.org to test it out
 
-Try example:
+## Installation
 
-    ./RegioSQM1 example pm3_mop
+This program depends on MOPAC for SQM calculations and OpenBabel for file formats.
+Other than that you need to setup RDkit for the python enviroment to run the python files.
 
-"example" refers to the text file `example.smiles` and "pm3_mop" refer to the text file `pm3_mop.header`. 
-RegioSQM creates a folder called example_pm3_mop with the mopac input files and submits to a slurm queue using the bash script `submit_folder_mopac`.
+## Usage
 
-Once all calculations finish:
+For example, in the `example` folder there is a file `example/examples.smiles` with name and SMILES. To generate protonated input files for analsation we use `regiosqm.py` as
 
-    ./RegioSQM2 example_pm3_mop
+    cd example
+    python ../regiosqm/regiosqm.py -g example.csv > example.csv
 
-This creates example_pm3_mop.pka which contains the atom number(s) of the most nucleophilic unsubstituted aromatic carbon(s) and the name of the mopac output file for the corresponding isomer.  
+this will generate conformation (.mop and .sdf files) and output the conformation info,
+which is piped into a csv file.
 
-One can then open the output file and find the atom number indicated in the .pka file.  
-Alternatively one can use the Jupyter Notebook RegioSQM_highlight_atom.ipnb, which can create 2D GIF images of the molecules  with the atoms highlighted given `example.smiles` and `example_pm3_mop.pka`.
+Next is to run all the mop files with mopac, either on you computer or use slurm submit script.
+
+Next is to analyse the result, and this is done by
+    
+    python ../regiosqm/regiosqm.py -a example.csv example.csv
+
+which will output a svg for each compound name with the result.
+
 
