@@ -6,9 +6,13 @@ smiles = sys.argv[1]
 
 m = Chem.MolFromSmiles(smiles)
 
-print m
-
 charge = Chem.GetFormalCharge(m)
 
-print charge
+aromatic_ch = m.GetSubstructMatches(Chem.MolFromSmarts('[c;H1]'))
+aromatic_ch = list(aromatic_ch)
+
+if len(aromatic_ch) == 0:
+    print "No aromatic carbons"
+
+print 1
 
