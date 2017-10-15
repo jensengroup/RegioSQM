@@ -1,5 +1,5 @@
 # RegioSQM
-See (insert DOI here) for more details
+See https://doi.org/10.26434/chemrxiv.5435935.v1 for more details
 
 RegioSQM consists of two bash scripts, `RegioSQM1` and `RegioSQM2`. RegioSQM1 and RegioSQM2 call other python scripts and bash scripts and calls OpenBabel. Some of the python scripts use RDKit. The method makes use of the semiempirical quantum chemistry program MOPAC. 
 
