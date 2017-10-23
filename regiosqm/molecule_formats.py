@@ -133,10 +133,13 @@ def compare_sdf_structure(start, end):
 
 
 def get_energy(mopac_out):
-
     line = shell('grep --text "HEAT OF FORMATION" '+mopac_out, shell=True)
-    heat = re.findall("[-\d]+\.\d+", line)[0]
-    heat = float(heat)
+    heat = re.findall("[-\d]+\.\d+", line)
+    if len(heat) != 0:
+        heat = heat[0]
+        heat = float(heat)
+    else:
+        heat = 60000.0
 
     return heat
 
