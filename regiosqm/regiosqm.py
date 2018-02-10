@@ -7,13 +7,14 @@ import molecule_svg as molsvg
 
 __version__ = "1.1"
 
-def analyse_results(smiles_filename, conf_filename):
+def analyse_results(smiles_filename, conf_filename, test_exam=False):
 
     output_name = smiles_filename.split('.')[:-1]
     output_name = ".".join(output_name)
 
     # compounds
     drugs = {}
+    drugs_keys = []
 
     # Read smiles database
     f = open(smiles_filename)
@@ -27,6 +28,11 @@ def analyse_results(smiles_filename, conf_filename):
         drugs[name]['atom'] = []
         drugs[name]['conf'] = []
         drugs[name]['confsmil'] = []
+
+        if test_exam:
+            drugs[name]['measure'] = [int(x) for x in lin[2].split(",")]
+
+        drugs_keys.append(name)
 
     f.close()
 
@@ -74,7 +80,7 @@ def analyse_results(smiles_filename, conf_filename):
 
             drugs[drug_name]['heat'].append(heat)
             drugs[drug_name]['atom'].append(reaction_center)
-            drugs[drug_name]['conf'].append(x)
+            drugs[drug_name]['conf'].append(fullname)
             drugs[drug_name]['confsmil'].append(smiles)
 
     f.close()
@@ -90,7 +96,7 @@ def analyse_results(smiles_filename, conf_filename):
     e_cut2 = 3.0
 
     # Find the winners
-    for drug in drugs.keys():
+    for drug in drugs_keys:
 
         name = drug
         smiles = drugs[drug]['smiles']
@@ -118,10 +124,34 @@ def analyse_results(smiles_filename, conf_filename):
         drug_atoms2 = np.unique(atoms[winners2])
         drug_atoms2 = list(drug_atoms2)
 
+        print name,
+
+        if test_exam:
+            measure = drugs[drug]['measure']
+            if set(measure).issubset(drug_atoms):
+                print "corr",
+
+            elif set(measure).issubset(drug_atoms2):
+                print "semi",
+
+            else:
+                print "fail",
+
+            print measure, "==",
+
         # Print results
-        print name,\
-            ",".join([str(x) for x in drug_atoms]),\
-            ",".join([str(x) for x in drug_atoms2])
+        print ",".join([str(x) for x in drug_atoms]),
+        print ",".join([str(x) for x in drug_atoms2])
+
+        if test_exam:
+            confs = drugs[drug]['conf']
+            confs = np.array(confs)
+            for winner in winners:
+                print "1>", confs[winner], heats[winner]
+
+            for winner in winners2:
+                if winner in winners: continue
+                print "2>", confs[winner], heats[winner]
 
         # Save SVG results
         result_svg = molsvg.generate_structure(smiles, [drug_atoms, drug_atoms2])
@@ -133,7 +163,7 @@ def analyse_results(smiles_filename, conf_filename):
     return
 
 
-def generate_conformations_from_smiles(smiles_filename, mop_header=""):
+def generate_conformations_from_smiles(smiles_filename, mop_header="", max_conf=20):
 
     molecules, charges = prot.protonate_smiles(smiles_filename)
     keys = molecules.keys()
@@ -149,7 +179,7 @@ def generate_conformations_from_smiles(smiles_filename, mop_header=""):
         for cname, csmile, catom in zip(cnames, csmiles, catoms):
 
             # Do conformation search on each smile structure and save it in SDF format
-            conformations = molfmt.generate_conformations_files(csmile, cname, charge, max_conf=20, header=mop_header)
+            conformations = molfmt.generate_conformations_files(csmile, cname, charge, max_conf=max_conf, header=mop_header)
 
             print ", ".join([cname, csmile, str(catom), str(len(conformations))]), ", charge={}".format(str(charge+1))
 
@@ -161,11 +191,8 @@ def main():
     import argparse
     import sys
 
-    description = """
-"""
-
-    epilog = """
-"""
+    description = """  """
+    epilog = """ """
 
     parser = argparse.ArgumentParser(
                     usage='%(prog)s [options]',
@@ -177,6 +204,10 @@ def main():
     parser.add_argument('-g', '--generate_conformations', action='store', metavar='smiles_filename', help="")
     parser.add_argument('-a', '--analyse_conformations', nargs=2, action='store', metavar='smiles_filename', help="")
 
+    parser.add_argument('-c', '--max_conformations', action='store', type=int, metavar='N', default=20, help="Max conformations to find for each protonation")
+
+    parser.add_argument('-e', '--exam', action='store_true', help='Check results vs centers in smiles file')
+
     if len(sys.argv) == 1:
         parser.print_help()
         sys.exit(1)
@@ -184,11 +215,11 @@ def main():
     args = parser.parse_args()
 
     if args.generate_conformations:
-        generate_conformations_from_smiles(args.generate_conformations)
+        generate_conformations_from_smiles(args.generate_conformations, max_conf=args.max_conformations)
         return
 
     if args.analyse_conformations:
-        analyse_results(*args.analyse_conformations)
+        analyse_results(*args.analyse_conformations, test_exam=args.exam)
         return
 
     return 0

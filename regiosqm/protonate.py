@@ -4,8 +4,16 @@ from rdkit import Chem
 from rdkit.Chem import AllChem
 
 # Reaction formats
-__rxn1__ = AllChem.ReactionFromSmarts('[C;H1:1]=[C,N;H1:2]>>[CH2:1][*H+:2]')
-__rxn2__ = AllChem.ReactionFromSmarts('[C;H1:1]=[C,N;H0:2]>>[CH2:1][*+;H0:2]')
+# __rxn1__ = AllChem.ReactionFromSmarts('[C;H1:1]=[C,N;H1:2]>>[CH2:1][*H+:2]')
+# __rxn2__ = AllChem.ReactionFromSmarts('[C;H1:1]=[C,N;H0:2]>>[CH2:1][*+;H0:2]')
+
+__rxn1__ = AllChem.ReactionFromSmarts('[C;R;H1:1]=[C,N;R;H1:2]>>[CH2:1][*H+:2]')
+__rxn2__ = AllChem.ReactionFromSmarts('[C;R;H1:1]=[C,N;R;H0:2]>>[CH2:1][*+;H0:2]')
+
+# Bromine
+# __rxn1__ = AllChem.ReactionFromSmarts('[C;R;H1:1]=[C,N;R;H1:2]>>[CH:1](Br)[*H+:2]')
+# __rxn2__ = AllChem.ReactionFromSmarts('[C;R;H1:1]=[C,N;R;H0:2]>>[CH:1](Br)[*+;H0:2]')
+
 
 def generate_charged_smiles(smiles, name):
 
@@ -24,7 +32,7 @@ def generate_charged_smiles(smiles, name):
     Chem.Kekulize(m,clearAromaticFlags=True)
 
     # target = Chem.MolFromSmarts('[C;H1:1]=[C,N;H1:2]')
-    target = Chem.MolFromSmarts('[C;R;H1:1]=[C,N;R;H1:2]') 
+    target = Chem.MolFromSmarts('[C;R;H1:1]=[C,N;R;H1:2]')
     atoms = m.GetSubstructMatches(target)
 
     # convert tuple of tuple to one-dimensional list
