@@ -1,34 +1,39 @@
 # RegioSQM
 
-## What?
+Avaliable on [regioqm.org](http://regiosqm.org).
 
-See (insert DOI here) for more details
+Predict Regioselectivity of electrophilic aromatic substitution reactions in
+heteroaromatic systems.
+RegioSQM finds the aromatic CH group with the highest proton affinity estimated
+by the PM3/COSMO method using the MOPAC program.
+More information is available at the [RegioSQM paper](https://doi.org/10.1039/C7SC04156J).
 
-## Try it
+# Installation
 
-go to http://regiosqm.org to test it out
+    - MOPAC (http://openmopac.net/)
+    - RDKit (http://www.rdkit.org/docs/Install.html)
+    - obabel (https://openbabel.org/docs/dev/Installation/install.html)
 
-## Installation
+RegioSQM depends on MOPAC for quantum calculations, OpenBabel for some
+formation convertion and RDkit in the python enviroment for everything else.
 
-This program depends on MOPAC for SQM calculations and OpenBabel for file formats.
-Other than that you need to setup RDkit for the python enviroment to run the python files.
+# Usage
 
-## Usage
-
-For example, in the `example` folder there is a file `example/examples.smiles` with name and SMILES. To generate protonated input files for analsation we use `regiosqm.py` as
+The workflow is as following
 
     cd example
+	
+    # generate conformations from SMILES
     python ../regiosqm/regiosqm.py -g example.csv > example.csv
+	
+    # Run all .mop files with mopac
+    # or submit them to a cluster
+    ls *mop | parallel -j4 "mopac {}"
+	
+    # use the generated csv file to analyse all the 
+    python ../regiosqm/regiosqm.py -a example.csv example.csv > example_results.csv
 
-this will generate conformation (.mop and .sdf files) and output the conformation info,
-which is piped into a csv file.
 
-Next is to run all the mop files with mopac, either on you computer or use slurm submit script.
-
-Next is to analyse the result, and this is done by
-    
-    python ../regiosqm/regiosqm.py -a example.csv example.csv
-
-which will output a svg for each compound name with the result.
+The results are now parseable from the results file, or viewable by 2D structures with regioselective indicators (in svg format).
 
 
