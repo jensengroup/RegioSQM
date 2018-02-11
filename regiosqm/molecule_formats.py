@@ -80,9 +80,6 @@ def generate_conformations_files(smiles, name, charge, max_conf=20, header=""):
 
 def convert_mop_sdf(outfile, sdffile):
 
-    # TODO read obabel from settings
-    obabel = "/home/charnley/bin/obabel"
-    obabel = "/opt/bin/obabel"
     obabel = "obabel"
 
     shell(obabel+' -imopout '+outfile+' -osdf > '+sdffile, shell=True)
