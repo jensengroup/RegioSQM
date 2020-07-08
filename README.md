@@ -68,13 +68,18 @@ within minutes.
 
 # Installation
 
-    - MOPAC (http://openmopac.net/)
-    - RDKit (http://www.rdkit.org/docs/Install.html)
-    - obabel (https://openbabel.org/docs/dev/Installation/install.html)
+RegioSQM depends on MOPAC for quantum calculations and uses OpenBabel
+for format conversions.  RDKit and numpy perform complementary
+computations in the Python environment.  Information about their
+installation may be found at
 
-RegioSQM depends on MOPAC for quantum calculations, OpenBabel for some
-formation conversions and RDKit in the python environment for
-everything else.
+-   MOPAC (<http://openmopac.net/>)
+-   obabel (<https://github.com/openbabel/openbabel/releases>)
+-   RDKit (<http://www.rdkit.org/docs/Install.html>)
+-   numpy
+    (<https://numpy.org/doc/stable/user/install.html?highlight=installation>),
+    which often already is included in scipy
+    (<https://scipy.org/install.html>)
 
 
 # Usage
