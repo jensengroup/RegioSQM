@@ -1,12 +1,15 @@
+# last edit:  2020-07-08 (YYYY-MM-DD)
+#+OPTIONS: toc:nil
+
 * RegioSQM
 
-Avaliable on [[http://regiosqm.org][regioqm.org]].
-
-Predict Regioselectivity of electrophilic aromatic substitution
-reactions in heteroaromatic systems. RegioSQM finds the aromatic CH
-group with the highest proton affinity estimated by the PM3/COSMO method
-using the MOPAC program. More information is available at the
-[[https://doi.org/10.1039/C7SC04156J][RegioSQM paper]].
+The program predicts the regioselectivity of electrophilic aromatic
+substitution reactions in heteroaromatic systems. RegioSQM finds the
+aromatic CH group with the highest proton affinity estimated by the
+PM3/COSMO method using the MOPAC program, and maps these sites (/vide
+infra/).  There is a dedicated web site, [[http://regiosqm.org][regiosqm.org]] to use this
+program freely.  More information is available at the [[https://doi.org/10.1039/C7SC04156J][RegioSQM paper]],
+which is an open access publication.
 
 * Installation
 
@@ -17,8 +20,8 @@ using the MOPAC program. More information is available at the
 #+END_EXAMPLE
 
 RegioSQM depends on MOPAC for quantum calculations, OpenBabel for some
-formation convertion and RDkit in the python enviroment for everything
-else.
+formation conversions and RDKit in the python environment for
+everything else.
 
 * Usage
 
@@ -34,9 +37,9 @@ The workflow is as following
     # or submit them to a cluster
     ls *mop | parallel -j4 "mopac {}"
 
-    # use the generated csv file to analyse all the 
+    # use the generated csv file to analyze all the 
     python ../regiosqm/regiosqm.py -a example.csv example.csv > example_results.csv
 #+END_EXAMPLE
 
-The results are now parseable from the results file, or viewable by 2D
-structures with regioselective indicators (in svg format).
+The results may now be parsed from the results file, or displayed as
+2D structures with regioselective indicators (in svg format).
