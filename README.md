@@ -84,12 +84,54 @@ installation may be found at
 
 # Usage
 
-The workflow is as following
+Folder `example` contains in file `example.smiles` the SMILES strings
+of pyrazol (`n1ccc[nH]1`, `comp1`) and 1-(2-pyrimidinyl)-pyrazole
+(`c1cnn(c1)-c1ncccn1`, `comp2`).  The following demonstrates the
+batch-wise prediction, based on the entries in this file equally is
+placed in the directory `regiosqm`.
 
-    cd example
-    
+If your molecule editor shouldn't be capable to export a structure as
+a SMILES string, consider the conversion of the structure exported
+into a different format by openbabel.  Services like the [PubChem
+Sketcher](https://pubchem.ncbi.nlm.nih.gov/edit3/index.html) equally allow the generation of this information.
+
+
+## preparation of the computation
+
+By the call of
+
+    1  python ../regiosqm/regiosqm.py -g example.smiles > example.csv
+
+sites potentially susceptible for the EAS are identified.  RegioSQM
+*generates* for each input files for MOPAC (`example.mop`) and
+stores an initial conformation in a structure-data file
+(`example.sdf`).  These are summarized in file `example.csv`.
+
+
+## performing the computation
+
+The authors recommend [GNU Parallel](https://www.gnu.org/software/parallel/) as an interface to submit all
+computational jobs to MOPAC for a non-supervised execution by
+
+    1  ls *mop | parallel -j4 "/opt/mopac/MOPAC2016.exe {}"
+
+The parameter `-j4` allows the simultaneous processing of up to
+four `.mop` files.  Because MOPAC allocates one CPU to one `.mop`
+file to work with, this integer must be less or equal the number of
+CPU cores available.  If MOPAC was not installed in the recommended
+default directory (see [work-around](http://openmopac.net/Manual/trouble_shooting.html#default%20location)), you should adjust the path
+leading to MOPAC's executable accordingly.
+
+For each `example.mop`, the computation yields with `example.arc`
+an archive, `example.out` a logging output, and `example.out.sdf`.
+As in the case for imidazole, the later may be empty.
+
     # generate conformations from SMILES
-    python ../regiosqm/regiosqm.py -g example.csv > example.csv
+    #
+    # geometries are saved as .sdf and .mop input files,
+    # example.csv lists e.g., the structure (as SMILES) of the protonated probes
+    python ../regiosqm/regiosqm.py -g example.smiles > example.csv
+    
     
     # Run all .mop files with mopac
     # or submit them to a cluster
