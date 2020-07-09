@@ -1,3 +1,6 @@
+# name:     regiosqm.py
+# edit:     2020-07-09 (YYYY-MM-DD)
+# license:  MIT
 
 import numpy as np
 
@@ -72,8 +75,12 @@ def analyse_results(smiles_filename, conf_filename, test_exam=False):
             # Compare structures, before and after. Check for hydrogen transfer.
             same_structure = molfmt.compare_sdf_structure(fullname+".sdf", fullname+".out.sdf")
 
-            if not same_structure:
+# test pad, start:
+            if same_structure is "False":
                 continue
+#            if not same_structure:
+#                continue
+# test pad, end.
 
             # get the conformational energy
             heat = molfmt.get_energy(fullname+'.out')

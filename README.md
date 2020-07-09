@@ -113,7 +113,7 @@ stores an initial conformation in a structure-data file
 The authors recommend [GNU Parallel](https://www.gnu.org/software/parallel/) as an interface to submit all
 computational jobs to MOPAC for a non-supervised execution by
 
-    1  ls *mop | parallel -j4 "/opt/mopac/MOPAC2016.exe {}"
+    2  ls *mop | parallel -j4 "/opt/mopac/MOPAC2016.exe {}"
 
 The parameter `-j4` allows the simultaneous processing of up to
 four `.mop` files.  Because MOPAC allocates one CPU to one `.mop`
@@ -125,6 +125,38 @@ leading to MOPAC's executable accordingly.
 For each `example.mop`, the computation yields with `example.arc`
 an archive, `example.out` a logging output, and `example.out.sdf`.
 As in the case for imidazole, the later may be empty.
+
+
+## analysis of the computation
+
+RegioSQM is used again, but now by
+
+    3  python2 regiosqm.py -a example.smiles example.csv > results.txt
+
+to scrutiny MOPAC's results.  Given the starting structures in
+`example.smiles` and the list of conformers in `example.csv` as the
+two mandatory parameters, Gibbs' Free enthalpy of the formation of
+the intermediate will be read out for each theoretically plausible
+position for the EAS.  MOPAC's computations, are summarized and
+redirected to `results.txt` as a table
+
+    comp1 1 1,3
+    comp2 2 2
+
+The first column, recalls the name of the parental structure
+provided by `example.smiles`.  This column is followed by the
+column about the position most likely susceptible to the EAS.  This
+column may be populated by the label of additional positions if
+their intermediate was found to differ 1 kcal/mol (or less)
+different to this least endothermic pathway.  The third column
+lists all positions with an intermediate less than 3 kcal/mol
+different than the least endothermic pathway, including the most
+favorable position, too.
+
+In the background, RDKit is called to illustrate this summary with
+one `.svg` per parental structure.  Sites within the 1 kcal/mol
+threshold are marked in green, sites between the 1 kcal/mol and
+3 kcal/mol threshold by a red dot.
 
     # generate conformations from SMILES
     #
