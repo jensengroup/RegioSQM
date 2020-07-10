@@ -158,6 +158,29 @@ one `.svg` per parental structure.  Sites within the 1 kcal/mol
 threshold are marked in green, sites between the 1 kcal/mol and
 3 kcal/mol threshold by a red dot.
 
+
+## validation of a local installation
+
+The authors document the predictions by RegioSQM visually in the
+supplementary information of the publication, where 535 structures
+are binned in 69 EAS groups (e.g., pyridines, thiophenes,
+indazoles).  The corresponding SMILES strings are available to the
+[public](https://github.com/jensengroup/RegioSQM) and as a verbatim copy `compound_smiles.csv` in folder
+`example` of this project and may be used to check if the local
+installation of the scripts works fine.
+
+As an example, for each of the first 36 EAS groups a representative
+was selected to populate file `mokka_smiles_list.csv`.  To reduce
+the computational load, molecules with less conformational
+flexibility was given preference.  The list of conformers
+(`mokka_conformers.csv`) generated in preparation of the prediction
+contains 150 entries.  After MOPAC's work, the positions indicated
+in RDKit's visualizations of the results were in 1:1 agreement with
+the illustrations provided in the SI of the publication.  The
+summary of the analysis is provided with `mokka_results.txt`; in
+future, this reference file may be used to monitor if modifications
+of the scripts affected the results of the analysis, or not.
+
     # generate conformations from SMILES
     #
     # geometries are saved as .sdf and .mop input files,
