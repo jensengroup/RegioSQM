@@ -100,7 +100,7 @@ Sketcher](https://pubchem.ncbi.nlm.nih.gov/edit3/index.html) equally allow the g
 
 By the call of
 
-    1  python ../regiosqm/regiosqm.py -g example.smiles > example.csv
+    python ../regiosqm/regiosqm.py -g example.smiles > example.csv
 
 sites potentially susceptible for the EAS are identified.  RegioSQM
 *generates* for each input files for MOPAC (`example.mop`) and
@@ -113,7 +113,7 @@ stores an initial conformation in a structure-data file
 The authors recommend [GNU Parallel](https://www.gnu.org/software/parallel/) as an interface to submit all
 computational jobs to MOPAC for a non-supervised execution by
 
-    2  ls *mop | parallel -j4 "/opt/mopac/MOPAC2016.exe {}"
+    ls *mop | parallel -j4 "/opt/mopac/MOPAC2016.exe {}"
 
 The parameter `-j4` allows the simultaneous processing of up to
 four `.mop` files.  Because MOPAC allocates one CPU to one `.mop`
@@ -131,7 +131,7 @@ As in the case for imidazole, the later may be empty.
 
 RegioSQM is used again, but now by
 
-    3  python2 regiosqm.py -a example.smiles example.csv > results.txt
+    python2 regiosqm.py -a example.smiles example.csv > results.txt
 
 to scrutiny MOPAC's results.  Given the starting structures in
 `example.smiles` and the list of conformers in `example.csv` as the
@@ -180,21 +180,4 @@ the illustrations provided in the SI of the publication.  The
 summary of the analysis is provided with `mokka_results.txt`; in
 future, this reference file may be used to monitor if modifications
 of the scripts affected the results of the analysis, or not.
-
-    # generate conformations from SMILES
-    #
-    # geometries are saved as .sdf and .mop input files,
-    # example.csv lists e.g., the structure (as SMILES) of the protonated probes
-    python ../regiosqm/regiosqm.py -g example.smiles > example.csv
-    
-    
-    # Run all .mop files with mopac
-    # or submit them to a cluster
-    ls *mop | parallel -j4 "mopac {}"
-    
-    # use the generated csv file to analyze all the 
-    python ../regiosqm/regiosqm.py -a example.csv example.csv > example_results.csv
-
-The results may now be parsed from the results file, or displayed as
-2D structures with regioselective indicators (in svg format).
 
