@@ -1,3 +1,5 @@
+# name:     regiosqm.py
+# edit:     2020-07-12 (YYYY-MM-DD)
 
 import numpy as np
 
@@ -6,6 +8,7 @@ import molecule_formats as molfmt
 import molecule_svg as molsvg
 
 __version__ = "1.1"
+
 
 def analyse_results(smiles_filename, conf_filename, test_exam=False):
 
@@ -67,16 +70,21 @@ def analyse_results(smiles_filename, conf_filename, test_exam=False):
             fullname = name + "-" + str(x)
 
             # Convert mopac out to SDF
-            molfmt.convert_mop_sdf(fullname+".out", fullname+".out.sdf")
+            molfmt.convert_mop_sdf(fullname + ".out", fullname + ".out.sdf")
 
             # Compare structures, before and after. Check for hydrogen transfer.
-            same_structure = molfmt.compare_sdf_structure(fullname+".sdf", fullname+".out.sdf")
+            same_structure = molfmt.compare_sdf_structure(
+                fullname + ".sdf", fullname + ".out.sdf")
 
-            if not same_structure:
+            # test pad, start:
+            if same_structure is "False":
                 continue
+            # if not same_structure:
+            # continue
+            # test pad, end.
 
             # get the conformational energy
-            heat = molfmt.get_energy(fullname+'.out')
+            heat = molfmt.get_energy(fullname + '.out')
 
             drugs[drug_name]['heat'].append(heat)
             drugs[drug_name]['atom'].append(reaction_center)
@@ -110,10 +118,10 @@ def analyse_results(smiles_filename, conf_filename, test_exam=False):
 
         buffer_heats = heats - minimum
 
-        winners = np.where( buffer_heats < e_cut )
+        winners = np.where(buffer_heats < e_cut)
         winners = winners[0]
 
-        winners2 = np.where( buffer_heats < e_cut2 )
+        winners2 = np.where(buffer_heats < e_cut2)
         winners2 = winners2[0]
 
         # Read reactive center
@@ -154,16 +162,19 @@ def analyse_results(smiles_filename, conf_filename, test_exam=False):
                 print "2>", confs[winner], heats[winner]
 
         # Save SVG results
-        result_svg = molsvg.generate_structure(smiles, [drug_atoms, drug_atoms2])
+        result_svg = molsvg.generate_structure(smiles,
+                                               [drug_atoms, drug_atoms2])
 
-        fd = open(name+'.svg','w')
+        fd = open(name + '.svg', 'w')
         fd.write(result_svg)
         fd.close()
 
     return
 
 
-def generate_conformations_from_smiles(smiles_filename, mop_header="", max_conf=20):
+def generate_conformations_from_smiles(smiles_filename,
+                                       mop_header="",
+                                       max_conf=20):
 
     molecules, charges = prot.protonate_smiles(smiles_filename)
     keys = molecules.keys()
@@ -178,10 +189,14 @@ def generate_conformations_from_smiles(smiles_filename, mop_header="", max_conf=
 
         for cname, csmile, catom in zip(cnames, csmiles, catoms):
 
-            # Do conformation search on each smile structure and save it in SDF format
-            conformations = molfmt.generate_conformations_files(csmile, cname, charge, max_conf=max_conf, header=mop_header)
+            # Conformation search on each smile structure, save it as .sdf.
+            conformations = molfmt.generate_conformations_files(
+                csmile, cname, charge, max_conf=max_conf, header=mop_header)
 
-            print ", ".join([cname, csmile, str(catom), str(len(conformations))]), ", charge={}".format(str(charge+1))
+            print ", ".join([
+                cname, csmile,
+                str(catom), str(len(conformations))
+            ]), ", charge={}".format(str(charge + 1))
 
     return
 
@@ -195,18 +210,40 @@ def main():
     epilog = """ """
 
     parser = argparse.ArgumentParser(
-                    usage='%(prog)s [options]',
-                    description=description,
-                    formatter_class=argparse.RawDescriptionHelpFormatter,
-                    epilog=epilog)
+        usage='%(prog)s [options]',
+        description=description,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=epilog)
 
-    parser.add_argument('-v', '--version', action='version', version='regiosqm ' + __version__ + "\nhttps://github.com/jensengroup/regiosqm")
-    parser.add_argument('-g', '--generate_conformations', action='store', metavar='smiles_filename', help="")
-    parser.add_argument('-a', '--analyse_conformations', nargs=2, action='store', metavar='smiles_filename', help="")
+    parser.add_argument('-v',
+                        '--version',
+                        action='version',
+                        version='regiosqm ' + __version__ +
+                        "\nhttps://github.com/jensengroup/regiosqm")
+    parser.add_argument('-g',
+                        '--generate_conformations',
+                        action='store',
+                        metavar='smiles_filename',
+                        help="")
+    parser.add_argument('-a',
+                        '--analyse_conformations',
+                        nargs=2,
+                        action='store',
+                        metavar='smiles_filename',
+                        help="")
 
-    parser.add_argument('-c', '--max_conformations', action='store', type=int, metavar='N', default=20, help="Max conformations to find for each protonation")
+    parser.add_argument('-c',
+                        '--max_conformations',
+                        action='store',
+                        type=int,
+                        metavar='N',
+                        default=20,
+                        help="Max conformations to find for each protonation")
 
-    parser.add_argument('-e', '--exam', action='store_true', help='Check results vs centers in smiles file')
+    parser.add_argument('-e',
+                        '--exam',
+                        action='store_true',
+                        help='Check results vs centers in smiles file')
 
     if len(sys.argv) == 1:
         parser.print_help()
@@ -215,7 +252,8 @@ def main():
     args = parser.parse_args()
 
     if args.generate_conformations:
-        generate_conformations_from_smiles(args.generate_conformations, max_conf=args.max_conformations)
+        generate_conformations_from_smiles(args.generate_conformations,
+                                           max_conf=args.max_conformations)
         return
 
     if args.analyse_conformations:
@@ -224,6 +262,6 @@ def main():
 
     return 0
 
+
 if __name__ == "__main__":
     main()
-

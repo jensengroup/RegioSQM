@@ -1,4 +1,4 @@
-# last edit:  2020-07-08 (YYYY-MM-DD)
+# last edit:  2020-07-12 (YYYY-MM-DD)
 #+OPTIONS: toc:nil
 
 #+LATEX_CLASS:  koma-article
@@ -78,33 +78,116 @@ within minutes.
 
 * Installation
 
-#+BEGIN_EXAMPLE
-    - MOPAC (http://openmopac.net/)
-    - RDKit (http://www.rdkit.org/docs/Install.html)
-    - obabel (https://openbabel.org/docs/dev/Installation/install.html)
-#+END_EXAMPLE
+RegioSQM depends on MOPAC for quantum calculations and uses OpenBabel
+for format conversions.  RDKit and numpy perform complementary
+computations in the Python environment.  Information about their
+installation may be found at
 
-RegioSQM depends on MOPAC for quantum calculations, OpenBabel for some
-formation conversions and RDKit in the python environment for
-everything else.
++ MOPAC (http://openmopac.net/)
++ obabel (https://github.com/openbabel/openbabel/releases)
++ RDKit (http://www.rdkit.org/docs/Install.html)
++ numpy
+  (https://numpy.org/doc/stable/user/install.html?highlight=installation),
+  which often already is included in scipy
+  (https://scipy.org/install.html)
+
+Note that in its present form, the code is known to work with legacy
+Python 2.7.17 and thus relies on RDKit earlier to the [[http://www.rdkit.org/docs/GettingStartedInPython.html][2019.3 release]]
+as provided, for example, with Linux Xubuntu 18.04 LTS.  It still is
+incompatible with the current branch of Python 3.
 
 * Usage
 
-The workflow is as following
+Folder =example= contains in file =example.smiles= the SMILES strings
+of pyrazol (=n1ccc[nH]1=, =comp1=) and 1-(2-pyrimidinyl)-pyrazole
+(=c1cnn(c1)-c1ncccn1=, =comp2=).  The following demonstrates the
+batch-wise prediction, based on the entries in this file equally is
+placed in the directory =regiosqm=.
 
-#+BEGIN_EXAMPLE
-    cd example
+If your molecule editor shouldn't be capable to export a structure as
+a SMILES string, consider the conversion of the structure exported
+into a different format by openbabel.  Services like the [[https://pubchem.ncbi.nlm.nih.gov/edit3/index.html][PubChem
+Sketcher]] equally allow the generation of this information.
 
-    # generate conformations from SMILES
-    python ../regiosqm/regiosqm.py -g example.csv > example.csv
+** preparation of the computation
+   
+   By the call of
+   #+BEGIN_SRC shell
+     python ../regiosqm/regiosqm.py -g example.smiles > example.csv
+   #+END_SRC
+   sites potentially susceptible for the EAS are identified.  RegioSQM
+   /generates/ for each input files for MOPAC (=example.mop=) and
+   stores an initial conformation in a structure-data file
+   (=example.sdf=).  These are summarized in file =example.csv=.
 
-    # Run all .mop files with mopac
-    # or submit them to a cluster
-    ls *mop | parallel -j4 "mopac {}"
 
-    # use the generated csv file to analyze all the 
-    python ../regiosqm/regiosqm.py -a example.csv example.csv > example_results.csv
-#+END_EXAMPLE
+** performing the computation
+   
+   The authors recommend [[https://www.gnu.org/software/parallel/][GNU Parallel]] as an interface to submit all
+   computational jobs to MOPAC for a non-supervised execution by
+   #+BEGIN_SRC shell
+     ls *mop | parallel -j4 "/opt/mopac/MOPAC2016.exe {}"
+   #+END_SRC
+   The parameter =-j4= allows the simultaneous processing of up to
+   four =.mop= files.  Because MOPAC allocates one CPU to one =.mop=
+   file to work with, this integer must be less or equal the number of
+   CPU cores available.  If MOPAC was not installed in the recommended
+   default directory (see [[http://openmopac.net/Manual/trouble_shooting.html#default%20location][work-around]]), you should adjust the path
+   leading to MOPAC's executable accordingly.
 
-The results may now be parsed from the results file, or displayed as
-2D structures with regioselective indicators (in svg format).
+   For each =example.mop=, the computation yields with =example.arc=
+   an archive, =example.out= a logging output, and =example.out.sdf=.
+   As in the case for imidazole, the later may be empty.
+
+** analysis of the computation
+
+   RegioSQM is used again, but now by
+   #+BEGIN_SRC shell
+     python2 regiosqm.py -a example.smiles example.csv > results.txt
+   #+END_SRC
+   to scrutiny MOPAC's results.  Given the starting structures in
+   =example.smiles= and the list of conformers in =example.csv= as the
+   two mandatory parameters, Gibbs' Free enthalpy of the formation of
+   the intermediate will be read out for each theoretically plausible
+   position for the EAS.  MOPAC's computations, are summarized and
+   redirected to =results.txt= as a table
+   #+BEGIN_SRC shell
+     comp1 1 1,3
+     comp2 2 2
+   #+END_SRC
+   The first column, recalls the name of the parental structure
+   provided by =example.smiles=.  This column is followed by the
+   column about the position most likely susceptible to the EAS.  This
+   column may be populated by the label of additional positions if
+   their intermediate was found to differ 1 kcal/mol (or less)
+   different to this least endothermic pathway.  The third column
+   lists all positions with an intermediate less than 3 kcal/mol
+   different than the least endothermic pathway, including the most
+   favorable position, too.
+
+   In the background, RDKit is called to illustrate this summary with
+   one =.svg= per parental structure.  Sites within the 1 kcal/mol
+   threshold are marked in green, sites between the 1 kcal/mol and
+   3 kcal/mol threshold by a red dot.
+
+** validation of a local installation
+
+   The authors document the predictions by RegioSQM visually in the
+   supplementary information of the publication, where 535 structures
+   are binned in 69 EAS groups (e.g., pyridines, thiophenes,
+   indazoles).  The corresponding SMILES strings are available to the
+   [[https://github.com/jensengroup/RegioSQM][public]] and as a verbatim copy =compound_smiles.csv= in folder
+   =example= of this project and may be used to check if the local
+   installation of the scripts works fine.
+
+   As an example, for each of the first 36 EAS groups a representative
+   was selected to populate file =mokka_smiles_list.csv=.  To reduce
+   the computational load, molecules with less conformational
+   flexibility was given preference.  The list of conformers
+   (=mokka_conformers.csv=) generated in preparation of the prediction
+   contains 150 entries.  After MOPAC's work, the positions indicated
+   in RDKit's visualizations of the results were in 1:1 agreement with
+   the illustrations provided in the SI of the publication.  The
+   summary of the analysis is provided with =mokka_results.txt=; in
+   future, this reference file may be used to monitor if modifications
+   of the scripts affected the results of the analysis, or not.
