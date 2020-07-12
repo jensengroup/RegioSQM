@@ -1,3 +1,8 @@
+# name:  protonate.py
+# edit:  2020-07-12 (YYYY-MM-DD)
+#
+"""Based on the SMILES read, generate protonated the intermediates to probe."""
+
 import sys
 import pickle
 from rdkit import Chem
@@ -7,8 +12,10 @@ from rdkit.Chem import AllChem
 # __rxn1__ = AllChem.ReactionFromSmarts('[C;H1:1]=[C,N;H1:2]>>[CH2:1][*H+:2]')
 # __rxn2__ = AllChem.ReactionFromSmarts('[C;H1:1]=[C,N;H0:2]>>[CH2:1][*+;H0:2]')
 
-__rxn1__ = AllChem.ReactionFromSmarts('[C;R;H1:1]=[C,N;R;H1:2]>>[CH2:1][*H+:2]')
-__rxn2__ = AllChem.ReactionFromSmarts('[C;R;H1:1]=[C,N;R;H0:2]>>[CH2:1][*+;H0:2]')
+__rxn1__ = AllChem.ReactionFromSmarts(
+    '[C;R;H1:1]=[C,N;R;H1:2]>>[CH2:1][*H+:2]')
+__rxn2__ = AllChem.ReactionFromSmarts(
+    '[C;R;H1:1]=[C,N;R;H0:2]>>[CH2:1][*+;H0:2]')
 
 # Bromine
 # __rxn1__ = AllChem.ReactionFromSmarts('[C;R;H1:1]=[C,N;R;H1:2]>>[CH:1](Br)[*H+:2]')
@@ -29,7 +36,7 @@ def generate_charged_smiles(smiles, name):
     aromatic_ch = m.GetSubstructMatches(Chem.MolFromSmarts('[c;H1]'))
     aromatic_ch = [element for tupl in aromatic_ch for element in tupl]
 
-    Chem.Kekulize(m,clearAromaticFlags=True)
+    Chem.Kekulize(m, clearAromaticFlags=True)
 
     # target = Chem.MolFromSmarts('[C;H1:1]=[C,N;H1:2]')
     target = Chem.MolFromSmarts('[C;R;H1:1]=[C,N;R;H1:2]')
@@ -41,15 +48,15 @@ def generate_charged_smiles(smiles, name):
     parent = Chem.MolToSmiles(m)
 
     i = 0
-    ps = __rxn1__.RunReactants((m,))
+    ps = __rxn1__.RunReactants((m, ))
     for x in ps:
         smiles = Chem.MolToSmiles(x[0])
-        smiles = smiles.replace("NH2+","N+")
+        smiles = smiles.replace("NH2+", "N+")
         i += 1
 
-        name_list.append(name+"+_"+str(i))
+        name_list.append(name + "+_" + str(i))
         smiles_list.append(smiles)
-        atom_list.append(atoms[i-1])
+        atom_list.append(atoms[i - 1])
 
     isav = i
     # target = Chem.MolFromSmarts('[C;H1:1]=[C,N;H0:2]')
@@ -57,15 +64,15 @@ def generate_charged_smiles(smiles, name):
     atoms = m.GetSubstructMatches(target)
     atoms = [element for tupl in atoms for element in tupl]
 
-    ps = __rxn2__.RunReactants((m,))
+    ps = __rxn2__.RunReactants((m, ))
     for x in ps:
         smiles = Chem.MolToSmiles(x[0])
-        smiles = smiles.replace("NH2+","N+")
+        smiles = smiles.replace("NH2+", "N+")
         i += 1
 
-        name_list.append(name+"+_"+str(i))
+        name_list.append(name + "+_" + str(i))
         smiles_list.append(smiles)
-        atom_list.append(atoms[2*(i-isav)-2])
+        atom_list.append(atoms[2 * (i - isav) - 2])
 
     return parent, name_list, smiles_list, atom_list
 
@@ -100,5 +107,3 @@ def protonate_smiles(filename):
         charges[name] = charge
 
     return molecules, charges
-
-

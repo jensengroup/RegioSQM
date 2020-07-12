@@ -49,7 +49,9 @@ def pretty_svg(svg):
         if "text" in line:
 
             replacetext = "font-size"
-            borderline = "fill:none;fill-opacity:1;stroke:#FFFFFF;stroke-width:10px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
+            borderline = """fill:none; fill-opacity:1; stroke:#FFFFFF;
+                stroke-width:10px; stroke-linecap:butt; stroke-linejoin:miter;
+                stroke-opacity:1;"""
 
             # Add border to text
             border_text = line
@@ -125,8 +127,8 @@ def generate_structure(smiles, predicted, highlight_measure=None):
     # find ones not in predicted list
     highlight_loseicted = list(
         set(highlight_loseicted) - set(highlight_predicted))
-    # if len(highlight_loseicted):
-    if highlight_loseicted is not None:  # one-liner test substitution
+
+    if highlight_loseicted is not None:
         svg_loseicted = create_svg(m, highlights=highlight_loseicted)
         highlights_loseicted = get_highlights(svg_loseicted)
         highlights_loseicted = [
