@@ -81,6 +81,11 @@ installation may be found at
     which often already is included in scipy
     (<https://scipy.org/install.html>)
 
+Note that in its present form, the code is known to work with legacy
+Python 2.7.17 and thus relies on RDKit earlier to the [2019.3 release](http://www.rdkit.org/docs/GettingStartedInPython.html)
+as provided, for example, with Linux Xubuntu 18.04 LTS.  It still is
+incompatible with the current branch of Python 3.
+
 
 # Usage
 

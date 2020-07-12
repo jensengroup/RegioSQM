@@ -1,4 +1,4 @@
-# last edit:  2020-07-10 (YYYY-MM-DD)
+# last edit:  2020-07-12 (YYYY-MM-DD)
 #+OPTIONS: toc:nil
 
 #+LATEX_CLASS:  koma-article
@@ -89,7 +89,12 @@ installation may be found at
 + numpy
   (https://numpy.org/doc/stable/user/install.html?highlight=installation),
   which often already is included in scipy
-  (https://scipy.org/install.html) 
+  (https://scipy.org/install.html)
+
+Note that in its present form, the code is known to work with legacy
+Python 2.7.17 and thus relies on RDKit earlier to the [[http://www.rdkit.org/docs/GettingStartedInPython.html][2019.3 release]]
+as provided, for example, with Linux Xubuntu 18.04 LTS.  It still is
+incompatible with the current branch of Python 3.
 
 * Usage
 
