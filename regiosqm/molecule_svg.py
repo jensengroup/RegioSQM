@@ -1,5 +1,5 @@
 # name:  molecule_svg.py
-# edit:  2020-07-12 (YYYY-MM-DD)
+# edit:  2020-07-13 (YYYY-MM-DD)
 #
 """Define RDKit's parameters to generate .svg files after MOPAC's work."""
 

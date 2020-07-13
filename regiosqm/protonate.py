@@ -1,5 +1,5 @@
 # name:  protonate.py
-# edit:  2020-07-12 (YYYY-MM-DD)
+# edit:  2020-07-13 (YYYY-MM-DD)
 #
 """Based on the SMILES read, generate protonated the intermediates to probe."""
 

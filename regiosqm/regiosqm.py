@@ -1,5 +1,5 @@
 # name:     regiosqm.py
-# edit:     2020-07-12 (YYYY-MM-DD)
+# edit:     2020-07-13 (YYYY-MM-DD)
 
 import numpy as np
 
@@ -43,7 +43,7 @@ def analyse_results(smiles_filename, conf_filename, test_exam=False):
     f = open(conf_filename)
 
     # skip header
-    f.next()
+    next(f)
 
     # read the csv file
     for line in f:
@@ -64,7 +64,7 @@ def analyse_results(smiles_filename, conf_filename, test_exam=False):
             drugs[drug_name]['confsmil'] = []
 
         # Loop over conformations
-        for x in xrange(n_conformations):
+        for x in range(n_conformations):
 
             # full conformation filename
             fullname = name + "-" + str(x)
@@ -76,9 +76,14 @@ def analyse_results(smiles_filename, conf_filename, test_exam=False):
             same_structure = molfmt.compare_sdf_structure(
                 fullname + ".sdf", fullname + ".out.sdf")
 
-            # test pad, start:
-            if same_structure is "False":
+            # test pad 2, start:
+            if str(same_structure) == str("False"):
                 continue
+            # test pad 2, end.
+
+#             # test pad, start:
+#             if same_structure is "False":
+#                 continue
             # if not same_structure:
             # continue
             # test pad, end.
@@ -132,34 +137,34 @@ def analyse_results(smiles_filename, conf_filename, test_exam=False):
         drug_atoms2 = np.unique(atoms[winners2])
         drug_atoms2 = list(drug_atoms2)
 
-        print name,
+        print(name, end=' ')
 
         if test_exam:
             measure = drugs[drug]['measure']
             if set(measure).issubset(drug_atoms):
-                print "corr",
+                print("corr", end=' ')
 
             elif set(measure).issubset(drug_atoms2):
-                print "semi",
+                print("semi", end=' ')
 
             else:
-                print "fail",
+                print("fail", end=' ')
 
-            print measure, "==",
+            print(measure, "==", end=' ')
 
         # Print results
-        print ",".join([str(x) for x in drug_atoms]),
-        print ",".join([str(x) for x in drug_atoms2])
+        print(",".join([str(x) for x in drug_atoms]), end=' ')
+        print(",".join([str(x) for x in drug_atoms2]))
 
         if test_exam:
             confs = drugs[drug]['conf']
             confs = np.array(confs)
             for winner in winners:
-                print "1>", confs[winner], heats[winner]
+                print("1>", confs[winner], heats[winner])
 
             for winner in winners2:
                 if winner in winners: continue
-                print "2>", confs[winner], heats[winner]
+                print("2>", confs[winner], heats[winner])
 
         # Save SVG results
         result_svg = molsvg.generate_structure(smiles,
@@ -177,10 +182,10 @@ def generate_conformations_from_smiles(smiles_filename,
                                        max_conf=20):
 
     molecules, charges = prot.protonate_smiles(smiles_filename)
-    keys = molecules.keys()
+    keys = list(molecules.keys())
     keys.sort()
 
-    print "name, SMILES, reaction_center, len(conformations)"
+    print("name, SMILES, reaction_center, len(conformations)")
 
     for name in keys:
 
@@ -193,10 +198,10 @@ def generate_conformations_from_smiles(smiles_filename,
             conformations = molfmt.generate_conformations_files(
                 csmile, cname, charge, max_conf=max_conf, header=mop_header)
 
-            print ", ".join([
+            print(", ".join([
                 cname, csmile,
                 str(catom), str(len(conformations))
-            ]), ", charge={}".format(str(charge + 1))
+            ]), ", charge={}".format(str(charge + 1)))
 
     return
 
