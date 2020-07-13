@@ -1,7 +1,12 @@
 # name:  molecule_svg.py
 # edit:  2020-07-13 (YYYY-MM-DD)
 #
-"""Define RDKit's parameters to generate .svg files after MOPAC's work."""
+"""Define RDKit's parameters to generate .svg files after MOPAC's work.
+
+    The script was adjusted for compatibility with Python 3 (3.8.4rc1)
+    backed by RDKit (release 2019.9) in mind.  It should not be used
+    with legacy Python 2.7.17 and its compatible RDKit releases prior
+    to 2019.3."""
 
 # rdkit
 from rdkit import Chem
@@ -18,6 +23,7 @@ def create_svg(rdkitmol, highlights=None):
     svg = img
     # svg = img.data
     svg = svg.replace("xmlns:svg", "xmlns")
+    svg = svg[:-7]  # prevent the occurence of an early closing svg tag.
     return svg
 
 
@@ -91,9 +97,11 @@ def merge_svg(svg, highlights):
             break
 
     index += 1
-    svg = svg[0:index] + highlights + svg[index:]
+#    svg = svg[0:index] + highlights + svg[index:]
+    # better consecution, but ending </svg> too early:
+    svg = svg[0:index] + svg[index:] + highlights
     svg = "\n".join(svg)
-
+    svg += "\n</svg>"  # manually add the truly ending svg tag.
     return svg
 
 
