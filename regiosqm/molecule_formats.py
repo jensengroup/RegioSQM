@@ -1,5 +1,5 @@
 # name:  molecule_formats.py
-# edit:  2020-07-12 (YYYY-MM-DD)
+# edit:  2020-07-13 (YYYY-MM-DD)
 #
 """Define data transfer among terminal / file SMILES, openbabel, RDKit, MOPAC."""
 import re
@@ -66,7 +66,7 @@ def convert_sdf_mop(sdf_file,
 
     shell('echo "' + header + '" > ' + mop_file, shell=True)
     # TODO read babel from settings.ini
-    shell('babel -isdf ' + sdf_file + ' -omop -xf "" >> ' + mop_file,
+    shell('obabel -isdf ' + sdf_file + ' -omop -xf "" >> ' + mop_file,
           shell=True)
 
     return
