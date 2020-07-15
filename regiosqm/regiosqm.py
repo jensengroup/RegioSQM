@@ -1,5 +1,7 @@
 # name:     regiosqm.py
 # edit:     2020-07-15 (YYYY-MM-DD)
+#
+"""Define the interaction with the other scripts and their data exchange."""
 
 import numpy as np
 
@@ -11,7 +13,7 @@ __version__ = "1.1"
 
 
 def analyse_results(smiles_filename, conf_filename, test_exam=False):
-
+    """Identify the least endothermic computed conformer per SMILES input."""
     output_name = smiles_filename.split('.')[:-1]
     output_name = ".".join(output_name)
 
@@ -76,22 +78,11 @@ def analyse_results(smiles_filename, conf_filename, test_exam=False):
             same_structure = molfmt.compare_sdf_structure(
                 fullname + ".sdf", fullname + ".out.sdf")
 
-            # test pad 2, start:
             if str(same_structure) == str("False"):
                 continue
-            # test pad 2, end.
-
-#             # test pad, start:
-#             if same_structure is "False":
-#                 continue
-            # if not same_structure:
-            # continue
-            # test pad, end.
 
             # get the conformational energy
             mopac_outputfile = str(fullname) + str(".out")
-
-#             heat = molfmt.get_energy(fullname + '.out')
             heat = molfmt.get_energy(mopac_outputfile)
 
             drugs[drug_name]['heat'].append(heat)
@@ -170,23 +161,20 @@ def analyse_results(smiles_filename, conf_filename, test_exam=False):
                 print("2>", confs[winner], heats[winner])
 
         # Save SVG results
-#         # known to work, manually though, start:
-#         report = str(molsvg.generate_structure(smiles, [[4],[4, 3]]))
-#         with open("manual_set_reporter.svg", mode="w") as newfile:
-#             newfile.write(report)
-#         # known to work, manually though, end.
-
         highlight_measure = []
         highlight_predicted = []
+
         for element in drug_atoms:
             highlight_predicted.append(int(element))
 
         highlight_loseicted = []
         for element2 in drug_atoms2:
             highlight_loseicted.append(int(element2))
-        
-        recorder = str(molsvg.generate_structure(smiles, [highlight_predicted, highlight_loseicted],
-                           highlight_measure=highlight_measure))
+
+        recorder = str(
+            molsvg.generate_structure(
+                smiles, [highlight_predicted, highlight_loseicted],
+                highlight_measure=highlight_measure))
 
         output_map = '.'.join([str(name), str("svg")])
         with open(output_map, mode="w") as newfile:
@@ -198,7 +186,7 @@ def analyse_results(smiles_filename, conf_filename, test_exam=False):
 def generate_conformations_from_smiles(smiles_filename,
                                        mop_header="",
                                        max_conf=20):
-
+    """Generate the charged conformers, deposit as .sdf."""
     molecules, charges = prot.protonate_smiles(smiles_filename)
     keys = list(molecules.keys())
     keys.sort()
@@ -216,16 +204,17 @@ def generate_conformations_from_smiles(smiles_filename,
             conformations = molfmt.generate_conformations_files(
                 csmile, cname, charge, max_conf=max_conf, header=mop_header)
 
-            print(", ".join([
-                cname, csmile,
-                str(catom), str(len(conformations))
-            ]), ", charge={}".format(str(charge + 1)))
+            print(
+                ", ".join([cname, csmile,
+                           str(catom),
+                           str(len(conformations))]),
+                ", charge={}".format(str(charge + 1)))
 
     return
 
 
 def main():
-
+    """Define the delegation of the tasks to perform."""
     import argparse
     import sys
 
@@ -280,7 +269,6 @@ def main():
         return
 
     if args.analyse_conformations:
-#        test_exam = True
         analyse_results(*args.analyse_conformations, test_exam=args.exam)
         return
 
