@@ -1,5 +1,5 @@
 # name:  molecule_formats.py
-# edit:  2020-07-13 (YYYY-MM-DD)
+# edit:  2020-07-15 (YYYY-MM-DD)
 #
 """Define data transfer among terminal / file SMILES, openbabel, RDKit, MOPAC."""
 import re
@@ -145,7 +145,7 @@ def compare_sdf_structure(start, end):
 def get_energy(mopac_out):
     """Retrieve calculated heat of formation from MOPAC .out files."""
     line = shell('grep --text "HEAT OF FORMATION" ' + mopac_out, shell=True)
-    heat = re.findall("[-\d]+\.\d+", line)
+    heat = re.findall("[-\d]+\.\d+", str(line))
     if len(heat) != 0:
         heat = heat[0]
         heat = float(heat)

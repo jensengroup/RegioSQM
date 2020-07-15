@@ -1,5 +1,5 @@
 # name:     regiosqm.py
-# edit:     2020-07-13 (YYYY-MM-DD)
+# edit:     2020-07-15 (YYYY-MM-DD)
 
 import numpy as np
 
@@ -89,7 +89,10 @@ def analyse_results(smiles_filename, conf_filename, test_exam=False):
             # test pad, end.
 
             # get the conformational energy
-            heat = molfmt.get_energy(fullname + '.out')
+            mopac_outputfile = str(fullname) + str(".out")
+
+#             heat = molfmt.get_energy(fullname + '.out')
+            heat = molfmt.get_energy(mopac_outputfile)
 
             drugs[drug_name]['heat'].append(heat)
             drugs[drug_name]['atom'].append(reaction_center)
@@ -167,12 +170,27 @@ def analyse_results(smiles_filename, conf_filename, test_exam=False):
                 print("2>", confs[winner], heats[winner])
 
         # Save SVG results
-        result_svg = molsvg.generate_structure(smiles,
-                                               [drug_atoms, drug_atoms2])
+#         # known to work, manually though, start:
+#         report = str(molsvg.generate_structure(smiles, [[4],[4, 3]]))
+#         with open("manual_set_reporter.svg", mode="w") as newfile:
+#             newfile.write(report)
+#         # known to work, manually though, end.
 
-        fd = open(name + '.svg', 'w')
-        fd.write(result_svg)
-        fd.close()
+        highlight_measure = []
+        highlight_predicted = []
+        for element in drug_atoms:
+            highlight_predicted.append(int(element))
+
+        highlight_loseicted = []
+        for element2 in drug_atoms2:
+            highlight_loseicted.append(int(element2))
+        
+        recorder = str(molsvg.generate_structure(smiles, [highlight_predicted, highlight_loseicted],
+                           highlight_measure=highlight_measure))
+
+        output_map = '.'.join([str(name), str("svg")])
+        with open(output_map, mode="w") as newfile:
+            newfile.write(recorder)
 
     return
 
@@ -262,6 +280,7 @@ def main():
         return
 
     if args.analyse_conformations:
+#        test_exam = True
         analyse_results(*args.analyse_conformations, test_exam=args.exam)
         return
 
