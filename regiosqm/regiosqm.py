@@ -1,5 +1,5 @@
 # name:     regiosqm.py
-# edit:     2020-07-15 (YYYY-MM-DD)
+# edit:     2020-07-19 (YYYY-MM-DD)
 #
 """Define the interaction with the other scripts and their data exchange."""
 
@@ -9,7 +9,7 @@ import protonate as prot
 import molecule_formats as molfmt
 import molecule_svg as molsvg
 
-__version__ = "1.1"
+__version__ = "1.1.2"
 
 
 def analyse_results(smiles_filename, conf_filename, test_exam=False):
@@ -231,7 +231,8 @@ def main():
                         '--version',
                         action='version',
                         version='regiosqm ' + __version__ +
-                        "\nhttps://github.com/jensengroup/regiosqm")
+                        "\nhttps://github.com/jensengroup/regiosqm" +
+                        "\nhttps://github.com/nbehrnd/regiosqm")
     parser.add_argument('-g',
                         '--generate_conformations',
                         action='store',

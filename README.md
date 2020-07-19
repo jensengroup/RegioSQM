@@ -10,17 +10,17 @@ predicted.  There is a dedicated web site, [regiosqm.org](http://regiosqm.org), 
 program without the need of a local installation.
 
 This repository provides the scripts for a local deployment of
-RegioSQM, e.g. for the batch wise scrutiny of substrates expressed as
-a list of SMILES strings.  Most of the information provided here is
-described in greater detail in the [RegioSQM paper](https://doi.org/10.1039/C7SC04156J), an open access
+RegioSQM, e.g. for the batch wise scrutiny of substrates expressed
+as a list of SMILES strings.  Most of the information provided here
+is described in greater detail in the [RegioSQM paper](https://doi.org/10.1039/C7SC04156J), an open access
 publication.
 
 
 # Background
 
 For a given substrate, RegioSQM probes any (hetero)aromatic position
-*theoretically susceptible* for an electrophilic substitution reaction
-(EAS)
+*theoretically susceptible* for an electrophilic substitution
+reaction (EAS)
 
 ![img](./doc_support/scheme_1_050.png)
 
@@ -35,9 +35,9 @@ regioisomer (169.4 kcal/mol, if computed at the level of
 PM3/COSMO).<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup> RegioSQM indicates the position most favorable
 to the EAS by a green circle.  This is backed by experimental
 findings; in the course of an EAS, bromine of *N*-bromosuccinimide
-(NBS) exclusively adds to this position.  Here, the illustrations mark
-the experimentally determined position most prominent to the EAS by a
-black circle.
+(NBS) exclusively adds to this position.  Here, the illustrations
+mark the experimentally determined position most prominent to the
+EAS by a black circle.
 
 Among all sites *theoretically susceptible* to an EAS, RegioSQM may
 identify more than one site favorable to this reaction.  In the
@@ -50,23 +50,24 @@ positions by a green circle.  Synthesis has shown that the EAS with
 NBS indeed yields a product mixture from these two intermediates.
 
 Sites where the probed EAS passes the charged intermediate with more
-than 1 kcal/mol, but less than 3 kcal/mol in addition to the reaction
-at the site most favorable to the EAS are labeled by a read dot.
-Sites exceeding even the higher threshold of 3 kcal/mol (i.e.,
+than 1 kcal/mol, but less than 3 kcal/mol in addition to the
+reaction at the site most favorable to the EAS are labeled by a read
+dot.  Sites exceeding even the higher threshold of 3 kcal/mol (i.e.,
 12.6 kJ/mol) are considered as not reactive enough to participate in
 the EAS; RegioSQM does not marked them *at all*.
 
 RegioSQM accounts for conformational flexibility of the substrates.
 By default, up to 20 conformers per site *theoretically susceptible*
-to an EAS are scrutinized.  The least endothermic (charged) conformer
-per site eventually is used to rank the sites per input molecule.
+to an EAS are scrutinized.  The least endothermic (charged)
+conformer per site eventually is used to rank the sites per input
+molecule.
 
-As shown in the figure below, the selectivity of the EAS predicted by
-RegioSQM and the experimentally observation may diverge.  Sterical
-hindrance may be a plausible cause for this discrepancy.  This however
-should be balanced with the low computational cost of the method
-deployed (PM3/COSMO instead of DFT) yielding fast access to the
-results within minutes.  The authors claim a rate of success
+As shown in the figure below, the selectivity of the EAS predicted
+by RegioSQM and the experimentally observation may diverge.
+Sterical hindrance may be a plausible cause for this discrepancy.
+This however should be balanced with the low computational cost of
+the method deployed (PM3/COSMO instead of DFT) yielding fast access
+to the results within minutes.  The authors claim a rate of success
 predicting the sites of the EAS correctly of up to 92% or 96%
 (depending on the threshold applied).
 
@@ -82,22 +83,30 @@ comparison of RegioSQM's prediction and experimental observation for
 
 # Installation
 
-RegioSQM depends on MOPAC for quantum calculations and uses Open Babel
-for format conversions.  RDKit and numpy perform complementary
-computations in the Python environment.  Information about their
-installation may be found at
+RegioSQM depends on MOPAC for quantum calculations and uses
+Open Babel for format conversions.  RDKit and numpy perform
+complementary computations in the Python environment.  Information
+about their installation may be found at
 
 -   MOPAC (<http://openmopac.net/>)
 -   Open Babel (<https://github.com/openbabel/openbabel/releases>)
 -   RDKit (<http://www.rdkit.org/docs/Install.html>)
 -   numpy
     (<https://numpy.org/doc/stable/user/install.html?highlight=installation>),
-    often already included in scipy (<https://scipy.org/install.html>)
+    but often already included in scipy
+    (<https://scipy.org/install.html>)
 
-Note that in its present form, the code is known to work with legacy
-Python 2.7.17 and thus relies on RDKit earlier to the [2019.3 release](http://www.rdkit.org/docs/GettingStartedInPython.html)
-as provided, for example, with Linux Xubuntu 18.04 LTS.  It still is
-incompatible with the current branch of Python 3.
+*Note:* Starting with RegioSQM (release 1.1.2), development focusses
+on current Python 3 (e.g., Python 3.8 as provided in Linux Debian 10
+/ bullseye, branch testing).  This marks a sharp transition from
+previous versions of the script up and including RegioSQM
+(release 1.1.1); scripts like the moderator `regiosqm.py` no longer
+work with the legacy interpreter of Python 2.
+
+The previous RegioSQM (release 1.1.1) is known to work well with
+Python 2.7.17 and RDKit earlier to the [2019.3 release](http://www.rdkit.org/docs/GettingStartedInPython.html) as provided,
+for example, with Linux Xubuntu 18.04 LTS.  You find both *separate*
+versions of RegioSQM as independent archives in the release section.
 
 
 # Usage
