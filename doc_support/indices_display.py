@@ -5,7 +5,7 @@
 # author:  nbehrnd@yahoo.com
 # license: 2020, MIT
 # date:    2020-09-22 (YYYY-MM-DD)
-# edit:
+# edit:    2020-09-22 (YYYY-MM-DD)
 
 """For each EAS group, draw structures with atom indices into a .svg
 
@@ -46,11 +46,11 @@ def draw_multiple_mol(smiles_list, mols_per_row=4, file_path=None):
     mols = []
     for i in smiles_list:
 
-        for mol in mols:
-            for atom in mol.GetAtoms():
-                atom.SetAtomMapNum(atom.GetIdx())
+        mol = Chem.MolFromSmiles(i)
+        for atom in mol.GetAtoms():
+            atom.SetAtomMapNum(atom.GetIdx())
+        mols.append(mol)
 
-        mols.append(Chem.MolFromSmiles(i))
     mols_per_row = min(len(smiles_list), mols_per_row)
 
     img = Draw.MolsToGridImage(mols,
