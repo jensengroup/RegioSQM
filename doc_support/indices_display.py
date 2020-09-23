@@ -5,7 +5,7 @@
 # author:  nbehrnd@yahoo.com
 # license: 2020, MIT
 # date:    2020-09-22 (YYYY-MM-DD)
-# edit:    2020-09-22 (YYYY-MM-DD)
+# edit:    2020-09-23 (YYYY-MM-DD)
 #
 """Illustrate for each EAS group the attributed atom indices
 
@@ -71,7 +71,7 @@ def draw_multiple_mol(smiles_list, mols_per_row=4, file_path=None):
 
     img = Draw.MolsToGridImage(mols,
                                molsPerRow=4,
-                               subImgSize=(300, 300),
+                               subImgSize=(200, 200),
                                useSVG=True)
     if file_path:
         try:
