@@ -1,0 +1,9 @@
+comp101 c1cnc(Nc2cccc(c2)Br)[nH]c1=O
+comp103 n1c(=O)cc([nH]c1)C
+comp102 [nH]1c(=O)ccnc1c1c(ccc(c1)Cl)OC
+comp104 [nH]1cnc(cc1=O)N
+comp105 n1ccc(=O)[nH]c1
+comp106 N(c1nccc(=O)[nH]1)c1ccc(C(=O)O)cc1
+comp595 ClC1=CC=C(N2N=NC=C2)C(C(NC=N3)=CC3=O)=C1F
+comp596 ClC1=CC=C(Br)C(C(NC=N2)=CC2=O)=C1
+comp594 ClC1=CC=C(N2N=NC(Cl)=C2)C(C(NC=N3)=CC3=O)=C1
