@@ -15,4 +15,4 @@ missing some of the larger sets (e.g., benzenes).
 
 The first run of scripts for the beta-release of RegioSQM 2.0.0 beta
 used Python 3.8.6rc1 (Sep 14, 2020), OpenBabel 3.1.0 (Jun 9, 2020),
-and RDKit (2019.09.1).
+MOPAC2016 (20.173L 64BITS), and RDKit (2019.09.1).
