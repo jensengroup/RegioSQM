@@ -1,42 +1,38 @@
-<?xml version='1.0' encoding='iso-8859-1'?>
-<svg version='1.1' baseProfile='full'
-              xmlns='http://www.w3.org/2000/svg'
-                      xmlns:rdkit='http://www.rdkit.org/xml'
-                      xmlns:xlink='http://www.w3.org/1999/xlink'
-                  xml:space='preserve'
-width='800px' height='200px' viewBox='0 0 800 200'>
-<!-- END OF HEADER -->
-<rect style='opacity:1.0;fill:#FFFFFF;stroke:none' width='800' height='200' x='0' y='0'> </rect>
-<path class='bond-0' d='M 9.09091,90.2743 L 37.0468,116.204' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
-<path class='bond-0' d='M 20.1539,86.7574 L 39.723,104.908' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
-<path class='bond-1' d='M 9.09091,90.2743 L 13.7462,69.8611' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
-<path class='bond-1' d='M 13.7462,69.8611 L 18.4014,49.4479' style='fill:none;fill-rule:evenodd;stroke:#0000FF;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
-<path class='bond-2' d='M 36.0458,36.1763 L 44.4522,33.5815' style='fill:none;fill-rule:evenodd;stroke:#0000FF;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
-<path class='bond-2' d='M 44.4522,33.5815 L 52.8587,30.9868' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
-<path class='bond-2' d='M 41.5471,45.0503 L 47.4316,43.234' style='fill:none;fill-rule:evenodd;stroke:#0000FF;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
-<path class='bond-2' d='M 47.4316,43.234 L 53.3161,41.4177' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
-<path class='bond-3' d='M 77.6592,34.5514 L 96.5392,52.0631' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
-<path class='bond-4' d='M 121.34,55.6277 L 132.534,52.1725' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
-<path class='bond-5' d='M 103.695,68.8994 L 96.3046,101.308' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
-<path class='bond-5' d='M 92.7379,71.5145 L 87.5643,94.2003' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
-<path class='bond-6' d='M 78.6602,114.579 L 61.8474,119.769' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
-<path class='bond-7' d='M 103.461,118.144 L 122.341,135.656' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
-<path class='bond-8' d='M 44.203,133.04 L 40.6036,148.824' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
-<path class='bond-8' d='M 40.6036,148.824 L 37.0042,164.607' style='fill:none;fill-rule:evenodd;stroke:#0000FF;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
-<path class='bond-9' d='M 147.141,139.22 L 163.954,134.031' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
-<path class='bond-9' d='M 146.684,128.789 L 158.453,125.157' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
-<path class='bond-10' d='M 181.599,120.759 L 188.989,88.3508' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
-<path class='bond-11' d='M 181.833,71.5145 L 162.953,54.0028' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
-<path class='bond-11' d='M 172.132,76.2941 L 158.916,64.0359' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
-<text x='4.59656' y='49.4479' style='font-size:16px;font-style:normal;font-weight:normal;fill-opacity:1;stroke:none;font-family:sans-serif;text-anchor:start;fill:#0000FF' ><tspan>N:1</tspan></text>
-<text x='52.8587' y='34.5514' style='font-size:16px;font-style:normal;font-weight:normal;fill-opacity:1;stroke:none;font-family:sans-serif;text-anchor:start;fill:#000000' ><tspan>C:2</tspan></text>
-<text x='89.8905' y='68.8994' style='font-size:16px;font-style:normal;font-weight:normal;fill-opacity:1;stroke:none;font-family:sans-serif;text-anchor:start;fill:#000000' ><tspan>C:3</tspan></text>
-<text x='78.6602' y='118.144' style='font-size:16px;font-style:normal;font-weight:normal;fill-opacity:1;stroke:none;font-family:sans-serif;text-anchor:start;fill:#000000' ><tspan>C:4</tspan></text>
-<text x='30.3981' y='133.04' style='font-size:16px;font-style:normal;font-weight:normal;fill-opacity:1;stroke:none;font-family:sans-serif;text-anchor:start;fill:#000000' ><tspan>C:5</tspan></text>
-<text x='9.06203' y='183.127' style='font-size:16px;font-style:normal;font-weight:normal;fill-opacity:1;stroke:none;font-family:sans-serif;text-anchor:start;fill:#0000FF' ><tspan>NH</tspan><tspan style='baseline-shift:sub;font-size:12px;'>2</tspan><tspan>:6</tspan></text>
-<text x='115.692' y='152.492' style='font-size:16px;font-style:normal;font-weight:normal;fill-opacity:1;stroke:none;font-family:sans-serif;text-anchor:start;fill:#000000' ><tspan>C:7</tspan></text>
-<text x='163.954' y='137.595' style='font-size:16px;font-style:normal;font-weight:normal;fill-opacity:1;stroke:none;font-family:sans-serif;text-anchor:start;fill:#000000' ><tspan>C:8</tspan></text>
-<text x='175.184' y='88.3508' style='font-size:16px;font-style:normal;font-weight:normal;fill-opacity:1;stroke:none;font-family:sans-serif;text-anchor:start;fill:#000000' ><tspan>C:9</tspan></text>
-<text x='132.534' y='54.0028' style='font-size:16px;font-style:normal;font-weight:normal;fill-opacity:1;stroke:none;font-family:sans-serif;text-anchor:start;fill:#000000' ><tspan>C:10</tspan></text>
-<text x='70.3745' y='194' style='font-size:12px;font-style:normal;font-weight:normal;fill-opacity:1;stroke:none;font-family:sans-serif;text-anchor:start;fill:#000000' ><tspan>comp266</tspan></text>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg baseProfile="full" version="1.1" viewBox="0 0 800 200" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
+
+ <!-- END OF HEADER -->
+<rect width="800" height="200" fill="#fff"> </rect>
+<path class="bond-0" d="m9.0909 90.274 27.956 25.93" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-0" d="m20.154 86.757 19.569 18.151" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-1" d="m9.0909 90.274 4.6553-20.413" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-1" d="m13.746 69.861 4.6552-20.413" fill="none" stroke="#00f" stroke-width="2px"/>
+<path class="bond-2" d="m36.046 36.176 8.4064-2.5948" fill="none" stroke="#00f" stroke-width="2px"/>
+<path class="bond-2" d="m44.452 33.582 8.4065-2.5947" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-2" d="m41.547 45.05 5.8845-1.8163" fill="none" stroke="#00f" stroke-width="2px"/>
+<path class="bond-2" d="m47.432 43.234 5.8845-1.8163" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-3" d="m77.659 34.551 18.88 17.512" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-4" d="m121.34 55.628 11.194-3.4552" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-5" d="m103.7 68.899-7.3904 32.409" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-5" d="m92.738 71.514-5.1736 22.686" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-6" d="m78.66 114.58-16.813 5.19" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-7" d="m103.46 118.14 18.88 17.512" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-8" d="m44.203 133.04-3.5994 15.784" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-8" d="m40.604 148.82-3.5994 15.783" fill="none" stroke="#00f" stroke-width="2px"/>
+<path class="bond-9" d="m147.14 139.22 16.813-5.189" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-9" d="m146.68 128.79 11.769-3.632" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-10" d="m181.6 120.76 7.39-32.408" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-11" d="m181.83 71.514-18.88-17.512" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-11" d="m172.13 76.294-13.216-12.258" fill="none" stroke="#000" stroke-width="2px"/>
+<text x="4.59656" y="49.4479" fill="#0000FF" font-family="sans-serif" font-size="16px"><tspan>N:1</tspan></text>
+<text x="52.8587" y="34.5514" fill="#000000" font-family="sans-serif" font-size="16px"><tspan>C:2</tspan></text>
+<text x="89.8905" y="68.8994" fill="#000000" font-family="sans-serif" font-size="16px"><tspan>C:3</tspan></text>
+<text x="78.6602" y="118.144" fill="#000000" font-family="sans-serif" font-size="16px"><tspan>C:4</tspan></text>
+<text x="30.3981" y="133.04" fill="#000000" font-family="sans-serif" font-size="16px"><tspan>C:5</tspan></text>
+<text x="9.06203" y="183.127" fill="#0000FF" font-family="sans-serif" font-size="16px"><tspan>NH</tspan><tspan baseline-shift="sub" font-size="12px">2</tspan><tspan>:6</tspan></text>
+<text x="115.692" y="152.492" fill="#000000" font-family="sans-serif" font-size="16px"><tspan>C:7</tspan></text>
+<text x="163.954" y="137.595" fill="#000000" font-family="sans-serif" font-size="16px"><tspan>C:8</tspan></text>
+<text x="175.184" y="88.3508" fill="#000000" font-family="sans-serif" font-size="16px"><tspan>C:9</tspan></text>
+<text x="132.534" y="54.0028" fill="#000000" font-family="sans-serif" font-size="16px"><tspan>C:10</tspan></text>
+<text x="70.3745" y="194" fill="#000000" font-family="sans-serif" font-size="12px"><tspan>comp266</tspan></text>
 </svg>
