@@ -1,7 +1,7 @@
 # name:     regiosqm.py
-# edit:     2020-07-19 (YYYY-MM-DD)
+# edit:     2020-10-14 (YYYY-MM-DD)
 #
-"""Define the interaction with the other scripts and their data exchange."""
+"""Define interaction and data I/O with the other scripts."""
 
 import numpy as np
 
@@ -9,11 +9,11 @@ import protonate as prot
 import molecule_formats as molfmt
 import molecule_svg as molsvg
 
-__version__ = "1.1.2"
+__version__ = "2.0.1"
 
 
 def analyse_results(smiles_filename, conf_filename, test_exam=False):
-    """Identify the least endothermic computed conformer per SMILES input."""
+    """Identify the winning computed conformer per SMILES input."""
     output_name = smiles_filename.split('.')[:-1]
     output_name = ".".join(output_name)
 
@@ -71,7 +71,7 @@ def analyse_results(smiles_filename, conf_filename, test_exam=False):
             # full conformation filename
             fullname = name + "-" + str(x)
 
-            # Convert mopac out to SDF
+            # Convert MOPAC out to SDF
             molfmt.convert_mop_sdf(fullname + ".out", fullname + ".out.sdf")
 
             # Compare structures, before and after. Check for hydrogen transfer.
