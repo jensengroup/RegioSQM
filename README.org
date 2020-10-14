@@ -1,4 +1,4 @@
-# last edit:  2020-10-12 (YYYY-MM-DD)
+# last edit:  2020-10-14 (YYYY-MM-DD)
 #+OPTIONS: toc:nil
 
 #+LATEX_CLASS:  koma-article
@@ -195,23 +195,33 @@
 
 * validation of a local installation
 
-  Further development of MOPAC and RegioSQM may affect the sites in a
-  molecule predicted to be more likely susceptible to the EAS, than
-  others.  To identify changes since submission of the seminal
-  publication in 2017, the scrutiny of substrates tested was
-  replicated.  Tools used and intermediate results obtained (e.g.,
-  SMILES strings / illustrated atom indices per EAS class) as obtained
-  with release 2.0.0-beta are provided in folder =replication=.
-  Especially the results in sub-folder =predicted_sites= allow now a
-  quick comparison of a current and of future local installations of
-  RegioSQM a rapid diffview of texts.
+** Quick check
 
-  In comparison of the results depicted in the SI of the seminal
-  paper, only 47 out of 535 pattern (8.8%) reexamined changed since
-  them.  Among these, changes for the definitively better (22 pattern,
-  about 4.1%) or definitively worse (22) are scattered over multiple
-  EAS classes.  For 2 pattern (about 0.4%), no attribution for the
-  better or worse was made.
+   Sub-folder =quick= contains a input, intermediate and output for a
+   set of 36 substrates from different EAS classes to check a local
+   installation quickly.  Preference was given to molecules with a
+   conformational rigid core to prevent RegioSQM investing much time
+   scrutinizing many conformers of charged intermediates.
+
+** Extensive check
+
+   Further development of MOPAC and RegioSQM may affect the sites in a
+   molecule predicted to be more likely susceptible to the EAS, than
+   others.  To identify changes since submission of the seminal
+   publication in 2017, the scrutiny of substrates tested was
+   replicated.  Tools used and intermediate results obtained (e.g.,
+   SMILES strings / illustrated atom indices per EAS class) as obtained
+   with release 2.0.0-beta are provided in folder =replication=.
+   Especially the results in sub-folder =predicted_sites= allow now a
+   quick comparison of a current and of future local installations of
+   RegioSQM a rapid diffview of texts.
+
+   In comparison of the results depicted in the SI of the seminal
+   paper, only 47 out of 535 pattern (8.8%) reexamined changed since
+   them.  Among these, changes for the definitively better (22 pattern,
+   about 4.1%) or definitively worse (22) are scattered over multiple
+   EAS classes.  For 2 pattern (about 0.4%), no attribution for the
+   better or worse was made.
 
 
 * Footnotes
