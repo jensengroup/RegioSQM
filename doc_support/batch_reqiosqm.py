@@ -2,19 +2,19 @@
 # author:  nbehrnd@yahoo.com
 # license: 2020, MIT
 # date:    2020-09-24 (YYYY-MM-DD)
-# edit:    2020-09-25 (YYYY-MM-DD)
+# edit:    2020-10-14 (YYYY-MM-DD)
 #
-"""Run multiple regiosqm analyses over multiple .csv in batches.
+"""Perform multiple unsupervised batches of scrutinies by regiosqm.
 
-Intended for the CLI of Python3 in Linux, for multiple EAS_smiles.csv
-in one folder, this script will moderate each step otherwise manually
-executed step to predict the sites most susceptible to EAS:
+Intended for the CLI of Python3 in Linux if multiple EAS_smiles.csv
+lists are deposit in the same folder as the RegioSMQ scripts and this
+additional moderator script.  This moderator is going to
 
 + prepare the scrutiny, which manually were the call of
 
   python regiosqm.py -g EAS_smiles.csv > EAS_conf.csv
 
-  which equally triggers OpenBabel to generte the MOPAC input files
+  which equally triggers OpenBabel to generate the MOPAC input files
 
 + call MOPAC to work on the data by call of
 
@@ -28,12 +28,12 @@ executed step to predict the sites most susceptible to EAS:
 
   creating both the handy tables of result, as well as the .svg
 
-+ offer space cleaning by stashing all files about the current EAS
-  group scrutinized into a zip-compressed archive
++ clean the space by stashing all files about the current EAS group
+  into a zip-compressed archive by name of the corresponding SMILES
+  list accessed.
 
-In short, it does what Al Sweigart called 'Automate the boring stuff
-with Python' translating into launching a batch of analyses to run
-without required further interaction till the next morning."""
+By this, multiple scrutinies may be performed unsupervised in the
+background, e.g. over night."""
 
 import os
 import subprocess as sub
