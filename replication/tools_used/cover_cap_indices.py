@@ -2,12 +2,15 @@
 # author:  nbehrnd@yahoo.com
 # license: 2020, MIT
 # date:    2020-09-24 (YYYY-MM-DD)
-# edit:
+# edit:    2020-10-14 (YYYY-MM-DD)
+#
 """Apply script 'cap_indices_display.py' on all EAS groups.
 
-The aim is that all EAS groups obtain en block for each EAS group an
-illustratino of the atomic indices. To be run from the CLI of
-Python 3 by
+This moderator script applies 'cap_indices_display.py' on all SMILES
+string lists present in the current folder to provide each of them
+the illustration of RDKit's attributed atom indices in a .svg file.
+
+Launch from the CLI of Python3 by 
 
 python cover_cap_indices.py
 

@@ -5,35 +5,35 @@
 # author:  nbehrnd@yahoo.com
 # license: MIT, 2020
 # date:    2020-07-19 (YYYY-MM-DD)
-# edit:    2020-09-21 (YYYY-MM-DD)
+# edit:    2020-10-14 (YYYY-MM-DD)
 #
-"""Write RegioSQM input file with compound number and SMILES string.
+"""Write a RegioSQM input file with compound number and SMILES strings.
 
-    The SI .pdf about RegioRQM lists the compounds tested by Jensen
-    et al., binned in EAS groups such as furanes, thiophenes, etc.  To
-    replicate their findings locally and to check if a modification of
-    their scripts yields a prediction (still) in agreement with their
-    dedicated web site or / and seminal publication, this script shall
-    create input files suitable for regiosqm.py.
+The SI .pdf about RegioRQM lists the compounds tested by Jensen
+et al., binned in EAS groups such as furanes, thiophenes, etc.  To
+replicate their findings locally and to check if a modification of
+their scripts yields a prediction (still) in agreement with their
+dedicated web site or / and seminal publication, this script shall
+create input files suitable for regiosqm.py.
 
-    Reprint the section of interest of the SI (e.g., about furanes, or
-    thiophenes) as an intermediate .pdf file.  With tool pdftotext run
+Reprint the section of interest of the SI (e.g., about furanes, or
+thiophenes) as an intermediate .pdf file.  With tool pdftotext run
 
-    pdftotext [example.pdf]
+pdftotext [example.pdf]
 
-    to write [example.txt] with any text identified in [example.pdf].
-    With file 'compounds_smiles.csv' in the same folder, call then the
-    current script by
+to write [example.txt] with any text identified in [example.pdf].
+With file 'compounds_smiles.csv' in the same folder, call then the
+current script by
 
-    python extract_compound_numbers.py [example.txt]
+python extract_compound_numbers.py [example.txt]
 
-    to write file [examples_smiles.csv], a file suitable as subsequent
-    input for RegioSQM if used in a pattern of
+to write file [examples_smiles.csv], a file suitable as subsequent
+input for RegioSQM if used in a pattern of
 
-    python regiosqm.py -g [example_smiles.csv] > [example_conformers.csv]
+python regiosqm.py -g [example_smiles.csv] > [example_conformers.csv]
 
-    The output of the present script lists the numbered compounds with
-    their SMILES string, separated by one explicit space."""
+The output of the present script lists the numbered compounds with
+their SMILES string, separated by one explicit space."""
 
 import argparse
 import sys

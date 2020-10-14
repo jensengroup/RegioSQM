@@ -2,7 +2,7 @@
 # author:  nbehrnd@yahoo.com
 # license: MIT, 2020
 # date:    2020-10-13 (YYYY-MM-DD)
-# edit:
+# edit:    2020-10-14 (YYYY-MM-DD)
 #
 """Optimize the .svg displaying RDKit's atom indices with scour.
 
@@ -10,7 +10,7 @@ Scour is a freely available open source program to optimize .svg
 files.  There are other portable cleaners working more efficient and
 faster than this one but this interacts well enough with the Python
 environment already used here.  Typically, RDKit's .svg formulae are
-reduced to about half of their original size without noticable damage
+reduced to about half of their original size without noticeable damage
 to the representation when displayed in Firefox or inkview / Inkscape.
 Scour is hosted at https://github.com/scour-project/scour """
 
