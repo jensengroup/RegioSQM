@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg baseProfile="full" version="1.1" viewBox="0 0 800 200" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
+
+ <!-- END OF HEADER -->
+<rect width="800" height="200" fill="#fff"> </rect>
+<path class="bond-0" d="m190.91 139-24.134 15.07" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-0" d="m182.89 134.22-16.893 10.549" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-1" d="m190.91 139-0.598-17.286" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-1" d="m190.31 121.72-0.598-17.286" fill="none" stroke="#00f" stroke-width="2px"/>
+<path class="bond-2" d="m176.47 90.594-5.361-2.8527" fill="none" stroke="#00f" stroke-width="2px"/>
+<path class="bond-2" d="m171.11 87.741-5.361-2.8527" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-3" d="m156.73 70.948-0.479-13.826" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-3" d="m156.25 57.121-0.478-13.826" fill="none" stroke="#f00" stroke-width="2px"/>
+<path class="bond-3" d="m148.43 71.235-0.478-13.826" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-3" d="m147.96 57.408-0.479-13.826" fill="none" stroke="#f00" stroke-width="2px"/>
+<path class="bond-4" d="m141.74 84.93-13.052 8.1503" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-5" d="m104.68 93.122-5.3606-2.8528" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-5" d="m99.321 90.27-5.3611-2.8527" fill="none" stroke="#00f" stroke-width="2px"/>
+<path class="bond-6" d="m117.85 106.92 0.957 27.653" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-6" d="m126.29 110.78 0.67 19.357" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-7" d="m131.97 148.37 10.801 5.747" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-8" d="m107.96 148.41-13.053 8.151" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-9" d="m70.903 156.6-10.8-5.747" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-9" d="m73.183 148.41-7.5603-4.023" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-10" d="m46.938 137.06-0.9568-27.653" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-11" d="m56.823 95.567 6.5262-4.0752" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-11" d="m63.349 91.492 6.5263-4.0751" fill="none" stroke="#00f" stroke-width="2px"/>
+<path class="bond-11" d="m63.179 101.39 4.5684-2.853" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-11" d="m67.747 98.535 4.5684-2.8526" fill="none" stroke="#00f" stroke-width="2px"/>
+<path class="bond-12" d="m32.816 95.609-10.722-5.7055" fill="none" stroke="#000" stroke-width="2px"/>
+<text x="170.551" y="104.433" fill="#0000FF" font-family="sans-serif" font-size="13px"><tspan>NH:1</tspan></text>
+<text x="139.898" y="84.9303" fill="#000000" font-family="sans-serif" font-size="13px"><tspan>C:2</tspan></text>
+<text x="137.997" y="43.4385" fill="#FF0000" font-family="sans-serif" font-size="13px"><tspan>O:3</tspan></text>
+<text x="104.682" y="106.919" fill="#000000" font-family="sans-serif" font-size="13px"><tspan>C:4</tspan></text>
+<text x="106.118" y="148.411" fill="#000000" font-family="sans-serif" font-size="13px"><tspan>C:5</tspan></text>
+<text x="142.769" y="167.914" fill="#000000" font-family="sans-serif" font-size="13px"><tspan>C:6</tspan></text>
+<text x="70.9029" y="170.4" fill="#000000" font-family="sans-serif" font-size="13px"><tspan>C:7</tspan></text>
+<text x="34.2521" y="150.898" fill="#000000" font-family="sans-serif" font-size="13px"><tspan>C:8</tspan></text>
+<text x="32.8165" y="109.406" fill="#000000" font-family="sans-serif" font-size="13px"><tspan>C:9</tspan></text>
+<text x="63.4132" y="87.4168" fill="#0000FF" font-family="sans-serif" font-size="13px"><tspan>N:10</tspan></text>
+<text x="-8.45273" y="89.9033" fill="#000000" font-family="sans-serif" font-size="13px"><tspan>C:11</tspan></text>
+<text x="70.3745" y="194" fill="#000000" font-family="sans-serif" font-size="12px"><tspan>comp263</tspan></text>
+</svg>

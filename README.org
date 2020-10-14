@@ -1,4 +1,4 @@
-# last edit:  2020-07-12 (YYYY-MM-DD)
+# last edit:  2020-10-14 (YYYY-MM-DD)
 #+OPTIONS: toc:nil
 
 #+LATEX_CLASS:  koma-article
@@ -7,187 +7,227 @@
 #+LATEX_HEADER: \usepackage[libertine]{newtxmath}
 #+LATEX_HEADER: \usepackage[USenglish]{babel}
 
-
 * RegioSQM
+** Background
 
-The program predicts the regioselectivity of electrophilic aromatic
-substitution reactions in heteroaromatic systems. RegioSQM finds the
-aromatic CH group with the highest proton affinity estimated by the
-PM3/COSMO method using the MOPAC program, and maps these sites (/vide
-infra/).  There is a dedicated web site, [[http://regiosqm.org][regiosqm.org]] to use this
-program freely, expecting a SMILES string as molecular descriptor.
-More information is available at the [[https://doi.org/10.1039/C7SC04156J][RegioSQM paper]], which is an open
-access publication.
+   RegioSQM predicts the (hetero)aromatic CH sites most likely
+   susceptible to the electrophilic aromatic substitution (EAS).  For
+   this, the heat of formation of protonated intermediates is computed
+   by MOPAC at the PM3/COSMO level.  When testing this approach for
+   535 substrates belonging to 69 groups (e.g., benzenes, pyridines),
+   the authors observed 96% of the computed predictions to match the
+   experimental evidence.  The authors maintain a dedicated web site,
+   [[http://regiosqm.org][regiosqm.org]], to perform these computations for individual
+   molecules, expressed by a SMILES string.
 
-* Background
+   The scripts of this repository offer a local deployment of
+   RegioSQM, to perform the batch wise scrutiny of substrates
+   expressed as a list of SMILES strings.  Most of the information
+   provided here is described in greater detail in the seminal
+   [[https://doi.org/10.1039/C7SC04156J][RegioSQM paper]], an open access publication.
 
-For the electrophilic substitution reaction (EAS) on aromatic and
-heteroaromatic compounds
+** Show case
 
-#+ATTR_LATEX:  :width 6cm
-[[./doc_support/scheme_1_050.png]]
+   For a given substrate, RegioSQM probes any (hetero)aromatic
+   position /theoretically susceptible/ for an electrophilic
+   substitution reaction (EAS)
 
-RegioSQM probes any position /theoretically/ possible by the addition
-of hydrogen to yield the charged intermediate.  For each position, the
-difference of the Free Enthalpy between the starting material and the
-intermediate is computed.  As in the example of pyrazole (line a)
+   #+ATTR_LATEX:  :width 6cm
+   [[./doc_support/scheme_1_050.png]]
 
-#+ATTR_LATEX:  :width 6cm
-[[./doc_support/figure_1_050.png]]
+   by the addition of hydrogen to yield the charged intermediate.  For
+   each position, the heat of formation of this intermediate is
+   computed.  As for pyrazole (line a), for example,
 
-the protonation in 4-position is the least endothermic.  At the level
-of PM3, the computed change is $\Delta{}G$ = 169.4 kcal/mol.  RegioSQM
-indicates this position most favorable to the hydrogen addition by a
-green circle.  This is backed by experimental findings; in the course
-of the EAS, bromine of /N/-bromosuccinimide (NBS) exclusively adds to
-this position.
+   #+ATTR_LATEX:  :width 6cm
+   [[./doc_support/figure_1_050.png]]
 
-Beside the identification of the site predicted most likely
-susceptible to the EAS, RegioSQM sorts the other /theoretically/
-possible positions by the energetic cost to add a proton.  In the
-example of /N/-methlyl imidazole (line b), RegioSQM identifies both
-the positions 4 and 5 as much more susceptible to the reaction, than
-position 2.  Because the enthalpic difference for a reaction at
-position 4 and a reaction at position 5 differs by less than
-1 kcal/mol (4.18 kJ/mol), RegioSQM marks both positions by a green
-circle.  Synthesis has shown that the reaction with NBS leads to a
-product mixture from these two intermediates.
+   protonation in the 4-position yields the least endothermic charged
+   regioisomer (169.4 kcal/mol, if computed at the level of
+   PM3/COSMO)[fn:COSMO] which RegioSQM indicates by a green dot.  This
+   is backed by experimental findings; in the course of an EAS,
+   bromine of /N/-bromosuccinimide (NBS) exclusively adds to this
+   position.  The illustrations indicate the sites experimentally
+   determined as most prominent to the EAS by a black circle.
 
-Sites where the EAS costs more than 1 kcal/mol, but less than
-3 kcal/mol in addition to the reaction at the site most favorable to
-the EAS are labeled by a read dot.  Sites exceeding even the higher
-threshold of 3 kcal/mol (i.e., 12.6 kJ/mol) are considered as not
-reactive enough to participate in the EAS; these are not marked /at
-all/.
+   For one substrate, RegioSQM compares the heat of formation of
+   regioisomers of the putative protonated intermediates of an EAS
+   (test site) with the regioisomer yielding the protonated
+   intermediate most favorable for the EAS (reference site).  If the
+   test site differs by less than 1 kcal/mol (4.18 kJ/mol) from the
+   reference site, RegioSQM marks this site equally by a green dot.
+   If the test site differs from the reference site by more than
+   1 kcal/mol, but less than 3 kcal/mol (12.6 kJ/mol), RegioSQM marks
+   this site less susceptible to the EAS by a red dot.  Test sites
+   exceeding the 3 kcal/mol threshold are not marked by RegioSQM.  The
+   prediction about /N/-methyl imidazole (line b), indeed is backed by
+   experimental evidence where the EAS with NBS yields a mixture of
+   the two highlighted regioisomers.
 
-As shown in the figure below, sterical hindrance may yield an
-experimental outcome different from the prediction even if the program
-tests, where applicable, multiple conformers per site tested.
+   If RegioSQM recognizes a substrate as conformational flexible, by
+   default, per site /theoretically susceptible/ to an EAS, the heat
+   of formation for 20 conformers of the intermediate are computed.
+   It is then the least endothermic charged conformer per site's
+   intermediate which eventually is used to rank the sites per input
+   molecule.
 
-#+ATTR_LATEX:  :width 6cm
-[[./doc_support/figure_4_050.png]]
+   As shown, on occasion, the experimentally observed sites of EAS
+   (black circle) do not coincide with sites RegioSQM predicts as
+   highly susceptible (green dot) or moderately susceptible (red dot)
+   to the EAS when comparing all sites of the currently scrutinized
+   substrate with each other.  Steric hindrance is one plausible cause
+   for such a discrepancy.  This however should be balanced with the
+   low computational cost of the method deployed (PM3/COSMO instead of
+   DFT) yielding fast access to the results within minutes.  The
+   authors claim a rate of success predicting the sites of the EAS
+   correctly of up to 92% or 96% (depending on the threshold applied).
 
-The authors emphasize the little computational cost to perform this
-quick prediction for a wide range of substitutents with a success rate
-of up to 92 or 96% (depending on the threshold considered).
-Contrasting to invest in a DFT analysis, this approach completes
-within minutes.
+   #+ATTR_LATEX:  :width 6cm
+   [[./doc_support/figure_4_050.png]]
 
-#+ATTR_LATEX:  :width 12cm
-[[./doc_support/figure_3_050.png]]
+   In permutation with 69 mono- and bicyclic (hetero)aromatic core
+   structures, a large range of substituents was tested.  The SI of
+   the publication compiles 535 substrates.
 
-* Installation
+   #+ATTR_LATEX:  :width 12cm
+   [[./doc_support/figure_3_050.png]]
 
-RegioSQM depends on MOPAC for quantum calculations and uses OpenBabel
-for format conversions.  RDKit and numpy perform complementary
-computations in the Python environment.  Information about their
-installation may be found at
+** Local set up
 
-+ MOPAC (http://openmopac.net/)
-+ obabel (https://github.com/openbabel/openbabel/releases)
-+ RDKit (http://www.rdkit.org/docs/Install.html)
-+ numpy
-  (https://numpy.org/doc/stable/user/install.html?highlight=installation),
-  which often already is included in scipy
-  (https://scipy.org/install.html)
+   RegioSQM is a set of Python scripts depending on
+   + OpenBabel (https://github.com/openbabel/openbabel/releases)
+   + RDKit (http://www.rdkit.org/docs/Install.html)
+   + numpy
+    (https://numpy.org/doc/stable/user/install.html?highlight=installation),
+    but often already included in scipy
+    (https://scipy.org/install.html)
+   + MOPAC (http://openmopac.net/) Note James Stuart updates the
+     program multiple times per year ([[http://openmopac.net/Maintenance.html][release table]]).
 
-Note that in its present form, the code is known to work with legacy
-Python 2.7.17 and thus relies on RDKit earlier to the [[http://www.rdkit.org/docs/GettingStartedInPython.html][2019.3 release]]
-as provided, for example, with Linux Xubuntu 18.04 LTS.  It still is
-incompatible with the current branch of Python 3.
+   The overall time of computation may be reduced if MOPAC's action is
+   distributed on multiple, concurrently working processors.  In
+   Linux, beside built-in =xargs=, especially the use of GNU Parallel
+   (https://www.gnu.org/software/parallel/) is recommended.
 
-* Usage
+   Since RegioSQM release 2.0.0-beta, the scripts are ported to
+   Python 3 only.  They were tested in a replication with Python
+   3.8.6rc1 (Sep 14, 2020), OpenBabel 3.1.0 (Jun 9, 2020), and RDKit
+   (2019.09.1) in Linux Debian 10 with computations relayed to
+   MOPAC2016 (20.173L 64bit, June 2020).
 
-Folder =example= contains in file =example.smiles= the SMILES strings
-of pyrazol (=n1ccc[nH]1=, =comp1=) and 1-(2-pyrimidinyl)-pyrazole
-(=c1cnn(c1)-c1ncccn1=, =comp2=).  The following demonstrates the
-batch-wise prediction, based on the entries in this file equally is
-placed in the directory =regiosqm=.
+   As legacy, [[https://github.com/nbehrnd/RegioSQM/releases/tag/1.1.1][release 1.1.1]] is the last set of scripts of RegioSQM
+   known to work both with Python 2.7.17, and 2.7.18 (Apr 20, 2020)
+   respectively, as provided e.g., by Linux Xubuntu 18.04 LTS.  Keep
+   in mind, however, this requires RDKit  [[http://www.rdkit.org/docs/GettingStartedInPython.html][/prior/ to release 2019.3]].
 
-If your molecule editor shouldn't be capable to export a structure as
-a SMILES string, consider the conversion of the structure exported
-into a different format by openbabel.  Services like the [[https://pubchem.ncbi.nlm.nih.gov/edit3/index.html][PubChem
-Sketcher]] equally allow the generation of this information.
+* Local use
+** Preparation
 
-** preparation of the computation
-   
-   By the call of
+   RegioSQM expects the input as a list of SMILES strings in the same
+   folder as its scripts.  If your molecule sketcher of choice does
+   not offer the export into this format, consider [[http://openbabel.org/wiki/Main_Page][OpenBabel]] for a
+   (batch) conversion of your structure files into this format, or
+   copy-paste the strings provided by a service like the [[https://pubchem.ncbi.nlm.nih.gov/edit3/index.html][PubChem
+   Sketcher]].
+
+   The call of
    #+BEGIN_SRC shell
      python ../regiosqm/regiosqm.py -g example.smiles > example.csv
    #+END_SRC
-   sites potentially susceptible for the EAS are identified.  RegioSQM
-   /generates/ for each input files for MOPAC (=example.mop=) and
-   stores an initial conformation in a structure-data file
-   (=example.sdf=).  These are summarized in file =example.csv=.
+   triggers the read-out of the structure data from =example.smiles=
+   /to generate/ MOPAC's input files (=.mop=) to probe each site of
+   the submitted substrates for an EAS.  For flexible substrates,
+   RegioSQM will extend MOPAC's scrutiny automatically to up to
+   20 confomers per site probed.  File =example.csv= assists later in
+   RegioSQM's bookkeeping.
 
+** MOPAC computation
 
-** performing the computation
-   
-   The authors recommend [[https://www.gnu.org/software/parallel/][GNU Parallel]] as an interface to submit all
-   computational jobs to MOPAC for a non-supervised execution by
+   It is recommended to parallelize MOPAC's work, often /the/ overall
+   rate determining step of the prediction, as much as possible. For
+   [[https://www.gnu.org/software/parallel/][GNU Parallel]] in Linux, an instruction in the pattern of
    #+BEGIN_SRC shell
-     ls *mop | parallel -j4 "/opt/mopac/MOPAC2016.exe {}"
+     ls *.mop | parallel -j4 "/opt/mopac/MOPAC2016.exe {}"
    #+END_SRC
-   The parameter =-j4= allows the simultaneous processing of up to
-   four =.mop= files.  Because MOPAC allocates one CPU to one =.mop=
-   file to work with, this integer must be less or equal the number of
-   CPU cores available.  If MOPAC was not installed in the recommended
-   default directory (see [[http://openmopac.net/Manual/trouble_shooting.html#default%20location][work-around]]), you should adjust the path
-   leading to MOPAC's executable accordingly.
+   allows up to four concurrent instances (=-j4=) on a computer with
+   four processors.  If MOPAC was not installed in the recommended
+   default directory (see [[http://www.openmopac.net/Manual/trouble_shooting.html#default%20location][workaround]]), adjust the pathway accordingly.
 
-   For each =example.mop=, the computation yields with =example.arc=
-   an archive, =example.out= a logging output, and =example.out.sdf=.
-   As in the case for imidazole, the later may be empty.
+** Analysis
 
-** analysis of the computation
-
-   RegioSQM is used again, but now by
+   By call of
    #+BEGIN_SRC shell
-     python2 regiosqm.py -a example.smiles example.csv > results.txt
+     python regiosqm.py -a example.smiles example.csv > results.txt
    #+END_SRC
-   to scrutiny MOPAC's results.  Given the starting structures in
-   =example.smiles= and the list of conformers in =example.csv= as the
-   two mandatory parameters, Gibbs' Free enthalpy of the formation of
-   the intermediate will be read out for each theoretically plausible
-   position for the EAS.  MOPAC's computations, are summarized and
-   redirected to =results.txt= as a table
+   RegioSQM starts to /analyze/ MOPAC's results.  Based on the list of
+   substrates (=example.smiles=) and list of regioisomers of the
+   putative intermediates (=example.csv=) as the two mandatory
+   parameters, the free energies of formation for all sites'
+   intermediate (and site's intermediates conformers, where
+   applicable) will be read and ranked to yield the summary file
+   =results.txt= as space separated table:
    #+BEGIN_SRC shell
      comp1 1 1,3
      comp2 2 2
    #+END_SRC
-   The first column, recalls the name of the parental structure
-   provided by =example.smiles=.  This column is followed by the
-   column about the position most likely susceptible to the EAS.  This
-   column may be populated by the label of additional positions if
-   their intermediate was found to differ 1 kcal/mol (or less)
-   different to this least endothermic pathway.  The third column
-   lists all positions with an intermediate less than 3 kcal/mol
-   different than the least endothermic pathway, including the most
-   favorable position, too.
+   After the name of the parental structure provided (=comp1=)
+   provided by =example.smiles=, the second column lists the position
+   most likely susceptible to the EAS.  Equally, any other site
+   leading to an intermediate less than 1 kcal/mol higher than the
+   global winning site, will be listed here.  The integer print here
+   is RDKit's attributed atom index.  The third column lists all sites
+   listed in the second column and adds those yielding a protonated
+   intermediate (conformer) less than 3 kcal/mol apart from the global
+   winning site in the currently scrutinized molecule.
 
-   In the background, RDKit is called to illustrate this summary with
-   one =.svg= per parental structure.  Sites within the 1 kcal/mol
-   threshold are marked in green, sites between the 1 kcal/mol and
-   3 kcal/mol threshold by a red dot.
+   In the background, RDKit illustrates MOPAC's results by writing for
+   each molecule SMILES string its corresponding =.svg= where the most
+   favorable sites for the EAS (entries of the second column) are
+   marked by green dot, and those /only/ mentioned in the third column
+   by a red dot.
 
-** validation of a local installation
+  #+LATEX: \vspace{0.5cm} 
+  Hint: Script [[https://github.com/nbehrnd/RegioSQM/blob/dev3/doc_support/batch_reqiosqm.py][=batch_regiosqm.py=]] (folder [[https://github.com/nbehrnd/RegioSQM/tree/dev3/doc_support][=doc_support=]]) automates
+  the serial scrutiny of SMILES list files (the preparation of MOPAC
+  input files, running MOPAC with four concurrent processors, analysis
+  of the results, collection and eventually zip-archiving input and
+  output files per SMILES list to be scrutinized).
 
-   The authors document the predictions by RegioSQM visually in the
-   supplementary information of the publication, where 535 structures
-   are binned in 69 EAS groups (e.g., pyridines, thiophenes,
-   indazoles).  The corresponding SMILES strings are available to the
-   [[https://github.com/jensengroup/RegioSQM][public]] and as a verbatim copy =compound_smiles.csv= in folder
-   =example= of this project and may be used to check if the local
-   installation of the scripts works fine.
+* validation of a local installation
 
-   As an example, for each of the first 36 EAS groups a representative
-   was selected to populate file =mokka_smiles_list.csv=.  To reduce
-   the computational load, molecules with less conformational
-   flexibility was given preference.  The list of conformers
-   (=mokka_conformers.csv=) generated in preparation of the prediction
-   contains 150 entries.  After MOPAC's work, the positions indicated
-   in RDKit's visualizations of the results were in 1:1 agreement with
-   the illustrations provided in the SI of the publication.  The
-   summary of the analysis is provided with =mokka_results.txt=; in
-   future, this reference file may be used to monitor if modifications
-   of the scripts affected the results of the analysis, or not.
+** Quick check
+
+   Sub-folder =quick= contains a input, intermediate and output for a
+   set of 36 substrates from different EAS classes to check a local
+   installation quickly.  Preference was given to molecules with a
+   conformational rigid core to prevent RegioSQM investing much time
+   scrutinizing many conformers of charged intermediates.
+
+** Extensive check
+
+   Further development of MOPAC and RegioSQM may affect the sites in a
+   molecule predicted to be more likely susceptible to the EAS, than
+   others.  To identify changes since submission of the seminal
+   publication in 2017, the scrutiny of substrates tested was
+   replicated.  Tools used and intermediate results obtained (e.g.,
+   SMILES strings / illustrated atom indices per EAS class) as obtained
+   with release 2.0.0-beta are provided in folder =replication=.
+   Especially the results in sub-folder =predicted_sites= allow now a
+   quick comparison of a current and of future local installations of
+   RegioSQM a rapid diffview of texts.
+
+   In comparison of the results depicted in the SI of the seminal
+   paper, only 47 out of 535 pattern (8.8%) reexamined changed since
+   them.  Among these, changes for the definitively better (22 pattern,
+   about 4.1%) or definitively worse (22) are scattered over multiple
+   EAS classes.  For 2 pattern (about 0.4%), no attribution for the
+   better or worse was made.
+
+
+* Footnotes
+
+[fn:COSMO] The implementation of COSMO, the «COnductor-like Screening
+MOdel» in MOPAC is described in its [[http://openmopac.net/manual/cosmo.html][manual]].  By default, computations
+by RegioSQM are performed with MOPAC's implicit effective van der
+Waals radius of the solvent of 1.3 \AA and an explicitly defined
+dielectric constant of 4.8 (chloroform, script =molecule_formats.py=).

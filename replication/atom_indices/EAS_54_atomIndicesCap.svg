@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg baseProfile="full" version="1.1" viewBox="0 0 800 200" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
+
+ <!-- END OF HEADER -->
+<rect width="800" height="200" fill="#fff"> </rect>
+<path class="bond-0" d="m9.0909 90.274 27.956 25.93" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-0" d="m20.154 86.757 19.569 18.151" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-1" d="m9.0909 90.274 4.6553-20.413" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-1" d="m13.746 69.861 4.6552-20.413" fill="none" stroke="#00f" stroke-width="2px"/>
+<path class="bond-2" d="m36.046 36.176 8.4064-2.5948" fill="none" stroke="#00f" stroke-width="2px"/>
+<path class="bond-2" d="m44.452 33.582 8.4065-2.5947" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-2" d="m41.547 45.05 5.8845-1.8163" fill="none" stroke="#00f" stroke-width="2px"/>
+<path class="bond-2" d="m47.432 43.234 5.8845-1.8163" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-3" d="m77.659 34.551 18.88 17.512" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-4" d="m121.34 55.628 11.194-3.4552" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-5" d="m103.7 68.899-7.3904 32.409" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-5" d="m92.738 71.514-5.1736 22.686" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-6" d="m78.66 114.58-16.813 5.19" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-7" d="m103.46 118.14 18.88 17.512" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-8" d="m44.203 133.04-3.5994 15.784" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-8" d="m40.604 148.82-3.5994 15.783" fill="none" stroke="#00f" stroke-width="2px"/>
+<path class="bond-9" d="m147.14 139.22 16.813-5.189" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-9" d="m146.68 128.79 11.769-3.632" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-10" d="m181.6 120.76 7.39-32.408" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-11" d="m181.83 71.514-18.88-17.512" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-11" d="m172.13 76.294-13.216-12.258" fill="none" stroke="#000" stroke-width="2px"/>
+<text x="4.59656" y="49.4479" fill="#0000FF" font-family="sans-serif" font-size="16px"><tspan>N:1</tspan></text>
+<text x="52.8587" y="34.5514" fill="#000000" font-family="sans-serif" font-size="16px"><tspan>C:2</tspan></text>
+<text x="89.8905" y="68.8994" fill="#000000" font-family="sans-serif" font-size="16px"><tspan>C:3</tspan></text>
+<text x="78.6602" y="118.144" fill="#000000" font-family="sans-serif" font-size="16px"><tspan>C:4</tspan></text>
+<text x="30.3981" y="133.04" fill="#000000" font-family="sans-serif" font-size="16px"><tspan>C:5</tspan></text>
+<text x="9.06203" y="183.127" fill="#0000FF" font-family="sans-serif" font-size="16px"><tspan>NH</tspan><tspan baseline-shift="sub" font-size="12px">2</tspan><tspan>:6</tspan></text>
+<text x="115.692" y="152.492" fill="#000000" font-family="sans-serif" font-size="16px"><tspan>C:7</tspan></text>
+<text x="163.954" y="137.595" fill="#000000" font-family="sans-serif" font-size="16px"><tspan>C:8</tspan></text>
+<text x="175.184" y="88.3508" fill="#000000" font-family="sans-serif" font-size="16px"><tspan>C:9</tspan></text>
+<text x="132.534" y="54.0028" fill="#000000" font-family="sans-serif" font-size="16px"><tspan>C:10</tspan></text>
+<text x="70.3745" y="194" fill="#000000" font-family="sans-serif" font-size="12px"><tspan>comp266</tspan></text>
+</svg>

@@ -1,0 +1,17 @@
+comp334 c1cnc2c(c1Cl)c(c[nH]2)N(=O)=O
+comp335 c1cnc2c(c1)cc[nH]2
+comp336 c1(cnc2c(c1)ccn2S(=O)(=O)c1ccc(cc1)C)F
+comp337 c1(cnc2c(c1Cl)ccn2C)N(=O)=O
+comp338 c1(cnc2c(c1OC)ccn2C)N(=O)=O
+comp339 c1(cnc2c(c1)cc[nH]2)N1CC(C1)NC(=O)OC(C)(C)C
+comp340 c1(cnc2c(c1)cc[nH]2)C#Cc1cc(ncc1)OC
+comp341 c1(cnc2c(c1)cc[nH]2)CNC(=O)c1cn(nc1C(F)(F)F)Cc1cnc(nc1)N1CCCC1
+comp342 c1cnc2c(c1)cc([nH]2)C(CC1CCCC1)c1ccc(c(c1)Cl)S(=O)C
+comp343 c1cnc2c(c1c1nc(=O)c3c([nH]1)cncc3C1CC1)cc[nH]2
+comp344 c1cnc2c(c1[N-][N+]#N)ccn2/C=C/n1ccc2c1nccc2[N-][N+]#N
+comp345 c1cnc2c(c1Br)ccn2COCC[Si](C)(C)C
+comp346 c1cnc2c(c1)cc([nH]2)c1c(cc(cc1)OC)N
+comp347 c1c(nc2c(c1)ccn2[Si](C(C)C)(C(C)C)C(C)C)S(=O)(=O)Cl
+comp348 c1(cnc2c(c1Cl)ccn2COCC[Si](C)(C)C)C(C)O
+comp349 c1cnc2c(c1C#N)ccn2COC
+comp351 c1(cnc2c(c1)cc[nH]2)c1c(cn(n1)C1COCC1)c1ccnc(n1)NC[C@H](C)O

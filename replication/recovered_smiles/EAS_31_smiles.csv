@@ -1,0 +1,16 @@
+comp300 c1cc(ccc1)COc1c(cnc2c1[nH]cc2)C1CC1
+comp301 c1(ccc2c(n1)cc[nH]2)C(=O)C
+comp302 c1c(nc2c(c1C#N)[nH]c(c2)c1ccnc(c1)NC(=O)C)Br
+comp303 c1(cnc2c(c1)[nH]c(c2)c1ccnc(c1)NC(=O)C)C#N
+comp304 c1c(cc2c(n1)cc(n2c1ccc(cc1)C#N)C)C(F)F
+comp305 c1cc(c2c(n1)cc[nH]2)C
+comp306 c1(ccc2c(n1)cc[nH]2)/N=C/N(C)C
+comp307 c1(ccc2c(n1)cc[nH]2)C
+comp308 c1c(cc2c(n1)ccn2CC1CCC(CC1)(F)F)Br
+comp309 c1c(cc2c(n1)ccn2CC1(CCC(CC1)(F)F)F)c1n(nnc1C)C
+comp310 c1(ccc2c(n1)cc[nH]2)c1c(cccc1)F
+comp311 c1cc(c2c(n1)ccn2CCOC)OC
+comp312 c1ccc2c(n1)cc[nH]2
+comp313 c1(cc(c2c(n1)cc([nH]2)C)NCc1c(cccc1C)C)C(=O)N(C)C
+comp314 c1ccc2c(n1)ccn2c1ccc(cc1)OC
+comp315 c1c(cc2c(n1)cc[nH]2)Cl

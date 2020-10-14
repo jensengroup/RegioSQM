@@ -1,5 +1,5 @@
 # name:  validate.py
-# edit:  2020-07-12 (YYYY-MM-DD)
+# edit:  2020-07-13 (YYYY-MM-DD)
 #
 """Check if the SMILES string given represents an aromatic system."""
 

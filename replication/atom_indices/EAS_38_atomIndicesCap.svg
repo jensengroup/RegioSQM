@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg baseProfile="full" version="1.1" viewBox="0 0 800 200" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
+
+ <!-- END OF HEADER -->
+<rect width="800" height="200" fill="#fff"> </rect>
+<path class="bond-0" d="m106.52 66.805 5.774 35.313" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-0" d="m98.883 73.492 4.0428 24.719" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-1" d="m106.52 66.805-26.867-10.159" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-2" d="m57.475 58.754-7.8902 6.4552" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-2" d="m49.584 65.209-7.8903 6.4552" fill="none" stroke="#00f" stroke-width="2px"/>
+<path class="bond-2" d="m60.56 67.355-5.5231 4.5186" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-2" d="m55.037 71.873-5.5232 4.5187" fill="none" stroke="#00f" stroke-width="2px"/>
+<path class="bond-3" d="m65.072 44.403-2.3006-14.068" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-3" d="m62.771 30.335-2.3007-14.068" fill="none" stroke="#0c0" stroke-width="2px"/>
+<path class="bond-4" d="m34.097 86.015 2.3006 14.069" fill="none" stroke="#00f" stroke-width="2px"/>
+<path class="bond-4" d="m36.398 100.08 2.3007 14.068" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-5" d="m34.121 128.5-7.7116 9.621" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-5" d="m26.409 138.12-7.7115 9.621" fill="none" stroke="#00f" stroke-width="2px"/>
+<path class="bond-6" d="m53.275 126.4 13.463 5.091" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-6" d="m58.34 119.1 9.4242 3.564" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-7" d="m88.912 129.38 15.78-12.911" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-8" d="m79.801 143.73-1.3575 28.654" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-9" d="m126.87 114.36 13.463 5.091" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-10" d="m162.5 117.34 7.89-6.455" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-10" d="m170.39 110.89 7.89-6.455" fill="none" stroke="#3cc" stroke-width="2px"/>
+<path class="bond-11" d="m154.91 131.7 2.3 14.068" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-11" d="m157.21 145.76 2.301 14.069" fill="none" stroke="#3cc" stroke-width="2px"/>
+<path class="bond-12" d="m64.701 183.22-4.9665 1.358" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-12" d="m59.734 184.58-4.9665 1.357" fill="none" stroke="#00f" stroke-width="2px"/>
+<path class="bond-12" d="m60.94 175.32-3.4765 0.95" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-12" d="m57.464 176.27-3.4766 0.95" fill="none" stroke="#00f" stroke-width="2px"/>
+<path class="bond-13" d="m31.864 183.73-14.206-21.638" fill="none" stroke="#00f" stroke-width="2px"/>
+<text x="52.8419" y="58.754" fill="#000000" font-family="sans-serif" font-size="14px"><tspan>C:1</tspan></text>
+<text x="19.5205" y="86.0151" fill="#0000FF" font-family="sans-serif" font-size="14px"><tspan>N:2</tspan></text>
+<text x="26.4686" y="128.503" fill="#000000" font-family="sans-serif" font-size="14px"><tspan>C:3</tspan></text>
+<text x="66.7381" y="143.729" fill="#000000" font-family="sans-serif" font-size="14px"><tspan>C:4</tspan></text>
+<text x="100.059" y="116.468" fill="#000000" font-family="sans-serif" font-size="14px"><tspan>C:5</tspan></text>
+<text x="140.329" y="131.695" fill="#000000" font-family="sans-serif" font-size="14px"><tspan>C:6</tspan></text>
+<text x="174.606" y="104.434" fill="#33CCCC" font-family="sans-serif" font-size="14px"><tspan>F:7</tspan></text>
+<text x="148.233" y="174.183" fill="#33CCCC" font-family="sans-serif" font-size="14px"><tspan>F:8</tspan></text>
+<text x="64.7007" y="186.733" fill="#000000" font-family="sans-serif" font-size="14px"><tspan>C:9</tspan></text>
+<text x="18.3828" y="198.084" fill="#0000FF" font-family="sans-serif" font-size="14px"><tspan>N:10</tspan></text>
+<text x="-11.4652" y="162.096" fill="#0000FF" font-family="sans-serif" font-size="14px"><tspan>NH:11</tspan></text>
+<text x="39.1922" y="16.2663" fill="#00CC00" font-family="sans-serif" font-size="14px"><tspan>Cl:12</tspan></text>
+<text x="70.3745" y="194" fill="#000000" font-family="sans-serif" font-size="12px"><tspan>comp394</tspan></text>
+</svg>

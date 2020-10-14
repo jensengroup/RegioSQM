@@ -1,7 +1,11 @@
 # name:  molecule_svg.py
-# edit:  2020-07-12 (YYYY-MM-DD)
+# edit:  2020-10-14 (YYYY-MM-DD)
 #
-"""Define RDKit's parameters to generate .svg files after MOPAC's work."""
+"""Prepare RDKit to generate .svg files after MOPAC's work.
+
+    The script was adjusted for compatibility with Python 3 (3.8.4rc1)
+    backed by RDKit (release 2019.9) in mind.  Do not use with now
+    legacy Python 2.7.17 (to work with RDKit prior release 2019.3).""" 
 
 # rdkit
 from rdkit import Chem
@@ -18,6 +22,7 @@ def create_svg(rdkitmol, highlights=None):
     svg = img
     # svg = img.data
     svg = svg.replace("xmlns:svg", "xmlns")
+    svg = svg[:-7]  # prevent the occurrence of an early closing svg tag.
     return svg
 
 
@@ -81,7 +86,7 @@ def change_color(ellipse, color, find="#FF7F7F"):
 
 
 def merge_svg(svg, highlights):
-    """Accomodate ellipses (highlights) in the .svg file, if required."""
+    """Accommodate ellipses (highlights) in the .svg file, if required."""
     svg = svg.split("\n")
 
     index = 1
@@ -91,14 +96,16 @@ def merge_svg(svg, highlights):
             break
 
     index += 1
-    svg = svg[0:index] + highlights + svg[index:]
+#    svg = svg[0:index] + highlights + svg[index:]
+    # better consecution, but ending </svg> too early:
+    svg = svg[0:index] + svg[index:] + highlights
     svg = "\n".join(svg)
-
+    svg += "\n</svg>"  # manually add the truly ending svg tag.
     return svg
 
 
 def generate_structure(smiles, predicted, highlight_measure=None):
-    """Join molecular structure and polychromatic ellipses in one .svg file."""
+    """Join molecular structure and color dots in one .svg file."""
     highlight_predicted, highlight_loseicted = predicted
 
     m = Chem.MolFromSmiles(smiles)

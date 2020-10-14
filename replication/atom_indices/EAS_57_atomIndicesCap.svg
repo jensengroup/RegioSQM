@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg baseProfile="full" version="1.1" viewBox="0 0 800 200" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
+
+ <!-- END OF HEADER -->
+<rect width="800" height="200" fill="#fff"> </rect>
+<path class="bond-0" d="m147.89 152.02-20.864 0.646" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-0" d="m144.58 146.05-14.605 0.453" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-1" d="m147.89 152.02 5.813-10.83" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-1" d="m153.71 141.19 5.813-10.829" fill="none" stroke="#00f" stroke-width="2px"/>
+<path class="bond-2" d="m159.1 120.25-4.852-7.834" fill="none" stroke="#00f" stroke-width="2px"/>
+<path class="bond-2" d="m154.25 112.42-4.853-7.834" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-2" d="m152.49 121.09-3.396-5.483" fill="none" stroke="#00f" stroke-width="2px"/>
+<path class="bond-2" d="m149.1 115.61-3.397-5.484" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-3" d="m136.83 99.823-11.426 0.3539" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-4" d="m148.98 94.478 8.914-16.607" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-5" d="m112.84 95.416-9.705-15.668" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-6" d="m113.25 105.52-8.914 16.607" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-6" d="m117.26 110.88-6.239 11.625" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-7" d="m104.76 132.24 9.705 15.668" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-8" d="m92.187 127.47-5.7129 0.177" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-8" d="m86.474 127.65-5.7129 0.177" fill="none" stroke="#00f" stroke-width="2px"/>
+<path class="bond-9" d="m68.193 123.07-4.8524-7.834" fill="none" stroke="#00f" stroke-width="2px"/>
+<path class="bond-9" d="m63.34 115.23-4.8524-7.834" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-9" d="m71.892 117.52-3.3966-5.483" fill="none" stroke="#00f" stroke-width="2px"/>
+<path class="bond-9" d="m68.495 112.04-3.3967-5.484" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-10" d="m58.071 97.294 4.457-8.3034" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-10" d="m62.528 88.99 4.4571-8.3033" fill="none" stroke="#00f" stroke-width="2px"/>
+<path class="bond-11" d="m45.92 102.64-4.1934 0.13" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-11" d="m41.726 102.77-4.1934 0.13" fill="none" stroke="#cc0" stroke-width="2px"/>
+<path class="bond-12" d="m79.136 75.342 5.7129-0.1769" fill="none" stroke="#00f" stroke-width="2px"/>
+<path class="bond-12" d="m84.848 75.165 5.7129-0.177" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-12" d="m81.037 81.349 3.999-0.1239" fill="none" stroke="#00f" stroke-width="2px"/>
+<path class="bond-12" d="m85.036 81.225 3.999-0.1239" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-13" d="m21.926 98.232-4.8524-7.834" fill="none" stroke="#cc0" stroke-width="2px"/>
+<path class="bond-13" d="m17.073 90.398-4.8524-7.834" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-14" d="m173.42 72.421 2.677-0.0829" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-14" d="m176.09 72.338 2.677-0.0829" fill="none" stroke="#3cc" stroke-width="2px"/>
+<path class="bond-15" d="m157.48 67.765-4.852-7.834" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-15" d="m152.62 59.931-4.853-7.8341" fill="none" stroke="#3cc" stroke-width="2px"/>
+<text x="152.793" y="130.358" fill="#0000FF" font-family="sans-serif" font-size="10px"><tspan>N:1</tspan></text>
+<text x="136.829" y="104.584" fill="#000000" font-family="sans-serif" font-size="10px"><tspan>C:2</tspan></text>
+<text x="106.526" y="105.522" fill="#000000" font-family="sans-serif" font-size="10px"><tspan>C:3</tspan></text>
+<text x="92.1871" y="132.235" fill="#000000" font-family="sans-serif" font-size="10px"><tspan>C:4</tspan></text>
+<text x="108.151" y="158.009" fill="#000000" font-family="sans-serif" font-size="10px"><tspan>C:5</tspan></text>
+<text x="61.8841" y="133.173" fill="#0000FF" font-family="sans-serif" font-size="10px"><tspan>N:6</tspan></text>
+<text x="45.9197" y="107.399" fill="#000000" font-family="sans-serif" font-size="10px"><tspan>C:7</tspan></text>
+<text x="60.2584" y="80.6869" fill="#0000FF" font-family="sans-serif" font-size="10px"><tspan>N:8</tspan></text>
+<text x="90.5614" y="79.7483" fill="#000000" font-family="sans-serif" font-size="10px"><tspan>C:9</tspan></text>
+<text x="12.5776" y="108.338" fill="#CCCC00" font-family="sans-serif" font-size="10px"><tspan>S:10</tspan></text>
+<text x="-3.72035" y="82.5641" fill="#000000" font-family="sans-serif" font-size="10px"><tspan>C:11</tspan></text>
+<text x="147.795" y="77.8711" fill="#000000" font-family="sans-serif" font-size="10px"><tspan>C:12</tspan></text>
+<text x="178.771" y="76.9325" fill="#33CCCC" font-family="sans-serif" font-size="10px"><tspan>F:13</tspan></text>
+<text x="132.504" y="52.0972" fill="#33CCCC" font-family="sans-serif" font-size="10px"><tspan>F:14</tspan></text>
+<text x="70.3745" y="194" fill="#000000" font-family="sans-serif" font-size="12px"><tspan>comp396</tspan></text>
+</svg>

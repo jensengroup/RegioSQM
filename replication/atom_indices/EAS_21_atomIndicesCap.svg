@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg baseProfile="full" version="1.1" viewBox="0 0 800 200" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
+
+ <!-- END OF HEADER -->
+<rect width="800" height="200" fill="#fff"> </rect>
+<path class="bond-0" d="m190.91 100-13.785-18.974" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-0" d="m177.12 81.026-13.786-18.974" fill="none" stroke="#cc0" stroke-width="2px"/>
+<path class="bond-1" d="m190.91 100-27.571 37.948" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-1" d="m177.22 98.747-19.3 26.564" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-2" d="m137.79 141.82-19.401-6.304" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-3" d="m81.608 135.51-9.3696 3.044" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-3" d="m72.238 138.56-9.3696 3.045" fill="none" stroke="#f00" stroke-width="2px"/>
+<path class="bond-4" d="m100 119.69v-39.384" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-4" d="m111.82 113.78v-27.568" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-5" d="m118.39 64.486 10.026-3.2576" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-5" d="m128.42 61.228 10.025-3.2575" fill="none" stroke="#cc0" stroke-width="2px"/>
+<path class="bond-6" d="m81.608 64.486-19.401-6.3038" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-7" d="m36.662 62.052-20.417 28.102" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-7" d="m43.158 73.212-14.292 19.671" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-8" d="m16.244 109.85 10.208 14.051" fill="none" stroke="#000" stroke-width="2px"/>
+<path class="bond-8" d="m26.453 123.9 10.208 14.051" fill="none" stroke="#f00" stroke-width="2px"/>
+<text x="137.793" y="157.64" fill="#000000" font-family="sans-serif" font-size="19px"><tspan>C:1</tspan></text>
+<text x="81.6081" y="139.384" fill="#000000" font-family="sans-serif" font-size="19px"><tspan>C:2</tspan></text>
+<text x="81.6081" y="80.3079" fill="#000000" font-family="sans-serif" font-size="19px"><tspan>C:3</tspan></text>
+<text x="138.443" y="62.0523" fill="#CCCC00" font-family="sans-serif" font-size="19px"><tspan>S:4</tspan></text>
+<text x="25.4232" y="62.0523" fill="#000000" font-family="sans-serif" font-size="19px"><tspan>C:5</tspan></text>
+<text x="-9.30099" y="109.846" fill="#000000" font-family="sans-serif" font-size="19px"><tspan>C:6</tspan></text>
+<text x="24.7613" y="157.64" fill="#FF0000" font-family="sans-serif" font-size="19px"><tspan>O:7</tspan></text>
+<text x="70.3745" y="194" fill="#000000" font-family="sans-serif" font-size="12px"><tspan>comp471</tspan></text>
+</svg>
