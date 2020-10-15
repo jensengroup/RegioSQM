@@ -2,7 +2,7 @@
 # author:  nbehrnd@yahoo.com
 # license: 2020, MIT
 # date:    2020-09-24 (YYYY-MM-DD)
-# edit:    2020-10-14 (YYYY-MM-DD)
+# edit:    2020-10-15 (YYYY-MM-DD)
 #
 """Perform multiple unsupervised batches of scrutinies by regiosqm.
 
@@ -34,9 +34,16 @@ additional moderator script.  This moderator is going to
 
 By this, multiple scrutinies may be performed unsupervised in the
 background, e.g. over night."""
-
+import datetime
 import os
 import subprocess as sub
+from platform import python_version
+
+import openbabel
+import numpy
+import rdkit
+
+import regiosqm
 
 register = []
 
@@ -71,14 +78,48 @@ for entry in register:
             input_file, conf_file, resultat))
         sub.call(command_3, shell=True)
 
+        # describe the scrutiny:
+        for file in os.listdir("."):
+            if file.endswith(".out"):
+                reference_file = str(file)
+                break
+
+        with open(reference_file, mode="r") as source:
+            content = source.readlines()
+            mopac_version_line = content[3]
+
+            mopac_version_info = str(mopac_version_line).split("as: ")[1]
+            mopac_main_version = mopac_version_info.split(", ")[0]
+
+            mopac_release = mopac_version_info.split(", ")[1]
+            mopac_release = mopac_release.split("Version: ")[1]
+
+            with open("parameters.csv", mode="w") as newfile:
+                newfile.write("Parameters of the scrutiny:\n\n")
+
+                today = datetime.date.today()
+                newfile.write("date:      {}\n".format(today))
+
+                newfile.write("Python:    {}\n".format(python_version()))
+                newfile.write("RegioSQM:  {}\n".format(regiosqm.__version__))
+
+                newfile.write("OpenBabel: {}\n".format(openbabel.__version__))
+                newfile.write("RDKit:     {}\n".format(rdkit.__version__))
+                newfile.write("numpy:     {}\n".format(numpy.__version__))
+
+                newfile.write("{}: {}\n".format(mopac_main_version,
+                                                mopac_release))
+
+                newfile.write("\nEND")
+
         # space cleaning, put the relevant data into a common folder:
         print("space cleaning / compression for EAS group: {}".format(entry))
         new_folder = str(entry).split("_smiles.csv")[0]
         os.mkdir(new_folder)
 
         command_4 = str(
-            "mv *.arc *.den *.end *.mop *.out *.res *.sdf *.svg {}".format(
-                new_folder))
+            "mv *.arc *.den *.end *.mop *.out *.res *.sdf *.svg parameters.csv {}"
+            .format(new_folder))
         sub.call(command_4, shell=True)
 
         command_5 = str("mv {} {} {} {}".format(input_file, conf_file,
