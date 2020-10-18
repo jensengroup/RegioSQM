@@ -1,4 +1,4 @@
-# last edit:  2020-10-14 (YYYY-MM-DD)
+# last edit:  2020-10-18 (YYYY-MM-DD)
 #+OPTIONS: toc:nil
 
 #+LATEX_CLASS:  koma-article
@@ -103,22 +103,57 @@
     (https://scipy.org/install.html)
    + MOPAC (http://openmopac.net/) Note James Stuart updates the
      program multiple times per year ([[http://openmopac.net/Maintenance.html][release table]]).
+   Because MOPAC's computations typically are /the/ overall
+   rate-determining step in the course of the predictions, it is
+   recommended to run multiple concurrently working instances of
+   MOPAC.  For running RegioSQM in Linux, GNU Parallel
+   (https://www.gnu.org/software/parallel/) was identified as a
+   suitable tool one optional script of RegioSQM depends on, in
+   addition.
 
-   The overall time of computation may be reduced if MOPAC's action is
-   distributed on multiple, concurrently working processors.  In
-   Linux, beside built-in =xargs=, especially the use of GNU Parallel
-   (https://www.gnu.org/software/parallel/) is recommended.
-
+   As an example, Linux Debian 10, branch unstable, resolves the
+   dependencies successfully by the instruction of
+   #+begin_src shell
+     sudo apt-get install python3-openbabel rdkit python3-numpy parallel
+   #+end_src
+   
+   Alternatively, RDKit may be used in an instance of Anaconda
+   (https://www.anaconda.com/) which may be installed and used
+   side-by-side to other, already existing installations of Python.
+   If just venturing out RegioSQM, the smaller installation of
+   Miniconda (https://docs.conda.io/en/latest/miniconda.html) suffices
+   which -- like the larger Anaconda -- has to be complemented by
+   RDKit and OpenBabel by the instruction of
+   #+begin_src shell
+     conda install -c conda-forge rdkit openbabel
+   #+end_src
+   The standard installation of Miniconda3 (Python 3.8, Linux 64-bit)
+   for example creates =/home/USER/miniconda3= hosting the new
+   environment (339 MB prior, 1.1 GB after the additional installation
+   of OpenBabel, RDKit and automatically resolved secondary
+   dependencies like numpy).  If choosing this option, the optional
+   paralleliziation requires separate installation of GNU Parallel.
+   To switch-off conda's automatic base activation seen in the
+   terminal, issue the command
+   #+begin_src shell
+     conda config --set auto_activate_base false
+   #+end_src
+   after which you still may issue on the terminal the instructions
+   #+begin_src shell
+     conda activate   # start working in the conda profile
+     conda deactivate  # end working in the conda profile
+   #+end_src
+   
    Since RegioSQM release 2.0.0-beta, the scripts are ported to
-   Python 3 only.  They were tested in a replication with Python
-   3.8.6rc1 (Sep 14, 2020), OpenBabel 3.1.0 (Jun 9, 2020), and RDKit
-   (2019.09.1) in Linux Debian 10 with computations relayed to
-   MOPAC2016 (20.173L 64bit, June 2020).
+   Python 3 only.  They were tested in a replication with
+   Python 3.8.6rc1 (Sep 14, 2020), OpenBabel 3.1.0 (Jun 9, 2020), and
+   RDKit (2019.09.1) in Linux Debian 10 with computations relayed to
+   MOPAC2016 (20.173L 64bit, June 2020).
 
    As legacy, [[https://github.com/nbehrnd/RegioSQM/releases/tag/1.1.1][release 1.1.1]] is the last set of scripts of RegioSQM
-   known to work both with Python 2.7.17, and 2.7.18 (Apr 20, 2020)
-   respectively, as provided e.g., by Linux Xubuntu 18.04 LTS.  Keep
-   in mind, however, this requires RDKit  [[http://www.rdkit.org/docs/GettingStartedInPython.html][/prior/ to release 2019.3]].
+   known to work both with Python 2.7.17, and 2.7.18 (Apr 20, 2020)
+   respectively.  Keep in mind, however, this requires RDKit [[http://www.rdkit.org/docs/GettingStartedInPython.html][/prior/
+   to release 2019.3]].
 
 * Local use
 ** Preparation
@@ -187,11 +222,18 @@
    by a red dot.
 
   #+LATEX: \vspace{0.5cm} 
-  Hint: Script [[https://github.com/nbehrnd/RegioSQM/blob/dev3/doc_support/batch_reqiosqm.py][=batch_regiosqm.py=]] (folder [[https://github.com/nbehrnd/RegioSQM/tree/dev3/doc_support][=doc_support=]]) automates
-  the serial scrutiny of SMILES list files (the preparation of MOPAC
-  input files, running MOPAC with four concurrent processors, analysis
-  of the results, collection and eventually zip-archiving input and
-  output files per SMILES list to be scrutinized).
+  Hint: The optional script =batch_regiosqm.py= automates the serial
+  scrutiny of SMILES list files (the preparation of MOPAC input files,
+  the parallel work of MOPAC with four CPUs, analysis of the results,
+  collection and eventually zip-archiving input and output files per
+  SMILES list to be scrutinized).  Assuming the optional installation
+  of GNU Parallel and four CPU, it suffices to drop such list of
+  SMILES formatted like file =quick_smiles.csv= from sub-folder
+  =quick= into the same folder as all RegioSQM scripts and to issue
+  the instruction
+  #+begin_src shell
+    python3 batch_regiosqm.py
+  #+end_src
 
 * validation of a local installation
 
