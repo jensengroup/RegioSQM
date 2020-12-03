@@ -1,5 +1,5 @@
 # name:     regiosqm.py
-# edit:     2020-10-18 (YYYY-MM-DD)
+# edit:     2020-12-03 (YYYY-MM-DD)
 #
 """Define interaction and data I/O with the other scripts."""
 
@@ -9,7 +9,7 @@ import protonate as prot
 import molecule_formats as molfmt
 import molecule_svg as molsvg
 
-__version__ = "2.0.2"
+__version__ = "2.0.3"
 
 
 def analyse_results(smiles_filename, conf_filename, test_exam=False):
@@ -171,14 +171,18 @@ def analyse_results(smiles_filename, conf_filename, test_exam=False):
         for element2 in drug_atoms2:
             highlight_loseicted.append(int(element2))
 
+        global recorder
         recorder = str(
             molsvg.generate_structure(
                 smiles, [highlight_predicted, highlight_loseicted],
                 highlight_measure=highlight_measure))
 
+        # rearrange the content of the .svg string
+        recorder_b = molsvg.svg_corrector(recorder)
+
         output_map = '.'.join([str(name), str("svg")])
         with open(output_map, mode="w") as newfile:
-            newfile.write(recorder)
+            newfile.write(recorder_b)
 
     return
 
