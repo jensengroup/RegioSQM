@@ -1,11 +1,12 @@
 # name:  molecule_svg.py
-# edit:  2020-10-14 (YYYY-MM-DD)
+# edit:  2020-12-03 (YYYY-MM-DD)
 #
 """Prepare RDKit to generate .svg files after MOPAC's work.
 
     The script was adjusted for compatibility with Python 3 (3.8.4rc1)
-    backed by RDKit (release 2019.9) in mind.  Do not use with now
-    legacy Python 2.7.17 (to work with RDKit prior release 2019.3).""" 
+    backed by RDKit (release 2019.9) in mind.  Do not use it with now
+    legacy Python 2.7.17 (which would require RDKit prior release
+    2019.3)."""
 
 # rdkit
 from rdkit import Chem
@@ -22,12 +23,12 @@ def create_svg(rdkitmol, highlights=None):
     svg = img
     # svg = img.data
     svg = svg.replace("xmlns:svg", "xmlns")
-    svg = svg[:-7]  # prevent the occurrence of an early closing svg tag.
+    svg = svg[:-7]  # prevent an early closing svg tag.
     return svg
 
 
 def get_highlights(svg, measured=False):
-    """Return a list of all ellipses the current .svg file contains."""
+    """List all ellipses the current .svg file contains."""
     svg = svg.split("\n")
     highlights = []
 
@@ -45,7 +46,7 @@ def get_highlights(svg, measured=False):
 
 
 def pretty_svg(svg):
-    """Join the molecular representation and ellipses into one .svg file."""
+    """Join elements of the molecular formula."""
     svg = svg.split("\n")
 
     for i, line in enumerate(svg):
@@ -86,7 +87,7 @@ def change_color(ellipse, color, find="#FF7F7F"):
 
 
 def merge_svg(svg, highlights):
-    """Accommodate ellipses (highlights) in the .svg file, if required."""
+    """Accommodate ellipses (highlights) in the .svg string."""
     svg = svg.split("\n")
 
     index = 1
@@ -96,16 +97,16 @@ def merge_svg(svg, highlights):
             break
 
     index += 1
-#    svg = svg[0:index] + highlights + svg[index:]
+    # svg = svg[0:index] + highlights + svg[index:]
     # better consecution, but ending </svg> too early:
     svg = svg[0:index] + svg[index:] + highlights
     svg = "\n".join(svg)
-    svg += "\n</svg>"  # manually add the truly ending svg tag.
+    #   svg += "</svg>"  # manually close the .svg string
     return svg
 
 
 def generate_structure(smiles, predicted, highlight_measure=None):
-    """Join molecular structure and color dots in one .svg file."""
+    """Join molecular formula and predictions in one .svg string."""
     highlight_predicted, highlight_loseicted = predicted
 
     m = Chem.MolFromSmiles(smiles)
@@ -150,6 +151,43 @@ def generate_structure(smiles, predicted, highlight_measure=None):
     svg = pretty_svg(svg)
 
     return svg
+
+
+def svg_corrector(recorder):
+    """adjust the consecution of entries in the .svg
+
+    The altered functions create_svg and merge_svg of this file yield
+    a .svg where ellipses partially hide the structure formula plot.
+    A move of the ellipses' definition within the .svg string ahead of
+    those about the strokes of the formula corrects this, i.e., moves
+    them into the background of the formula."""
+    register_raw = []
+    register_ellipses = []
+    output_string = ""
+
+    register_raw = recorder.split("\n")
+
+    # identify entries to highlight positions
+    for entry in register_raw:
+        if str("ellipse") in str(entry):
+            retain = str(entry).strip()
+            register_ellipses.append(retain)
+    register_ellipses = "\n".join(register_ellipses)
+    register_ellipses += str("\n")
+
+    # rebuild the .svg with an adjusted consecution of entries
+    for entry in register_raw:
+        if str("bond") in str(entry):
+            output_string += str(register_ellipses)
+            register_ellipses = ""
+            output_string += str("{}\n".format(entry))
+
+        elif (str("ellipse") or str("</svg>")) in str(entry):
+            pass
+        else:
+            output_string += str("{}\n".format(entry))
+    output_string += str("</svg>")
+    return output_string
 
 
 if __name__ == "__main__":

@@ -2,46 +2,66 @@
 # author:  nbehrnd@yahoo.com
 # license: 2020, MIT
 # date:    2020-09-24 (YYYY-MM-DD)
-# edit:    2020-10-16 (YYYY-MM-DD)
+# edit:    2020-12-03 (YYYY-MM-DD)
 #
 """Perform multiple unsupervised batches of scrutinies by regiosqm.
 
-Intended for the CLI of Python3 in Linux.  If there are multiple
-input files, listing of SMILES strings *_smiles.csv, in the current
-folder shared by RegioSQM's scripts and this moderator script, the
-following steps are performed by the single call of
+This moderator script initiates RegioSQM's non-supervised prediction
+on multiple SMILES input lists.  To work successfully,it interacts
+with the following six scripts, expected to reside in the same folder:
+
++ __init__.py
++ molecule_formats.py
++ molecule_svg.py
++ protonate.py
++ regiosqm.py
++ validate.py
+
+Written for the CLI of Python 3, a working installation of the python
+libraries to OpenBabel, numpy, and RDKit is expected.  Equally ensure
+the installation of MOPAC2016 and GNU Parallel.
+
+Drop the input files named in a pattern of *_smiles.csv, into the
+current folder and trigger this moderator script by
 
 python3 batch_regiosqm.py
 
-in the background; without need of manual intervention:
+In the background,
 
-+ prepare the scrutiny, which manually were the call of
++ the scrutiny is prepared.  This is equivalent to the manual call
 
   python regiosqm.py -g EAS_smiles.csv > EAS_conf.csv
 
-  which equally triggers OpenBabel to generate the MOPAC input files
+  to create with OpenBabel MOPAC input files about regioisomers of
+  protonated intermediates.  If RegioSQM identifies the substrate as
+  conformational flexible, the script prepares up to 20 conformers per
+  regioisomer to be checked.
 
-+ call MOPAC to work on the data by call of
++ MOPAC's computation is launched.  The tasks are distributed on
+  multiple CPU with GNU Parallel by a call equivalent to the manual
 
   ls *.mop | parallel -j4 "/opt/mopac/MOPAC2016.exe {}"
 
-  which is boosted in performance by parallelization on four CPUs by
-  GNU parallel.  If there are more processors at your disposition, use
-  them accordingly.
+  If you have more than four CPU at disposition, consider to adjust
+  parameter -j4 in this script's function engage_mopac accordingly.
 
-+ perform the initial analysis of MOPAC's results, i.e.
++ MOPAC's result are scrutinized.  This mimics the manual call
 
   python regiosqm.py -a EAS_smiles.csv EAS_conf.csv > EAS_results.csv
 
   creating both the handy tables of result, as well as the .svg
 
-+ clean the space by stashing all files about the current EAS group
-  into a zip-compressed archive by name of the corresponding SMILES
-  list accessed.  The archives equally contain a parameter log about
-  the versions of the programs used to generate the prediction.
++ space cleaning:  Log file test_parameters.csv writes a permanent
+  record about the programs' versions used.  Then, all files relevant
+  to the scrutiny -- including the .svg vignettes -- are secured in
+  a zip archive.  This allows to retrieve and inspect subsets of
+  predictions while other sub-sets await completion of computation.
 
-By this, multiple scrutinies may be performed unsupervised in the
-background, e.g. over night."""
+  Equally, if a larger set of substrates is submitted to RegioSQM in
+  batches, this approach allows to retrieve and inspect results of
+  subsets while awaiting the (otherwise non-supervised) completion of
+  computation running e.g., in the background over night."""
+
 # modules of Python's standard library:
 import datetime
 import os
@@ -59,36 +79,35 @@ import regiosqm
 
 
 def prepare_scrutiny(entry=""):
-    """Prepare all up and including the MOPAC .mop input files."""
-
+    """Prepare all up and including the MOPAC .mop input files"""
     print("Set up scrutiny for EAS group '{}'".format(entry))
+
     global input_file, conf_file, result
     input_file = str(entry)
     conf_file = str(entry).split("_smiles.csv")[0] + str("_conf.csv")
     result = str(entry).split("_smiles.csv")[0] + str("_res.csv")
 
     print("generate input for regiosqm for EAS group '{}'".format(entry))
-    call_1 = str("python3 regiosqm.py -g {} > {}".format(
-        input_file, conf_file))
-    work = sub.Popen(call_1, shell=True, stdout=sub.PIPE, stderr=sub.STDOUT)
+    prep = str("python3 regiosqm.py -g {} > {}".format(input_file, conf_file))
+    work = sub.Popen(prep, shell=True, stdout=sub.PIPE, stderr=sub.STDOUT)
     work.wait()
 
 
 def engage_mopac(entry=""):
-    """Let MOPAC work on .mop input files"""
+    """Engage MOPAC on multiple CPUs"""
     print("Now, MOPAC is working on {} data.".format(entry))
-    call_2 = str('ls *.mop | parallel -j4 "/opt/mopac/MOPAC2016.exe {}"')
-    work = sub.Popen(call_2, shell=True)
+    compute = str('ls *.mop | parallel -j4 "/opt/mopac/MOPAC2016.exe {}"')
+    work = sub.Popen(compute, shell=True)
     work.wait()
 
 
 def analyze_mopac_results(entry="", input_file="", conf_file="", result=""):
-    """With MOPAC's computations, generate tables and illustrations."""
+    """Inspect MOPAC's results, write tables and .svg."""
     print("Analysis of MOPAC's work for EAS group '{}'".format(entry))
-    call_3 = str("python3 regiosqm.py -a {} {} > {}".format(
+    analyze = str("python3 regiosqm.py -a {} {} > {}".format(
         input_file, conf_file, result))
 
-    work = sub.Popen(call_3, shell=True, stdout=sub.PIPE, stderr=sub.STDOUT)
+    work = sub.Popen(analyze, shell=True, stdout=sub.PIPE, stderr=sub.STDOUT)
     work.wait()
 
 
@@ -116,6 +135,8 @@ def characterize_scrutiny(entry=""):
 
         with open(parameters_file, mode="w") as newfile:
             newfile.write("Parameters of the scrutiny:\n\n")
+
+            newfile.write("input set: {}\n".format(input_file))
 
             today = datetime.date.today()
             newfile.write("date:      {}\n".format(today))
