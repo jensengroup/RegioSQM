@@ -2,7 +2,7 @@
 # author:  nbehrnd@yahoo.com
 # license: 2020, MIT
 # date:    2020-09-24 (YYYY-MM-DD)
-# edit:    2020-12-03 (YYYY-MM-DD)
+# edit:    2020-12-08 (YYYY-MM-DD)
 #
 """Perform multiple unsupervised batches of scrutinies by regiosqm.
 
@@ -85,7 +85,7 @@ def prepare_scrutiny(entry=""):
     global input_file, conf_file, result
     input_file = str(entry)
     conf_file = str(entry).split("_smiles.csv")[0] + str("_conf.csv")
-    result = str(entry).split("_smiles.csv")[0] + str("_res.csv")
+    result = str(entry).split("_smiles.csv")[0] + str("_results.csv")
 
     print("generate input for regiosqm for EAS group '{}'".format(entry))
     prep = str("python3 regiosqm.py -g {} > {}".format(input_file, conf_file))
