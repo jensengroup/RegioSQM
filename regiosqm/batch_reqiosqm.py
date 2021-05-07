@@ -1,8 +1,10 @@
+#!/usr/bin/python3
+
 # name:    batch_regiosqm.py
 # author:  nbehrnd@yahoo.com
-# license: 2020, MIT
+# license: 2020-2021, MIT
 # date:    2020-09-24 (YYYY-MM-DD)
-# edit:    2020-12-08 (YYYY-MM-DD)
+# edit:    2021-05-07 (YYYY-MM-DD)
 #
 """Perform multiple unsupervised batches of scrutinies by regiosqm.
 
@@ -63,6 +65,7 @@ In the background,
   computation running e.g., in the background over night."""
 
 # modules of Python's standard library:
+import argparse
 import datetime
 import os
 import shutil
@@ -76,6 +79,32 @@ import numpy
 import rdkit
 
 import regiosqm
+
+
+def get_args():
+    """Provide a minimal menu to the CLI."""
+    parser = argparse.ArgumentParser(
+        description='Moderator script for regiosqm.')
+
+    group = parser.add_mutually_exclusive_group(required=True)
+    #    group.add_argument('-a',
+    #                       '--all',
+    #                       action='store_true',
+    #                       help='Process all .smi files in the current folder.')
+
+    #    group.add_argument(
+    #        '-s',
+    #        '--smiles',
+    #        action='store_true',
+    #        help='Process only one manually given single SMILES string.')
+
+    group.add_argument('files',
+                       metavar='FILE(S)',
+                       nargs='*',
+                       default=[],
+                       help='Manual input of .smi file(s) to process.')
+
+    return parser.parse_args()
 
 
 def prepare_scrutiny(entry=""):
@@ -181,20 +210,16 @@ def space_cleaning(entry=""):
 
 def main():
     """Joining the functions together"""
-    register = []
-    for file in os.listdir("."):
-        if file.endswith("_smiles.csv"):
-            register.append(file)
-    register.sort()
+    args = get_args()
+    for smi_file in args.files:
 
-    for entry in register:
         try:
-            prepare_scrutiny(entry)
-            engage_mopac(entry)
-            analyze_mopac_results(entry, input_file, conf_file, result)
-            characterize_scrutiny(entry)
-            space_cleaning(entry)
-        except:
+            prepare_scrutiny(smi_file)
+            engage_mopac(smi_file)
+            analyze_mopac_results(smi_file, input_file, conf_file, result)
+            characterize_scrutiny(smi_file)
+            space_cleaning(smi_file)
+        except OSError:
             continue
 
 
