@@ -117,7 +117,7 @@ def prepare_scrutiny(entry="", input_file="", conf_file=""):
 
 
 def engage_mopac(entry=""):
-    """Engage MOPAC on multiple CPUs"""
+    """Engage MOPAC on four CPUs"""
     print("Now, MOPAC is working on {} data.".format(entry))
     compute = str('ls *.mop | parallel -j4 "/opt/mopac/MOPAC2016.exe {}"')
     work = sub.Popen(compute, shell=True)
@@ -214,6 +214,7 @@ def main():
 
         try:
             prepare_scrutiny(entry, input_file, conf_file)
+            engage_mopac(entry)
 
 
 #            engage_mopac(smi_file)
