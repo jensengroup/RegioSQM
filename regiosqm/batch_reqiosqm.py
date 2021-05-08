@@ -134,13 +134,17 @@ def analyze_mopac_results(entry="", input_file="", conf_file="", result=""):
     work.wait()
 
 
-def characterize_scrutiny(entry=""):
-    """Write a permanent record about the environment used here."""
-    global parameters_file
-    parameters_file = str(entry).split("smiles")[0]
-    parameters_file = "".join([parameters_file, "parameters.csv"])
-    print("Recording the scrutiny's set-up in {}.".format(parameters_file))
+def characterize_scrutiny(entry="", input_file=""):
+    """Characterize the setup of the scrutiny.
 
+    Any change of the tools used may affect which site(s) is / are
+    predicted as the more likely to react during an electrophilic
+    aromatic substitution.  Thus, the versions of the script's tools
+    are permanently recorded."""
+
+    parameter_log = ''.join([entry, "_parameter.log"])
+
+    # Retrieve the version of MOPAC from a MOPAC .out file.
     for file in os.listdir("."):
         if file.endswith(".out"):
             reference_file = str(file)
@@ -156,13 +160,15 @@ def characterize_scrutiny(entry=""):
         mopac_release = mopac_version_info.split(", ")[1]
         mopac_release = mopac_release.split("Version: ")[1]
 
-        with open(parameters_file, mode="w") as newfile:
+    # Write the report about the present scrutiny.
+    try:
+        with open(parameter_log, mode="w") as newfile:
             newfile.write("Parameters of the scrutiny:\n\n")
 
             newfile.write("input set: {}\n".format(input_file))
 
             today = datetime.date.today()
-            newfile.write("date:      {}\n".format(today))
+            newfile.write("date:      {} (YYYY-MM-DD)\n".format(today))
 
             newfile.write("Python:    {}\n".format(python_version()))
             newfile.write("RegioSQM:  {}\n".format(regiosqm.__version__))
@@ -174,6 +180,12 @@ def characterize_scrutiny(entry=""):
             newfile.write("{}: {}\n".format(mopac_branch, mopac_release))
 
             newfile.write("\nEND")
+
+        print("File '{}' reports the setup of the analysis.".format(
+            parameter_log))
+    except OSError:
+        print("Unable to report the analysis' setup to file '{}'.".format(
+            parameter_log))
 
 
 def space_cleaning(entry=""):
@@ -217,6 +229,8 @@ def main():
             engage_mopac(entry)
 
             analyze_mopac_results(entry, input_file, conf_file, result)
+
+            characterize_scrutiny(entry, input_file)
 
 
 #            characterize_scrutiny(smi_file)
