@@ -108,6 +108,11 @@ def get_args():
     return parser.parse_args()
 
 
+#def specific_smiles():
+#    """Enable the submission of a specific SMILES string."""
+#    print("The submission of an individual SMILES string is not yet possible.")
+
+
 def input_collector():
     """Process all suitable input files."""
     register = []
@@ -232,6 +237,8 @@ def space_cleaning(entry="", input_file="", conf_file="", result=""):
 def main():
     """Joining the functions together"""
     args = get_args()
+#    if args.smiles:
+#        smi_files = specific_smiles()
     if args.all:
         smi_files = input_collector()
     else:

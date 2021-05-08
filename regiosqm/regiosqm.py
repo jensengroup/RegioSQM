@@ -1,5 +1,6 @@
 # name:     regiosqm.py
 # edit:     2020-12-03 (YYYY-MM-DD)
+# edit:     2021-05-08 (YYYY-MM-DD)
 #
 """Define interaction and data I/O with the other scripts."""
 
@@ -9,7 +10,7 @@ import protonate as prot
 import molecule_formats as molfmt
 import molecule_svg as molsvg
 
-__version__ = "2.0.3"
+__version__ = "2.1.0"
 
 
 def analyse_results(smiles_filename, conf_filename, test_exam=False):
