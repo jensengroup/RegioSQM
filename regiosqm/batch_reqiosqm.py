@@ -107,16 +107,10 @@ def get_args():
     return parser.parse_args()
 
 
-def prepare_scrutiny(entry=""):
-    """Prepare all up and including the MOPAC .mop input files"""
+def prepare_scrutiny(entry="", input_file="", conf_file=""):
+    """Set up initial .sdf, then .mop MOPAC input files."""
     print("Set up scrutiny for EAS group '{}'".format(entry))
 
-    global input_file, conf_file, result
-    input_file = str(entry)
-    conf_file = str(entry).split("_smiles.csv")[0] + str("_conf.csv")
-    result = str(entry).split("_smiles.csv")[0] + str("_results.csv")
-
-    print("generate input for regiosqm for EAS group '{}'".format(entry))
     prep = str("python3 regiosqm.py -g {} > {}".format(input_file, conf_file))
     work = sub.Popen(prep, shell=True, stdout=sub.PIPE, stderr=sub.STDOUT)
     work.wait()
@@ -213,15 +207,21 @@ def main():
     args = get_args()
     for smi_file in args.files:
 
+        entry = str(smi_file).split("_smiles.csv")[0]
+        input_file = str(smi_file)
+        conf_file = str(smi_file).split("_smiles.csv")[0] + str("_conf.csv")
+        result = str(smi_file).split("_smiles.csv")[0] + str("_results.csv")
+
         try:
-            prepare_scrutiny(smi_file)
-            engage_mopac(smi_file)
-            analyze_mopac_results(smi_file, input_file, conf_file, result)
-            characterize_scrutiny(smi_file)
-            space_cleaning(smi_file)
+            prepare_scrutiny(entry, input_file, conf_file)
+
+
+#            engage_mopac(smi_file)
+#            analyze_mopac_results(smi_file, input_file, conf_file, result)
+#            characterize_scrutiny(smi_file)
+#            space_cleaning(smi_file)
         except OSError:
             continue
-
 
 if __name__ == "__main__":
     main()
