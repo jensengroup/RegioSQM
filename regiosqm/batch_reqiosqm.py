@@ -216,9 +216,9 @@ def main():
             prepare_scrutiny(entry, input_file, conf_file)
             engage_mopac(entry)
 
+            analyze_mopac_results(entry, input_file, conf_file, result)
 
-#            engage_mopac(smi_file)
-#            analyze_mopac_results(smi_file, input_file, conf_file, result)
+
 #            characterize_scrutiny(smi_file)
 #            space_cleaning(smi_file)
         except OSError:
