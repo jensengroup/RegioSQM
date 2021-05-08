@@ -188,15 +188,18 @@ def characterize_scrutiny(entry="", input_file=""):
             parameter_log))
 
 
-def space_cleaning(entry=""):
-    """Deposit all data relevant to the current scrutiny into a .zip."""
+def space_cleaning(entry="", input_file="", conf_file="", result=""):
+    """Archive all relevant data in a .zip file."""
     deposit = str(entry).split("_smiles")[0]
+    print("deposit: {}".format(deposit))
     os.mkdir(deposit)
+
+    parameter_log = ''.join([deposit, "_parameter.log"])
 
     move_by_extension = [
         ".arc", ".den", ".end", ".mop", ".out", ".res", ".sdf", ".svg"
     ]
-    move_per_run = [input_file, conf_file, result, parameters_file]
+    move_per_run = [input_file, conf_file, result, parameter_log]
     to_move = move_by_extension + move_per_run
     for element in to_move:
         for file in os.listdir("."):
@@ -231,12 +234,10 @@ def main():
             analyze_mopac_results(entry, input_file, conf_file, result)
 
             characterize_scrutiny(entry, input_file)
-
-
-#            characterize_scrutiny(smi_file)
-#            space_cleaning(smi_file)
+            space_cleaning(smi_file, input_file, conf_file, result)
         except OSError:
             continue
+
 
 if __name__ == "__main__":
     main()
