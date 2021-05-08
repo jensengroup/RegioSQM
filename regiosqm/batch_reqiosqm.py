@@ -87,10 +87,11 @@ def get_args():
         description='Moderator script for regiosqm.')
 
     group = parser.add_mutually_exclusive_group(required=True)
-    #    group.add_argument('-a',
-    #                       '--all',
-    #                       action='store_true',
-    #                       help='Process all .smi files in the current folder.')
+    group.add_argument(
+        '-a',
+        '--all',
+        action='store_true',
+        help='Process all _smiles.csv files in the current folder.')
 
     #    group.add_argument(
     #        '-s',
@@ -105,6 +106,17 @@ def get_args():
                        help='Manual input of .smi file(s) to process.')
 
     return parser.parse_args()
+
+
+def input_collector():
+    """Process all suitable input files."""
+    register = []
+    for file in os.listdir("."):
+        if file.endswith("_smiles.csv"):
+            register.append(file)
+
+    register.sort(key=str.lower)
+    return register
 
 
 def prepare_scrutiny(entry="", input_file="", conf_file=""):
@@ -220,8 +232,11 @@ def space_cleaning(entry="", input_file="", conf_file="", result=""):
 def main():
     """Joining the functions together"""
     args = get_args()
-    # Ensure each group of SMILES is submitted once
-    smi_files = list(set(args.files))
+    if args.all:
+        smi_files = input_collector()
+    else:
+        # Ensure each group of SMILES is submitted once
+        smi_files = list(set(args.files))
     smi_files.sort(key=str.lower)
     for smi_file in smi_files:
 
