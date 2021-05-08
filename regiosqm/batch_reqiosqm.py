@@ -1,8 +1,10 @@
+#!/usr/bin/python3
+
 # name:    batch_regiosqm.py
 # author:  nbehrnd@yahoo.com
-# license: 2020, MIT
+# license: 2020-2021, MIT
 # date:    2020-09-24 (YYYY-MM-DD)
-# edit:    2020-12-08 (YYYY-MM-DD)
+# edit:    2021-05-07 (YYYY-MM-DD)
 #
 """Perform multiple unsupervised batches of scrutinies by regiosqm.
 
@@ -63,6 +65,7 @@ In the background,
   computation running e.g., in the background over night."""
 
 # modules of Python's standard library:
+import argparse
 import datetime
 import os
 import shutil
@@ -78,23 +81,60 @@ import rdkit
 import regiosqm
 
 
-def prepare_scrutiny(entry=""):
-    """Prepare all up and including the MOPAC .mop input files"""
+def get_args():
+    """Provide a minimal menu to the CLI."""
+    parser = argparse.ArgumentParser(
+        description='Moderator script for regiosqm.')
+
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument(
+        '-a',
+        '--all',
+        action='store_true',
+        help='Process all _smiles.csv files in the current folder.')
+
+    #    group.add_argument(
+    #        '-s',
+    #        '--smiles',
+    #        action='store_true',
+    #        help='Process only one manually given single SMILES string.')
+
+    group.add_argument('files',
+                       metavar='FILE(S)',
+                       nargs='*',
+                       default=[],
+                       help='Manual input of .smi file(s) to process.')
+
+    return parser.parse_args()
+
+
+#def specific_smiles():
+#    """Enable the submission of a specific SMILES string."""
+#    print("The submission of an individual SMILES string is not yet possible.")
+
+
+def input_collector():
+    """Process all suitable input files."""
+    register = []
+    for file in os.listdir("."):
+        if file.endswith("_smiles.csv"):
+            register.append(file)
+
+    register.sort(key=str.lower)
+    return register
+
+
+def prepare_scrutiny(entry="", input_file="", conf_file=""):
+    """Set up initial .sdf, then .mop MOPAC input files."""
     print("Set up scrutiny for EAS group '{}'".format(entry))
 
-    global input_file, conf_file, result
-    input_file = str(entry)
-    conf_file = str(entry).split("_smiles.csv")[0] + str("_conf.csv")
-    result = str(entry).split("_smiles.csv")[0] + str("_results.csv")
-
-    print("generate input for regiosqm for EAS group '{}'".format(entry))
     prep = str("python3 regiosqm.py -g {} > {}".format(input_file, conf_file))
     work = sub.Popen(prep, shell=True, stdout=sub.PIPE, stderr=sub.STDOUT)
     work.wait()
 
 
 def engage_mopac(entry=""):
-    """Engage MOPAC on multiple CPUs"""
+    """Engage MOPAC on four CPUs"""
     print("Now, MOPAC is working on {} data.".format(entry))
     compute = str('ls *.mop | parallel -j4 "/opt/mopac/MOPAC2016.exe {}"')
     work = sub.Popen(compute, shell=True)
@@ -111,13 +151,17 @@ def analyze_mopac_results(entry="", input_file="", conf_file="", result=""):
     work.wait()
 
 
-def characterize_scrutiny(entry=""):
-    """Write a permanent record about the environment used here."""
-    global parameters_file
-    parameters_file = str(entry).split("smiles")[0]
-    parameters_file = "".join([parameters_file, "parameters.csv"])
-    print("Recording the scrutiny's set-up in {}.".format(parameters_file))
+def characterize_scrutiny(entry="", input_file=""):
+    """Characterize the setup of the scrutiny.
 
+    Any change of the tools used may affect which site(s) is / are
+    predicted as the more likely to react during an electrophilic
+    aromatic substitution.  Thus, the versions of the script's tools
+    are permanently recorded."""
+
+    parameter_log = ''.join([entry, "_parameter.log"])
+
+    # Retrieve the version of MOPAC from a MOPAC .out file.
     for file in os.listdir("."):
         if file.endswith(".out"):
             reference_file = str(file)
@@ -133,13 +177,15 @@ def characterize_scrutiny(entry=""):
         mopac_release = mopac_version_info.split(", ")[1]
         mopac_release = mopac_release.split("Version: ")[1]
 
-        with open(parameters_file, mode="w") as newfile:
+    # Write the report about the present scrutiny.
+    try:
+        with open(parameter_log, mode="w") as newfile:
             newfile.write("Parameters of the scrutiny:\n\n")
 
             newfile.write("input set: {}\n".format(input_file))
 
             today = datetime.date.today()
-            newfile.write("date:      {}\n".format(today))
+            newfile.write("date:      {} (YYYY-MM-DD)\n".format(today))
 
             newfile.write("Python:    {}\n".format(python_version()))
             newfile.write("RegioSQM:  {}\n".format(regiosqm.__version__))
@@ -152,16 +198,25 @@ def characterize_scrutiny(entry=""):
 
             newfile.write("\nEND")
 
+        print("File '{}' reports the setup of the analysis.".format(
+            parameter_log))
+    except OSError:
+        print("Unable to report the analysis' setup to file '{}'.".format(
+            parameter_log))
 
-def space_cleaning(entry=""):
-    """Deposit all data relevant to the current scrutiny into a .zip."""
+
+def space_cleaning(entry="", input_file="", conf_file="", result=""):
+    """Archive all relevant data in a .zip file."""
     deposit = str(entry).split("_smiles")[0]
+    print("deposit: {}".format(deposit))
     os.mkdir(deposit)
+
+    parameter_log = ''.join([deposit, "_parameter.log"])
 
     move_by_extension = [
         ".arc", ".den", ".end", ".mop", ".out", ".res", ".sdf", ".svg"
     ]
-    move_per_run = [input_file, conf_file, result, parameters_file]
+    move_per_run = [input_file, conf_file, result, parameter_log]
     to_move = move_by_extension + move_per_run
     for element in to_move:
         for file in os.listdir("."):
@@ -181,20 +236,31 @@ def space_cleaning(entry=""):
 
 def main():
     """Joining the functions together"""
-    register = []
-    for file in os.listdir("."):
-        if file.endswith("_smiles.csv"):
-            register.append(file)
-    register.sort()
+    args = get_args()
+#    if args.smiles:
+#        smi_files = specific_smiles()
+    if args.all:
+        smi_files = input_collector()
+    else:
+        # Ensure each group of SMILES is submitted once
+        smi_files = list(set(args.files))
+    smi_files.sort(key=str.lower)
+    for smi_file in smi_files:
 
-    for entry in register:
+        entry = str(smi_file).split("_smiles.csv")[0]
+        input_file = str(smi_file)
+        conf_file = str(smi_file).split("_smiles.csv")[0] + str("_conf.csv")
+        result = str(smi_file).split("_smiles.csv")[0] + str("_results.csv")
+
         try:
-            prepare_scrutiny(entry)
+            prepare_scrutiny(entry, input_file, conf_file)
             engage_mopac(entry)
+
             analyze_mopac_results(entry, input_file, conf_file, result)
-            characterize_scrutiny(entry)
-            space_cleaning(entry)
-        except:
+
+            characterize_scrutiny(entry, input_file)
+            space_cleaning(smi_file, input_file, conf_file, result)
+        except OSError:
             continue
 
 
