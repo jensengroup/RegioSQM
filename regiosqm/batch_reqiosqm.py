@@ -220,7 +220,10 @@ def space_cleaning(entry="", input_file="", conf_file="", result=""):
 def main():
     """Joining the functions together"""
     args = get_args()
-    for smi_file in args.files:
+    # Ensure each group of SMILES is submitted once
+    smi_files = list(set(args.files))
+    smi_files.sort(key=str.lower)
+    for smi_file in smi_files:
 
         entry = str(smi_file).split("_smiles.csv")[0]
         input_file = str(smi_file)
