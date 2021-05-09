@@ -4,7 +4,7 @@
 # author:  nbehrnd@yahoo.com
 # license: 2020-2021, MIT
 # date:    2020-09-24 (YYYY-MM-DD)
-# edit:    2021-05-07 (YYYY-MM-DD)
+# edit:    2021-05-09 (YYYY-MM-DD)
 #
 """Perform multiple unsupervised batches of scrutinies by regiosqm.
 
@@ -93,11 +93,10 @@ def get_args():
         action='store_true',
         help='Process all _smiles.csv files in the current folder.')
 
-    #    group.add_argument(
-    #        '-s',
-    #        '--smiles',
-    #        action='store_true',
-    #        help='Process only one manually given single SMILES string.')
+    group.add_argument(
+        '-s',
+        '--smiles',
+        help='Process only one manually given single SMILES string.')
 
     group.add_argument('files',
                        metavar='FILE(S)',
@@ -108,9 +107,22 @@ def get_args():
     return parser.parse_args()
 
 
-#def specific_smiles():
-#    """Enable the submission of a specific SMILES string."""
-#    print("The submission of an individual SMILES string is not yet possible.")
+def specific_smiles(entry=""):
+    """Enable the submission of a specific SMILES string."""
+    print("The submission of an individual SMILES string is not yet possible.")
+    register = []
+    start_file = str("special_smiles.csv")
+    print('recieved smiles: {}'.format(entry))
+
+    try:
+        with open(start_file, mode="w") as newfile:
+            retain = str("special\t{}".format(entry))
+            newfile.write(retain)
+        register.append(start_file)
+    except OSError:
+        print("Error writing file '{}'.  Exit.".format(start_file))
+
+    return register
 
 
 def input_collector():
@@ -208,7 +220,6 @@ def characterize_scrutiny(entry="", input_file=""):
 def space_cleaning(entry="", input_file="", conf_file="", result=""):
     """Archive all relevant data in a .zip file."""
     deposit = str(entry).split("_smiles")[0]
-    print("deposit: {}".format(deposit))
     os.mkdir(deposit)
 
     parameter_log = ''.join([deposit, "_parameter.log"])
@@ -237,9 +248,10 @@ def space_cleaning(entry="", input_file="", conf_file="", result=""):
 def main():
     """Joining the functions together"""
     args = get_args()
-#    if args.smiles:
-#        smi_files = specific_smiles()
-    if args.all:
+    if args.smiles:
+        smiles = args.smiles
+        smi_files = specific_smiles(smiles)
+    elif args.all:
         smi_files = input_collector()
     else:
         # Ensure each group of SMILES is submitted once
