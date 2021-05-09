@@ -4,65 +4,148 @@
 # author:  nbehrnd@yahoo.com
 # license: 2020-2021, MIT
 # date:    2020-09-24 (YYYY-MM-DD)
-# edit:    2021-05-07 (YYYY-MM-DD)
+# edit:    2021-05-09 (YYYY-MM-DD)
 #
-"""Perform multiple unsupervised batches of scrutinies by regiosqm.
+"""This is a moderator script to interact with regiosqm.
 
-This moderator script initiates RegioSQM's non-supervised prediction
-on multiple SMILES input lists.  To work successfully,it interacts
-with the following six scripts, expected to reside in the same folder:
++ Background
+  To work successfully, this moderator script is expected to reside in
+  the same folder as the scripts provided by Jensen and Kroman, i.e.
 
-+ __init__.py
-+ molecule_formats.py
-+ molecule_svg.py
-+ protonate.py
-+ regiosqm.py
-+ validate.py
+    + __init__.py
+    + molecule_formats.py
+    + molecule_svg.py
+    + protonate.py
+    + regiosqm.py
+    + validate.py
 
-Written for the CLI of Python 3, a working installation of the python
-libraries to OpenBabel, numpy, and RDKit is expected.  Equally ensure
-the installation of MOPAC2016 and GNU Parallel.
+  These scripts, initially written for Python 2, were ported to work
+  with Python 3.  The aim was to conserve as much as possible their
+  functionality; as a result, they still may be used independent of
+  this moderator script.  To work successfully, the non-standard Python
+  libraries of OpenBabel, numpy, and RDKit have to be installed.  The
+  computation equally depends on an installation of MOPAC2016.  To
+  accelerate the scrutiny, the use of GNU Parallel (cf. section "use")
+  to distribute the computation on multiple CPU is recommended.
 
-Drop the input files named in a pattern of *_smiles.csv, into the
-current folder and trigger this moderator script by
+  This moderator script is written for the CLI of Python 3 only.  In
+  contrast to the scripts by Jensen and Kroman, a working installation
+  of GNU Parallel now is a dependency to work with batch_regiosqm.py.
 
-python3 batch_regiosqm.py
++ Motivation
+  The script was written to facilitate the non-supervised scrutiny of
+  multiple input files, especially if the work ahead may be divided
+  into multiple smaller input files replacing one large one.  These
+  tranches are then individually archived in .zip archives.  For this,
+  the input files may be mentioned explicitly by name.  The moderator
+  script however equally allows to identify automatically all input
+  files suitable, here the user just types a "-a" flag.
 
-In the background,
+  With the moderator script, the individual scrutiny of a substrate,
+  expressed as a SMILES string, is possible, too.  This removes the
+  need to to set up a dedicated input file.
 
-+ the scrutiny is prepared.  This is equivalent to the manual call
++ Use of the moderator
+  The general syntax to work with this moderator script is
 
-  python regiosqm.py -g EAS_smiles.csv > EAS_conf.csv
+    python3 batch_regiosqm.py [-a | -s SMILES | FILES]
 
-  to create with OpenBabel MOPAC input files about regioisomers of
-  protonated intermediates.  If RegioSQM identifies the substrate as
-  conformational flexible, the script prepares up to 20 conformers per
-  regioisomer to be checked.
+  It is recommended to benefit from the shebang (set up and tested for
+  Linux Debian 11/bullseye, branch testing, which the following guide
+  assumes) and provision of the executable bit.  To accelerate the
+  overall computation, MOPAC's work is distributed to four concurrent
+  threads.  If the computer at your disposition has a higher number of
+  CPUs, consider an adjustment of this parameter.
 
-+ MOPAC's computation is launched.  The tasks are distributed on
-  multiple CPU with GNU Parallel by a call equivalent to the manual
+  a) To process one, or multiple input files you know by name,
+     call the script in a pattern like
 
-  ls *.mop | parallel -j4 "/opt/mopac/MOPAC2016.exe {}"
+     python3 batch_regiosqm.py benzenes_smiles.csv pyridines_smiles.csv
 
-  If you have more than four CPU at disposition, consider to adjust
-  parameter -j4 in this script's function engage_mopac accordingly.
+     The scrutiny will be performed in groups of the input files and
+     stored as such in a .zip archive.  In the present case, you thus
+     find benzenes.zip and pyridines.zip including all files relevant
+     to the prediction including a parameter log to document the setup
+     of the prediction itself.  The later aims to monitor if changes
+     in the tools used, including MOPAC, affect the outcome of the
+     prediction.
 
-+ MOPAC's result are scrutinized.  This mimics the manual call
+     In the background, the script will ensure each of the input files
+     mentioned by you is used only once.  To facilitate tracking the
+     advance of these computations, the input files are submitted in
+     alphabetic order to the scrutiny.
 
-  python regiosqm.py -a EAS_smiles.csv EAS_conf.csv > EAS_results.csv
+  b) To process one, or multiple input files which you do not know
+     all by their name, call the script by
 
-  creating both the handy tables of result, as well as the .svg
+     python batch_regiosqm.py -a
 
-+ space cleaning:  Log file test_parameters.csv writes a permanent
-  record about the programs' versions used.  Then, all files relevant
-  to the scrutiny -- including the .svg vignettes -- are secured in
-  a zip archive.  This allows to retrieve and inspect subsets of
-  predictions while other sub-sets await completion of computation.
+     The moderator script then submits any file ending in the pattern
+     of "_smiles.csv" to the scrutiny (again, in alphabetic order).
+     order.
 
-  Equally, if a larger set of substrates is submitted to RegioSQM in
-  batches, this approach allows to retrieve and inspect results of
-  subsets while awaiting the (otherwise non-supervised) completion of
-  computation running e.g., in the background over night."""
+  c) To submit one individual substrate to the scrutiny expressed as a
+     SMILES string, call the script in either pattern of
+
+     python batch_regiosqm.py -s "c1ccccc1"
+     python batch_regiosqm.py -s 'c1ccccc1'
+
+     On the fly, this creates an input file "special_smiles.csv" to
+     perform the prediction.  Thus, all data will be stored in archive
+     "special.zip", too.  To enclose the SMILES string, use either
+     double, or single quotes only.
+
+     If the SMILES string does not contain characters the bash shell
+     may misinterpret as "special", e.g., slashes, dashes, plus signs,
+     you may skip the quotes altogether.  You then do this on your own
+     risk.
+
+  Aforementioned options a), b), and c) mutually exclude each other.
+  Options a) and b) are helpful to split the work ahead into smaller
+  tranches running, without additional manual intervention, e.g., in
+  batches over night.
+
++ Use of original script files / what the moderator does for you
+  The manual use described below assumes file "quick_smiles.csv" in the
+  same folder as the script files.  To ease replication, sub-folder
+  "quick" contains a copy of the relevant data.
+
+  a) preparation
+     Drop the input files named in a pattern of *_smiles.csv into the
+     current folder and call
+
+     python regiosqm.py -g EAS_smiles.csv > EAS_conf.csv
+
+     This causes OpenBabel to set up input files about regioisomers of
+     protonated intermediates.  If the substrate is identified as a
+     conformational flexible structure, by default, up to 20 different
+     conformers per site to be tested for the electrophilic aromatic
+     substitution will be initialized.
+
+  b) MOPAC's computation
+     The MOPAC input files are identified and relayed to MOPAC by
+
+     ls *.mop | parallel -j4 "/opt/mopac/MOPAC2016.exe {}"
+
+     On a computer with more than four CPUs, you may distribute the
+     processing into a higher number of concurrently running, parallel
+     tasks by adjusting the -j4 parameter.
+
+  c) scrutiny of MOPAC's results
+
+     The instruction
+
+     python regiosqm.py -a EAS_smiles.csv EAS_conf.csv > EAS_results.csv
+
+     creates for each SMILES string in the submitted file EAS_smiles.csv
+     a .svg to highlight the sites predicted as more susceptible to the
+     electrophilic aromatic substitution.  The results are recapitulated
+     in a synopsis, EAS_results.csv, too.
+
+  d) space cleaning
+     The moderator script would move the of the data relevant to the
+     computation into a space saving .zip archive for you.  Performing
+     the prediction manually, this task is yours."""
 
 # modules of Python's standard library:
 import argparse
@@ -93,11 +176,11 @@ def get_args():
         action='store_true',
         help='Process all _smiles.csv files in the current folder.')
 
-    #    group.add_argument(
-    #        '-s',
-    #        '--smiles',
-    #        action='store_true',
-    #        help='Process only one manually given single SMILES string.')
+    group.add_argument(
+        '-s',
+        '--smiles',
+        default="",
+        help='Process only one manually given single SMILES string.')
 
     group.add_argument('files',
                        metavar='FILE(S)',
@@ -108,9 +191,21 @@ def get_args():
     return parser.parse_args()
 
 
-#def specific_smiles():
-#    """Enable the submission of a specific SMILES string."""
-#    print("The submission of an individual SMILES string is not yet possible.")
+def specific_smiles(entry=""):
+    """Enable the submission of a specific SMILES string."""
+    print("The submission of an individual SMILES string is not yet possible.")
+    register = []
+    start_file = str("special_smiles.csv")
+
+    try:
+        with open(start_file, mode="w") as newfile:
+            retain = str("special\t{}".format(entry))
+            newfile.write(retain)
+        register.append(start_file)
+    except OSError:
+        print("Error writing file '{}'.  Exit.".format(start_file))
+
+    return register
 
 
 def input_collector():
@@ -208,7 +303,6 @@ def characterize_scrutiny(entry="", input_file=""):
 def space_cleaning(entry="", input_file="", conf_file="", result=""):
     """Archive all relevant data in a .zip file."""
     deposit = str(entry).split("_smiles")[0]
-    print("deposit: {}".format(deposit))
     os.mkdir(deposit)
 
     parameter_log = ''.join([deposit, "_parameter.log"])
@@ -237,9 +331,10 @@ def space_cleaning(entry="", input_file="", conf_file="", result=""):
 def main():
     """Joining the functions together"""
     args = get_args()
-#    if args.smiles:
-#        smi_files = specific_smiles()
-    if args.all:
+    if args.smiles:
+        smiles = args.smiles
+        smi_files = specific_smiles(smiles)
+    elif args.all:
         smi_files = input_collector()
     else:
         # Ensure each group of SMILES is submitted once

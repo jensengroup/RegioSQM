@@ -1,4 +1,4 @@
-# last edit:  2020-12-07 (YYYY-MM-DD)
+# last edit:  2020-05-09 (YYYY-MM-DD)
 #+OPTIONS: toc:nil
 
 #+LATEX_CLASS:  koma-article
@@ -149,37 +149,60 @@
    [[http://www.rdkit.org/docs/GettingStartedInPython.html][/prior/ to
    release 2019.3]], e.g., 2018.09.
 
-** Example of a non-supervised deployment
+** Example of a non-supervised deployment with the moderator script
 
-   Folder =quick= contains input data and results of performing a
-   serial prediction on 36 test substrates from the author's test set.
-   Copy file =quick_smiles.csv= -- listing the structures to probe as
+   Folder =quick= contains input data and results of a serial
+   prediction on 36 test substrates from the author's test set.  Copy
+   file =quick_smiles.csv= -- listing the structures to probe as
    annotated SMILES strings -- as input file into folder
    =regiosqm=.[fn:SMILES] During the scrutiny, RegioSQM will generate
    many files of intermediate use.  Thus, to perform the the
    replication with =quick_smiles.csv= successfully, consider 70 MB of
-   space freely available.
+   space freely available.  To use the moderator script, a working
+   installation of GNU Parallel is mandatory.
 
-   If you have a working installation of GNU parallel, and installed
-   MOPAC in the suggested directory, launch the moderator script by
-   call of
+   Launch the moderator script by
    #+begin_src python
-     python3 batch_regiosqm.py
+     python3 batch_regiosqm.py quick_smiles.csv
    #+end_src
+   
+   The moderator script will read the structures described in
+   =quick_smiles.csv=, create MOPAC input files, and launch the
+   computations by MOPAC.  To accelerate the overall rate of
+   computation, GNU Parallel is used to run up to four, mutually
+   independent, processes.  OpenBabel and RDKit are again launched to
+   scrutinize MOPAC's results, yielding a synoptic text file
+   (=quick_results.csv=) as well as individual =.svg= files to
+   highlight the positions predicted as more susceptible to the EAS
+   reaction, than the others.  Eventually, all data relevant to the
+   input file, including the input file itself and a brief record
+   about a version information about the tools used
+   (=quick_parameters.csv=), are stored in a zip archive bearing the
+   name of the input file used.
 
-   The moderator script will recognize the input files and start
-   processing the first one.  Openbabel and RDKit set up MOPAC input
-   files about the regioisomers of the protonated intermediates.
-   Relaying to GNU Parallel, up to four concurrent computations of
-   heats of formation by MOPAC are launched.  The output is
-   scrutinized, and results are documented both in synoptic text file
-   =quick_results.csv= as well as visually in individual =.svg= files.
-   Eventually, all data relevant to the input file, including the
-   input file itself and a brief record about a version information
-   about the tools used (=quick_parameters.csv=), are stored in a zip
-   archive bearing the name of the input file used.
+   To work on multiple input files, either extend the above
+   instruction in a pattern like
+   #+begin_src python
+     python3 batch_regiosqm.py benzene_smiles.csv pyridine_smiles.csv
+   #+end_src
+   or issue the shorthand
+   #+begin_src python
+     python3 batch_regiosqm.py -a
+   #+end_src
+   to process /all/ files with a file name closing by the pattern of
+   =_smiles.csv=.  The parameter =-a= is equivalent to =--all=.
 
-   RegioSQM then processes the next input file, if present.
+   To work on a single substrate, expressed by its SMILES string
+   (here, about benzene), either one of the two following calls
+   #+begin_src python
+     python3 batch_regiosqm.py -s "c1ccccc1"
+     python3 batch_regiosqm.py -s 'c1ccccc1'
+   #+end_src
+   will eventually create archive =special.zip= about this entry's
+   prediction /without/ prior creation of an input file.
+
+   Note, the three options to use the moderator script mutually
+   exclude each other.
 
 ** Example use without the moderator script
 
