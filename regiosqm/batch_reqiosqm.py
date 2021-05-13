@@ -4,7 +4,7 @@
 # author:  nbehrnd@yahoo.com
 # license: 2020-2021, MIT
 # date:    2020-09-24 (YYYY-MM-DD)
-# edit:    2021-05-09 (YYYY-MM-DD)
+# edit:    2021-05-13 (YYYY-MM-DD)
 #
 """This is a moderator script to interact with regiosqm.
 
@@ -193,7 +193,6 @@ def get_args():
 
 def specific_smiles(entry=""):
     """Enable the submission of a specific SMILES string."""
-    print("The submission of an individual SMILES string is not yet possible.")
     register = []
     start_file = str("special_smiles.csv")
 

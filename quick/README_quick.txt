@@ -1,5 +1,6 @@
 # name: README_quick.txt
-# edit: 2020-12-08 (YYYY-MM-DD)
+# date: 2020-12-08 (YYYY-MM-DD)
+# edit: 2021-05-13 (YYYY-MM-DD)
 
 Data of this folder offer a quick check of RegioSQM installed locally.
 
@@ -36,7 +37,7 @@ Data of this folder offer a quick check of RegioSQM installed locally.
   RegioSQM's dependencies (including MOPAC 2016 and GNU Parallel),
   launch the moderator script by
 
-  python3 ../regiosqm/batch_regiosqm.py
+  python3 ../regiosqm/batch_regiosqm.py quick_smiles.csv
 
   After completion of the computation, you find archive quick.zip in
   this folder containing all relevant input, intermediate and output
@@ -50,12 +51,20 @@ Data of this folder offer a quick check of RegioSQM installed locally.
   equally retains e.g., MOAPC's input (.mop) and output (.out) files.
 
   Results of this folder represent the output with RegioSQM's scripts
-  corresponding to release 2.0.3 for Python 3, deployed in Linux
-  Debian 10 with Python 3.8.6, Openbabel 3.0.1, RDKit 2020.0.3
-  and MOPAC2016 (20.342L 64BITS, by December 8th, 2020 [according to
+  corresponding to release 2.1.1 for Python 3, deployed in Linux
+  Debian 11 / bullseye, branch testing with Python 3.9.2, Openbabel
+  3.1.1, RDKit 2020.0.9 and MOPAC2016 (21.128L 64BITS, by May 8th,
+  2021 [according to
 
   http://openmopac.net/Maintenance.html
 
-  this is a minor update past release 20.302 of October 28th, 2020]).
+  this is a minor update past release 21.041 of February 10th, 2021]).
+
+  File quick_results.csv written by 2020-12-08 was compared with the
+  one by today, 2021-05-13, in a diffview; complementary, the .svg of
+  the previously written illustrations were compared with the new
+  ones.  In this limited set of 36 compounds, changes in the tools
+  used did not alter the predictions of the sites susceptible to the
+  EAS reaction.
 
 END

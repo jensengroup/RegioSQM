@@ -1,0 +1,12 @@
+Parameters of the scrutiny:
+
+input set: quick_smiles.csv
+date:      2021-05-13 (YYYY-MM-DD)
+Python:    3.9.2
+RegioSQM:  2.1.1
+OpenBabel: 3.1.0
+RDKit:     2020.09.4
+numpy:     1.19.5
+MOPAC2016: 21.128L
+
+END
