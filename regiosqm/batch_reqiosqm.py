@@ -87,8 +87,8 @@
   c) To submit one individual substrate to the scrutiny expressed as a
      SMILES string, call the script in either pattern of
 
-     python batch_regiosqm.py -s "c1ccccc1"
-     python batch_regiosqm.py -s 'c1ccccc1'
+     python batch_regiosqm.py -s "c1ccncc1"
+     python batch_regiosqm.py -s 'c1ccccc1C'
 
      On the fly, this creates an input file "special_smiles.csv" to
      perform the prediction.  Thus, all data will be stored in archive

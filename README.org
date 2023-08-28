@@ -1,5 +1,5 @@
-# last edit:  2020-05-09 (YYYY-MM-DD)
-#+OPTIONS: toc:nil
+# last edit:  <2023-08-28 Mon>
+#+OPTIONS: toc:nil ^:nil
 
 #+LATEX_CLASS:  koma-article
 #+LATEX_HEADER: \usepackage{libertine, graphicx, microtype}
@@ -195,8 +195,8 @@
    To work on a single substrate, expressed by its SMILES string
    (here, about benzene), either one of the two following calls
    #+begin_src python
-     python3 batch_regiosqm.py -s "c1ccccc1"
-     python3 batch_regiosqm.py -s 'c1ccccc1'
+     python3 batch_regiosqm.py -s "c1ccncc1"
+     python3 batch_regiosqm.py -s 'c1ccccc1C'
    #+end_src
    will eventually create archive =special.zip= about this entry's
    prediction /without/ prior creation of an input file.
