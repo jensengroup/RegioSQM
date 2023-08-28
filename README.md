@@ -92,9 +92,11 @@ RegioSQM is a set of Python scripts depending on
 - numpy
   (<https://numpy.org/doc/stable/user/install.html?highlight=installation>),
   but often already included in scipy (<https://scipy.org/install.html>)
-- MOPAC (<http://openmopac.net/>) Note James Stuart updates the program
-  multiple times per year ([release
-  table](http://openmopac.net/Maintenance.html)).
+- MOPAC (<https://github.com/openmopac/mopac/>) While the GitHub page
+  provides the most recent version of a graphical installer, the program
+  equally has been packaged for Linux distributions such as Debian,
+  Fedora. For other distributions, check
+  [repology.org](https://repology.org/project/mopac7/packages).
 
 Because MOPAC's computations typically are *the* overall
 rate-determining step in the course of a prediction, it is recommended
@@ -102,11 +104,11 @@ to run multiple concurrently working instances of MOPAC. For Linux,
 GNU Parallel (<https://www.gnu.org/software/parallel/>) is a suitable
 tool for this.
 
-As an example, in Linux Debian 10, branch unstable, all dependencies
-except for MOPAC 2016 are resolved by
+As an example, in Linux Debian 13/trixie, branch testing, all
+dependencies can be resolved by
 
 ``` shell
-sudo apt-get install python3-openbabel rdkit python3-numpy parallel
+sudo apt-get install python3-openbabel rdkit python3-numpy parallel mopac
 ```
 
 Alternatively, RDKit may be used in an instance of Anaconda
@@ -141,10 +143,10 @@ conda deactivate  # end working in the conda profile
 ```
 
 Since RegioSQM release 2.0.0-beta, the scripts are ported to Python 3
-only. They were tested in a replication with Python 3.8.6rc1 (Sep 14,
-2020), OpenBabel 3.1.0 (Jun 9, 2020), and RDKit (2019.09.1) in Linux
-Debian 10 with computations relayed to MOPAC 2016 (20.173L 64-bit,
-June 2020).
+only. The present version of the scripts were tested on \<2023-08-28
+Mon\> in an instance of Linux Debian 13/trixe (branch testing) with
+Python (version 3.11.4), OpenBabel (3.1.1), RDKit (2022.09.3), numpy
+(1.24.2) and MOPAC (v22.0.6 Linux).
 
 As legacy,
 [release 1.1.1](https://github.com/nbehrnd/RegioSQM/releases/tag/1.1.1)
@@ -240,7 +242,7 @@ some of the intermediate files.
   RegioSQM's work. Assuming you have access to GNU Parallel,
 
   ``` shell
-  ls *.mop | parallel -j4 "/opt/mopac/MOPAC2016.exe {}"
+  ls *.mop | parallel -j4 "mopac {}"
   ```
 
   distributes the initiate up to four concurrent processes (`-j4`).
