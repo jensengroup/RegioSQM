@@ -4,7 +4,7 @@
 # author:  nbehrnd@yahoo.com
 # license: 2020-2021, MIT
 # date:    2020-09-24 (YYYY-MM-DD)
-# edit:    2021-05-13 (YYYY-MM-DD)
+# edit:    <2023-08-28 Mon>
 #
 """This is a moderator script to interact with regiosqm.
 
@@ -87,8 +87,8 @@
   c) To submit one individual substrate to the scrutiny expressed as a
      SMILES string, call the script in either pattern of
 
-     python batch_regiosqm.py -s "c1ccccc1"
-     python batch_regiosqm.py -s 'c1ccccc1'
+     python batch_regiosqm.py -s "c1ccncc1"
+     python batch_regiosqm.py -s 'c1ccccc1C'
 
      On the fly, this creates an input file "special_smiles.csv" to
      perform the prediction.  Thus, all data will be stored in archive
@@ -197,12 +197,12 @@ def specific_smiles(entry=""):
     start_file = str("special_smiles.csv")
 
     try:
-        with open(start_file, mode="w") as newfile:
-            retain = str("special\t{}".format(entry))
+        with open(start_file, mode="w", encoding="utf8") as newfile:
+            retain = str(f"special\t{entry}")
             newfile.write(retain)
         register.append(start_file)
     except OSError:
-        print("Error writing file '{}'.  Exit.".format(start_file))
+        print(f"Error writing file '{start_file}'.  Exit.")
 
     return register
 
@@ -220,26 +220,25 @@ def input_collector():
 
 def prepare_scrutiny(entry="", input_file="", conf_file=""):
     """Set up initial .sdf, then .mop MOPAC input files."""
-    print("Set up scrutiny for EAS group '{}'".format(entry))
+    print(f"Set up scrutiny for EAS group '{entry}'")
 
-    prep = str("python3 regiosqm.py -g {} > {}".format(input_file, conf_file))
+    prep = str(f"python3 regiosqm.py -g {input_file} > {conf_file}")
     work = sub.Popen(prep, shell=True, stdout=sub.PIPE, stderr=sub.STDOUT)
     work.wait()
 
 
 def engage_mopac(entry=""):
     """Engage MOPAC on four CPUs"""
-    print("Now, MOPAC is working on {} data.".format(entry))
-    compute = str('ls *.mop | parallel -j4 "/opt/mopac/MOPAC2016.exe {}"')
+    print(f"Now, MOPAC is working on {entry} data.")
+    compute = str('ls *.mop | parallel -j4 "mopac {}"')
     work = sub.Popen(compute, shell=True)
     work.wait()
 
 
 def analyze_mopac_results(entry="", input_file="", conf_file="", result=""):
     """Inspect MOPAC's results, write tables and .svg."""
-    print("Analysis of MOPAC's work for EAS group '{}'".format(entry))
-    analyze = str("python3 regiosqm.py -a {} {} > {}".format(
-        input_file, conf_file, result))
+    print(f"Analysis of MOPAC's work for EAS group '{entry}'")
+    analyze = str(f"python3 regiosqm.py -a {input_file} {conf_file} > {result}")
 
     work = sub.Popen(analyze, shell=True, stdout=sub.PIPE, stderr=sub.STDOUT)
     work.wait()
@@ -257,46 +256,39 @@ def characterize_scrutiny(entry="", input_file=""):
 
     # Retrieve the version of MOPAC from a MOPAC .out file.
     for file in os.listdir("."):
-        if file.endswith(".out"):
+        if file.endswith(".arc"):
             reference_file = str(file)
             break
 
-    with open(reference_file, mode="r") as source:
+    with open(reference_file, mode="r", encoding="utf8") as source:
         content = source.readlines()
-        mopac_version_line = content[3]
-
-        mopac_version_info = str(mopac_version_line).split("as: ")[1]
-        mopac_branch = mopac_version_info.split(", ")[0]
-
-        mopac_release = mopac_version_info.split(", ")[1]
-        mopac_release = mopac_release.split("Version: ")[1]
+        mopac_version_line = str(content[4])
+        mopac_version_info = mopac_version_line.strip()
 
     # Write the report about the present scrutiny.
     try:
-        with open(parameter_log, mode="w") as newfile:
+        with open(parameter_log, mode="w", encoding="utf8") as newfile:
             newfile.write("Parameters of the scrutiny:\n\n")
 
-            newfile.write("input set: {}\n".format(input_file))
+            newfile.write(f"input set: {input_file}\n")
 
             today = datetime.date.today()
-            newfile.write("date:      {} (YYYY-MM-DD)\n".format(today))
+            newfile.write(f"date:      {today} (YYYY-MM-DD)\n")
 
-            newfile.write("Python:    {}\n".format(python_version()))
-            newfile.write("RegioSQM:  {}\n".format(regiosqm.__version__))
+            newfile.write(f"Python:    {python_version()}\n")
+            newfile.write(f"RegioSQM:  {regiosqm.__version__}\n")
 
-            newfile.write("OpenBabel: {}\n".format(openbabel.__version__))
-            newfile.write("RDKit:     {}\n".format(rdkit.__version__))
-            newfile.write("numpy:     {}\n".format(numpy.__version__))
+            newfile.write(f"OpenBabel: {openbabel.__version__}\n")
+            newfile.write(f"RDKit:     {rdkit.__version__}\n")
+            newfile.write(f"numpy:     {numpy.__version__}\n")
 
-            newfile.write("{}: {}\n".format(mopac_branch, mopac_release))
+            newfile.write(f"MOPAC:     {mopac_version_info[6:]}\n")
 
             newfile.write("\nEND")
 
-        print("File '{}' reports the setup of the analysis.".format(
-            parameter_log))
+        print(f"File '{parameter_log}' reports the setup of the analysis.")
     except OSError:
-        print("Unable to report the analysis' setup to file '{}'.".format(
-            parameter_log))
+        print(f"Unable to report the analysis' setup to file '{parameter_log}'.")
 
 
 def space_cleaning(entry="", input_file="", conf_file="", result=""):
@@ -324,7 +316,7 @@ def space_cleaning(entry="", input_file="", conf_file="", result=""):
             backup_zip.write(os.path.join(deposit, filename))
 
     shutil.rmtree(deposit)
-    print("Analysis of EAS group '{}' is completed.\n".format(deposit))
+    print(f"Analysis of EAS group '{deposit}' is completed.\n")
 
 
 def main():
