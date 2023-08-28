@@ -4,7 +4,7 @@
 # author:  nbehrnd@yahoo.com
 # license: 2020-2021, MIT
 # date:    2020-09-24 (YYYY-MM-DD)
-# edit:    2021-05-13 (YYYY-MM-DD)
+# edit:    <2023-08-28 Mon>
 #
 """This is a moderator script to interact with regiosqm.
 
@@ -230,7 +230,7 @@ def prepare_scrutiny(entry="", input_file="", conf_file=""):
 def engage_mopac(entry=""):
     """Engage MOPAC on four CPUs"""
     print("Now, MOPAC is working on {} data.".format(entry))
-    compute = str('ls *.mop | parallel -j4 "/opt/mopac/MOPAC2016.exe {}"')
+    compute = str('ls *.mop | parallel -j4 "mopac {}"')
     work = sub.Popen(compute, shell=True)
     work.wait()
 
@@ -257,19 +257,14 @@ def characterize_scrutiny(entry="", input_file=""):
 
     # Retrieve the version of MOPAC from a MOPAC .out file.
     for file in os.listdir("."):
-        if file.endswith(".out"):
+        if file.endswith(".arc"):
             reference_file = str(file)
             break
 
     with open(reference_file, mode="r") as source:
         content = source.readlines()
-        mopac_version_line = content[3]
-
-        mopac_version_info = str(mopac_version_line).split("as: ")[1]
-        mopac_branch = mopac_version_info.split(", ")[0]
-
-        mopac_release = mopac_version_info.split(", ")[1]
-        mopac_release = mopac_release.split("Version: ")[1]
+        mopac_version_line = str(content[4])
+        mopac_version_info = mopac_version_line.strip()
 
     # Write the report about the present scrutiny.
     try:
@@ -288,7 +283,7 @@ def characterize_scrutiny(entry="", input_file=""):
             newfile.write("RDKit:     {}\n".format(rdkit.__version__))
             newfile.write("numpy:     {}\n".format(numpy.__version__))
 
-            newfile.write("{}: {}\n".format(mopac_branch, mopac_release))
+            newfile.write("MOPAC:     {}\n".format(mopac_version_info[6:]))
 
             newfile.write("\nEND")
 
